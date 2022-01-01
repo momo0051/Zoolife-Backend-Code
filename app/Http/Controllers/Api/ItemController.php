@@ -8,6 +8,7 @@ use App\Http\Resources\BiddingListCollection;
 use App\Http\Resources\BiddingListResource;
 use App\Models\BiddingModel;
 use App\Models\Item;
+use App\Models\ItemImage;
 use App\Models\User;
 use App\Models\Report;
 use App\Models\Category;
@@ -571,6 +572,9 @@ class ItemController extends Controller
             ], 200);
         }
 
+        $imagePath = public_path('uploads/ad/');
+        $videoPath = public_path('uploads/ad_video/');
+
         // $image = $_FILES['imgUrl']['name'];
         // $image_tmp = $_FILES['imgUrl']['tmp_name'];
         $blance = array(
@@ -610,7 +614,7 @@ class ItemController extends Controller
             if ($request->hasFile('imgUrl')) {
                 $image = $request->file('imgUrl');
                 $imageName = time() .'_'. $id. '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('uploads/ad/'), $imageName);
+                $image->move($imagePath, $imageName);
                 $imageUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad/' . $imageName;
             }
 
@@ -619,7 +623,7 @@ class ItemController extends Controller
             if ($request->hasFile('videoUrl')) {
                 $video = $request->file('videoUrl');
                 $videoName = time() .'_'. $id. '.' . $video->getClientOriginalExtension();
-                $video->move(public_path('uploads/ad_video/'), $videoName);
+                $video->move($videoPath, $videoName);
                 $videoUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad_video/' . $videoName;
             }
 
@@ -629,27 +633,24 @@ class ItemController extends Controller
             $item->videoUrl = $videoUrl;
             $item->save();
 
-            // move_uploaded_file($image_tmp, "uploads/ad/$image");
-            // $image->move(public_path('uploads/ad/'), $image);
             if ($request->hasFile('images')) {
-
                 $images = $request->file('images');
+                $allImages = [];
                 foreach ($images as $k => $image) {
-                    $fileName = time() . $k . '.' . $image->getClientOriginalExtension();
-                    $image->move(public_path('uploads/ad/'), $fileName);
-                    $data[] = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad/' . $fileName;
+                    // $image = $request->file('imgUrl');
+                    $imageName = time() . $k .'_'. $id. '.' . $image->getClientOriginalExtension();
+                    $image->move($imagePath, $imageName);
+                    $imageUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad/' . $imageName;
 
-                    // if ($ads->image != 'photo.jpg' && is_file(public_path('uploads/ad/' . $ads->image))) {
-                    //   unlink(public_path('uploads/ad/' . $ads->main_image));
-                    // }
+                    $allImages[] = [
+                        'item_id' => $id,
+                        'file_name' => $imageUrl,
+                    ];
                 }
-                $images = implode(',', $data);
 
-                $blance = array(
-                    'item_id' => $id,
-                    'file_name' => $images,
-                );
-                $image = DB::table('item_images')->insert($blance);
+                if (!empty($allImages)) {
+                    $image = ItemImage::insert($allImages);
+                }
             }
 
             $dr['error'] = false;
@@ -670,8 +671,10 @@ class ItemController extends Controller
 
     public function update_post(Request $request)
     {
+        $inputs = $request->all();
+
         // Put validation
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make($inputs, [
             'imgUrl'   => 'required_without:videoUrl|mimes:jpeg,jpg,png,gif,svg,wbmp,webp',
             'videoUrl' => 'required_without:imgUrl|mimes:mp4,3gp,avi,mpeg,flv,mov,qt',
         ]);
@@ -685,8 +688,9 @@ class ItemController extends Controller
             ], 200);
         }
 
-        // $user_id = $request->user_id;
-        $item_id = $request->item_id;
+        $imagePath = public_path('uploads/ad/');
+        $videoPath = public_path('uploads/ad_video/');
+        $item_id   = $request->item_id;
 
         // $image = $_FILES['imgUrl']['name'];
         // $image_tmp = $_FILES['imgUrl']['tmp_name'];
@@ -734,8 +738,7 @@ class ItemController extends Controller
             if ($request->hasFile('imgUrl')) {
                 $image = $request->file('imgUrl');
                 $imageName = time() .'_'. $item_id. '.' . $image->getClientOriginalExtension();
-                $imagePath = public_path('uploads/ad/');
-                $image->move(public_path('uploads/ad/'), $imageName);
+                $image->move($imagePath, $imageName);
                 $imageUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad/' . $imageName;
 
                 // Remove old Image
@@ -754,7 +757,7 @@ class ItemController extends Controller
             if ($request->hasFile('videoUrl')) {
                 $video = $request->file('videoUrl');
                 $videoName = time() .'_'. $item_id. '.' . $video->getClientOriginalExtension();
-                $videoPath = public_path('uploads/ad_video/');
+                
                 $video->move($videoPath, $videoName);
                 $videoUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad_video/' . $videoName;
 
@@ -776,26 +779,42 @@ class ItemController extends Controller
                 $item->save();
             }
 
-            // move_uploaded_file($image_tmp, "uploads/ad/$image");
-            // $image->move(public_path('uploads/ad/'), $image);
             if ($request->hasFile('images')) {
-
                 $images = $request->file('images');
+                $allImages = [];
                 foreach ($images as $k => $image) {
-                    $fileName = time() . $k . '.' . $image->getClientOriginalExtension();
-                    $image->move(public_path('uploads/ad/'), $fileName);
-                    $data[] = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad/' . $fileName;
+                    // $image = $request->file('imgUrl');
+                    $imageName = time() . $k .'_'. $item_id. '.' . $image->getClientOriginalExtension();
+                    $image->move($imagePath, $imageName);
+                    $imageUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad/' . $imageName;
 
-                    // if ($ads->image != 'photo.jpg' && is_file(public_path('uploads/ad/' . $ads->image))) {
-                    //   unlink(public_path('uploads/ad/' . $ads->main_image));
-                    // }
+                    $allImages[] = [
+                        'item_id' => $item_id,
+                        'file_name' => $imageUrl,
+                    ];
                 }
-                $images = implode(',', $data);
-                $blance = array(
-                    'item_id' => $item_id,
-                    'file_name' => $images,
-                );
-                $image = DB::table('item_images')->insert($blance);
+
+                if (!empty($allImages)) {
+                    $image = ItemImage::insert($allImages);
+                }
+            }
+
+            if(!empty($inputs['del_images']) && is_array($inputs['del_images'])) {
+                $getImages = ItemImage::where('item_id', $request->item_id)->whereIn('id', $inputs['del_images'])->get();
+                if (count($getImages)) {
+                    foreach($getImages as $delImg) {
+                        // Remove image
+                        if (!empty($delImg->file_name)) {
+                            $parts = explode('/', $delImg->file_name);
+                            $oldImage = end($parts);
+                            $oldImagePath = $imagePath . $oldImage;
+                            if (file_exists($oldImagePath)) {
+                                @unlink($oldImagePath);
+                            }
+                        }
+                        $delImg->delete();
+                    }
+                }
             }
 
             $dr['error'] = false;
