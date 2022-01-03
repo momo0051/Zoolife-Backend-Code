@@ -674,19 +674,19 @@ class ItemController extends Controller
         $inputs = $request->all();
 
         // Put validation
-        $validator = Validator::make($inputs, [
-            'imgUrl'   => 'required_without:videoUrl|mimes:jpeg,jpg,png,gif,svg,wbmp,webp',
-            'videoUrl' => 'required_without:imgUrl|mimes:mp4,3gp,avi,mpeg,flv,mov,qt',
-        ]);
+        // $validator = Validator::make($inputs, [
+        //     'imgUrl'   => 'required_without:videoUrl|mimes:jpeg,jpg,png,gif,svg,wbmp,webp',
+        //     'videoUrl' => 'required_without:imgUrl|mimes:mp4,3gp,avi,mpeg,flv,mov,qt',
+        // ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 100,
-                'error' => true,
-                'message' => trans('messages.validation_error'),
-                'error' => $validator->errors(),
-            ], 200);
-        }
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'status' => 100,
+        //         'error' => true,
+        //         'message' => trans('messages.validation_error'),
+        //         'error' => $validator->errors(),
+        //     ], 200);
+        // }
 
         $imagePath = public_path('uploads/ad/');
         $videoPath = public_path('uploads/ad_video/');
@@ -750,6 +750,9 @@ class ItemController extends Controller
                         @unlink($oldImagePath);
                     }
                 }
+
+                // Set Image Url
+                $item->imgUrl   = $imageUrl;
             }
 
             // Upload video in ad item
@@ -770,12 +773,13 @@ class ItemController extends Controller
                         @unlink($oldVideoPath);
                     }
                 }
+
+                // Set Video Url
+                $item->videoUrl = $videoUrl;
             }
 
-            // save video and image in ad item
+            // save video or image in ad item
             if (!empty($videoUrl) || !empty($imageUrl)) {
-                $item->imgUrl   = $imageUrl;
-                $item->videoUrl = $videoUrl;
                 $item->save();
             }
 
