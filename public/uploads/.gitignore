@@ -1,4 +1,13 @@
 *
 !ad/
 !ad_video/
+!aboutus_cms/
+!article/
+!category/
+!gallery/
+!home_page_cms/
+!products/
+!services/
+!slider/
+!users/
 !.gitignore

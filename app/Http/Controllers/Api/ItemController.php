@@ -3,21 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\City;
-use App\Http\Resources\BiddingCollection;
-use App\Http\Resources\BiddingListCollection;
-use App\Http\Resources\BiddingListResource;
+use App\Http\Controllers\Controller;
 use App\Models\BiddingModel;
+use App\Models\Category;
 use App\Models\Item;
 use App\Models\ItemImage;
-use App\Models\User;
 use App\Models\Report;
-use App\Models\Category;
+use App\Models\User;
 use Carbon\Carbon;
 use DemeterChain\B;
 use Illuminate\Http\Request;
-use App\Models\ItemFavourite;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
@@ -26,30 +22,30 @@ class ItemController extends Controller
     public function reportApi_ads(Request $request)
     {
         $user_id = $request['user_id'];
-        $ads_id = $request['ads_id'];
+        $ads_id  = $request['ads_id'];
         $content = $request['content'];
 
         if ($user_id && $ads_id && $content) {
             $report = Report::create([
                 'user_id' => $request->user_id,
-                'ads_id' => $request->ads_id,
+                'ads_id'  => $request->ads_id,
                 'content' => $request->content,
-                'status' => 1,
+                'status'  => 1,
             ]);
 
             if ($report) {
-                $dr['error'] = false;
-                $dr['status'] = '200';
+                $dr['error']   = false;
+                $dr['status']  = '200';
                 $dr['message'] = trans('messages.report_added');
             } else {
-                $dr['error'] = true;
-                $dr['status'] = '100';
+                $dr['error']   = true;
+                $dr['status']  = '100';
                 $dr['message'] = trans('messages.can_not_add_data');
                 return Response::json($dr);
             }
         } else {
-            $dr['error'] = true;
-            $dr['status'] = '100';
+            $dr['error']   = true;
+            $dr['status']  = '100';
             $dr['message'] = 'please fill all the fields';
         }
 
@@ -59,22 +55,22 @@ class ItemController extends Controller
     public function get_by_item_report(Request $request)
     {
         $dr['status'] = 100;
-        $dr['error'] = true;
-        $itemId = $request->id;
+        $dr['error']  = true;
+        $itemId       = $request->id;
 
         // $data = DB::table('report')->select('*')->where('ads_id', '=', $itemId)->get();
         $data = Report::where('ads_id', '=', $itemId)->get();
 
         if (count($data) > 0) {
             $dr['status'] = 200;
-            $dr['error'] = false;
-            $dr['data'] = $data;
+            $dr['error']  = false;
+            $dr['data']   = $data;
         } else {
             $dr['status'] = 200;
-            $dr['error'] = false;
+            $dr['error']  = false;
             //             $dr['message'] = 'No data Found.';
             $dr['message'] = trans('messages.no_data');
-            $dr['data'] = [];
+            $dr['data']    = [];
         }
         return Response::json($dr);
     }
@@ -82,8 +78,8 @@ class ItemController extends Controller
     public function items(Request $request)
     {
         $dr['status'] = 100;
-        $dr['data'] = [];
-        $user_id = $request->user_id;
+        $dr['data']   = [];
+        $user_id      = $request->user_id;
 
         $items = Item::where('removeAt', 0)
             ->where('post_type', 'normal')
@@ -97,12 +93,12 @@ class ItemController extends Controller
         $items->each(function ($item, $key) use ($user_id) {
             if (isset($user_id)) {
                 $item->favrtitem_status = $item->favrtitemStatus($user_id);
-                $item->likeitem_status = $item->likeitemStatus($user_id);
-                $item->report_status = $item->reportStatus($user_id);
+                $item->likeitem_status  = $item->likeitemStatus($user_id);
+                $item->report_status    = $item->reportStatus($user_id);
             } else {
                 $item->favrtitem_status = 0;
-                $item->likeitem_status = 0;
-                $item->report_status = 0;
+                $item->likeitem_status  = 0;
+                $item->report_status    = 0;
             }
             $item->setAppends([
                 'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
@@ -118,13 +114,13 @@ class ItemController extends Controller
 
         if (count($items) > 0) {
 
-            $dr['error'] = false;
-            $dr['data'] = $items;
+            $dr['error']  = false;
+            $dr['data']   = $items;
             $dr['status'] = 200;
         } else {
-            $dr['error'] = false;
+            $dr['error']   = false;
             $dr['message'] = trans('messages.no_data');
-            $dr['status'] = 100;
+            $dr['status']  = 100;
         }
 
         return Response::json($dr);
@@ -133,8 +129,8 @@ class ItemController extends Controller
     public function get_all_delivery(Request $request)
     {
         $dr['status'] = 100;
-        $dr['data'] = [];
-        $user_id = $request->user_id;
+        $dr['data']   = [];
+        $user_id      = $request->user_id;
 
         // $items = DB::table('items')->select('*')->where('removeAt', '=', 0)
         //     ->where('category', '=', '4000')
@@ -152,12 +148,12 @@ class ItemController extends Controller
         $items->each(function ($item, $key) use ($user_id) {
             if (isset($user_id)) {
                 $item->favrtitem_status = $item->favrtitemStatus($user_id);
-                $item->likeitem_status = $item->likeitemStatus($user_id);
-                $item->report_status = $item->reportStatus($user_id);
+                $item->likeitem_status  = $item->likeitemStatus($user_id);
+                $item->report_status    = $item->reportStatus($user_id);
             } else {
                 $item->favrtitem_status = 0;
-                $item->likeitem_status = 0;
-                $item->report_status = 0;
+                $item->likeitem_status  = 0;
+                $item->report_status    = 0;
             }
             $item->setAppends([
                 'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
@@ -165,11 +161,11 @@ class ItemController extends Controller
         })->makeHidden('user');
 
         if (count($items) > 0) {
-            $dr['error'] = false;
-            $dr['data'] = $items;
+            $dr['error']  = false;
+            $dr['data']   = $items;
             $dr['status'] = 200;
         } else {
-            $dr['error'] = false;
+            $dr['error']   = false;
             $dr['message'] = trans('messages.no_data');
             // $dr['message'] = 'No Deliver Found';
             $dr['status'] = 200;
@@ -181,9 +177,9 @@ class ItemController extends Controller
     {
         \Log::info(json_encode($request->all()));
         $dr['status'] = 100;
-        $dr['data'] = [];
-        $search = $request->search;
-        $items = Item::where('post_type', '=', 'auction')
+        $dr['data']   = [];
+        $search       = $request->search;
+        $items        = Item::where('post_type', '=', 'auction')
             ->where(function ($query) use ($search, $request) {
                 if ($request->city) {
                     $query->where('city', '=', "$request->city");
@@ -195,22 +191,21 @@ class ItemController extends Controller
             })->orderBy('id', 'DESC')
             ->paginate();
 
-
         $items->each(function ($item, $key) {
-            $latestBid = $item->biddingObject()->orderBy('id', 'desc')->first();
-            $item->latest_bid = 'SAR ' . number_format($latestBid ? $latestBid->bid_amount : 0, 2);
+            $latestBid            = $item->biddingObject()->orderBy('id', 'desc')->first();
+            $item->latest_bid     = 'SAR ' . number_format($latestBid ? $latestBid->bid_amount : 0, 2);
             $item->remaining_time = $item->auction_expiry_time->diffForHumans();
         });
 
         if (count($items) > 0) {
 
-            $dr['error'] = false;
-            $dr['data'] = $items;
+            $dr['error']  = false;
+            $dr['data']   = $items;
             $dr['status'] = 200;
         } else {
-            $dr['error'] = false;
+            $dr['error']   = false;
             $dr['message'] = 'No Post Found';
-            $dr['status'] = 200;
+            $dr['status']  = 200;
         }
         return Response::json($dr);
     }
@@ -218,8 +213,8 @@ class ItemController extends Controller
     public function item_search(Request $request)
     {
         $dr['status'] = 100;
-        $dr['data'] = [];
-        $user_id = $request->user_id;
+        $dr['data']   = [];
+        $user_id      = $request->user_id;
 
         $search = $request->search;
 
@@ -232,12 +227,12 @@ class ItemController extends Controller
         $items->each(function ($item, $key) use ($user_id) {
             if (isset($user_id)) {
                 $item->favrtitem_status = $item->favrtitemStatus($user_id);
-                $item->likeitem_status = $item->likeitemStatus($user_id);
-                $item->report_status = $item->reportStatus($user_id);
+                $item->likeitem_status  = $item->likeitemStatus($user_id);
+                $item->report_status    = $item->reportStatus($user_id);
             } else {
                 $item->favrtitem_status = 0;
-                $item->likeitem_status = 0;
-                $item->report_status = 0;
+                $item->likeitem_status  = 0;
+                $item->report_status    = 0;
             }
             $item->setAppends([
                 'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
@@ -246,13 +241,13 @@ class ItemController extends Controller
 
         if (count($items) > 0) {
 
-            $dr['error'] = false;
-            $dr['data'] = $items;
+            $dr['error']  = false;
+            $dr['data']   = $items;
             $dr['status'] = 200;
         } else {
-            $dr['error'] = false;
+            $dr['error']   = false;
             $dr['message'] = 'No Post Found';
-            $dr['status'] = 200;
+            $dr['status']  = 200;
         }
         return Response::json($dr);
     }
@@ -260,8 +255,8 @@ class ItemController extends Controller
     public function get_all_item_by_category(Request $request)
     {
         $dr['status'] = 100;
-        $dr['data'] = [];
-        $user_id = $request->category_id;
+        $dr['data']   = [];
+        $user_id      = $request->category_id;
 
         if ($request->filled('category_id') && $request->filled('subcategory_id')) {
             $items = Item::where('category', $request->category_id)
@@ -289,7 +284,7 @@ class ItemController extends Controller
                 ->orderBy('created_at', 'DESC')
                 ->paginate(env('PER_PAGE'));
         } else {
-            $dr['error'] = true;
+            $dr['error']   = true;
             $dr['message'] = "please enter category_id or subcategory_id";
             return Response::json($dr);
         }
@@ -297,12 +292,12 @@ class ItemController extends Controller
         $items->each(function ($item, $key) use ($user_id) {
             if (isset($user_id)) {
                 $item->favrtitem_status = $item->favrtitemStatus($user_id);
-                $item->likeitem_status = $item->likeitemStatus($user_id);
-                $item->report_status = $item->reportStatus($user_id);
+                $item->likeitem_status  = $item->likeitemStatus($user_id);
+                $item->report_status    = $item->reportStatus($user_id);
             } else {
                 $item->favrtitem_status = 0;
-                $item->likeitem_status = 0;
-                $item->report_status = 0;
+                $item->likeitem_status  = 0;
+                $item->report_status    = 0;
             }
             $item->setAppends([
                 'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
@@ -310,13 +305,13 @@ class ItemController extends Controller
         })->makeHidden('user');
 
         if (count($items) > 0) {
-            $dr['error'] = false;
-            $dr['data'] = $items;
+            $dr['error']  = false;
+            $dr['data']   = $items;
             $dr['status'] = 200;
         } else {
-            $dr['error'] = false;
+            $dr['error']   = false;
             $dr['message'] = trans('messages.no_data');
-            $dr['status'] = 200;
+            $dr['status']  = 200;
         }
 
         return Response::json($dr);
@@ -325,9 +320,9 @@ class ItemController extends Controller
     public function get_item(Request $request)
     {
         $dr['status'] = 100;
-        $dr['data'] = [];
+        $dr['data']   = [];
 
-        $id = $request->id;
+        $id      = $request->id;
         $user_id = $request->user_id;
         // $item = DB::table('items')->select('*')->where('id', '=', $id)->get();
 
@@ -338,20 +333,20 @@ class ItemController extends Controller
 
                 if (isset($user_id)) {
                     $item->favrtitem_status = $item->favrtitemStatus($user_id);
-                    $item->likeitem_status = $item->likeitemStatus($user_id);
-                    $item->report_status = $item->reportStatus($user_id);
+                    $item->likeitem_status  = $item->likeitemStatus($user_id);
+                    $item->report_status    = $item->reportStatus($user_id);
                 } else {
                     $item->favrtitem_status = 0;
-                    $item->likeitem_status = 0;
-                    $item->report_status = 0;
+                    $item->likeitem_status  = 0;
+                    $item->report_status    = 0;
                 }
                 $item->setAppends([
                     'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
                 ])->makeHidden('user');
 
                 if ($item) {
-                    $dr['error'] = false;
-                    $dr['data'] = $item;
+                    $dr['error']  = false;
+                    $dr['data']   = $item;
                     $dr['status'] = 200;
                 } else {
                     $dr['error'] = true;
@@ -360,11 +355,11 @@ class ItemController extends Controller
                     $dr['message'] = trans('messages.no_data');
                 }
             } else {
-                $dr['error'] = true;
+                $dr['error']   = true;
                 $dr['message'] = trans('messages.no_data');
             }
         } else {
-            $dr['error'] = true;
+            $dr['error']   = true;
             $dr['message'] = 'Please enter post id';
         }
         return Response::json($dr);
@@ -373,10 +368,9 @@ class ItemController extends Controller
     public function get_post_by_user(Request $request)
     {
         $dr['status'] = 100;
-        $dr['data'] = [];
-        $id = $request->id;
-        $user_id = $request->user_id;
-
+        $dr['data']   = [];
+        $id           = $request->id;
+        $user_id      = $request->user_id;
 
         // $items = DB::table('items')->select('*')
         //     ->where('category', '!=', '4000')
@@ -397,28 +391,28 @@ class ItemController extends Controller
             $items->each(function ($item, $key) use ($user_id) {
                 if (isset($user_id)) {
                     $item->favrtitem_status = $item->favrtitemStatus($user_id);
-                    $item->likeitem_status = $item->likeitemStatus($user_id);
-                    $item->report_status = $item->reportStatus($user_id);
+                    $item->likeitem_status  = $item->likeitemStatus($user_id);
+                    $item->report_status    = $item->reportStatus($user_id);
                 } else {
                     $item->favrtitem_status = 0;
-                    $item->likeitem_status = 0;
-                    $item->report_status = 0;
+                    $item->likeitem_status  = 0;
+                    $item->report_status    = 0;
                 }
                 $item->setAppends([
                     'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
                 ]);
             });
-               // ->makeHidden('user');
+            // ->makeHidden('user');
 
             if ($items->isNotEmpty()) {
-                $dr['error'] = false;
-                $dr['data'] = $items;
+                $dr['error']  = false;
+                $dr['data']   = $items;
                 $dr['status'] = 200;
             } else {
                 $dr['error'] = false;
                 // $dr['message'] = 'No Post Found';
                 $dr['message'] = trans('messages.no_post');
-                $dr['status'] = 200;
+                $dr['status']  = 200;
             }
         } else {
             $dr['error'] = true;
@@ -426,15 +420,14 @@ class ItemController extends Controller
             $dr['message'] = 'Please enter user id';
         }
 
-
         return Response::json($dr);
     }
 
     public function deactivate_item(Request $request)
     {
         $user_id = $request->user_id;
-        $id = $request->id;
-        $blance = array(
+        $id      = $request->id;
+        $blance  = array(
             'removeAt' => 1,
         );
         $item = DB::table('items')->where('id', '=', $id)->update($blance);
@@ -443,7 +436,7 @@ class ItemController extends Controller
             // $dr['message'] = 'Post deactivated succefully';
             // $dr['message'] = 'تم تجميد الحساب بنجاح';
             $dr['message'] = trans('messages.post_deactivated');
-            $dr['status'] = 200;
+            $dr['status']  = 200;
         } else {
             $dr['error'] = false;
             // $dr['message'] = 'No Post Found';
@@ -457,13 +450,13 @@ class ItemController extends Controller
     public function activate_item(Request $request)
     {
         $user_id = $request->user_id;
-        $id = $request->id;
-        $blance = array(
+        $id      = $request->id;
+        $blance  = array(
             'removeAt' => 0,
         );
         $item = DB::table('items')->where('id', '=', $id)->update($blance);
         if ($item) {
-            $dr['error'] = false;
+            $dr['error']   = false;
             $dr['message'] = trans('messages.post_activated');
             // $dr['message'] = 'Post activated succefully';
             // $dr['message'] = 'تم تجميد الحساب بنجاح';
@@ -505,7 +498,7 @@ class ItemController extends Controller
     public function delete_item(Request $request)
     {
         $user_id = $request->user_id;
-        $id = $request->id;
+        $id      = $request->id;
 
         $item = Item::find($id);
         if ($item && $item->delete()) {
@@ -516,7 +509,7 @@ class ItemController extends Controller
             // $dr['message'] = 'تم حذف الاعلان بنجاح';
             $dr['status'] = 200;
         } else {
-            $dr['error'] = false;
+            $dr['error']   = false;
             $dr['message'] = trans('messages.no_post');
             // $dr['message'] = 'No Post Found';
             // $dr['message'] = 'لايوجد اعلانات';
@@ -528,7 +521,7 @@ class ItemController extends Controller
     public function delete_item_images(Request $request)
     {
         // $user_id = $request->user_id;
-        $id = $request->id;
+        $id   = $request->id;
         $item = DB::table('item_images')->where('item_id', '=', $id)->delete();
 
         $blance = array(
@@ -555,7 +548,7 @@ class ItemController extends Controller
     public function add_post(Request $request)
     {
         $user_id = $request->user_id;
-        $id = $request->id;
+        $id      = $request->id;
 
         // Put validation
         $validator = Validator::make($request->all(), [
@@ -565,10 +558,10 @@ class ItemController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 100,
-                'error' => true,
+                'status'  => 100,
+                'error'   => true,
                 'message' => trans('messages.validation_error'),
-                'error' => $validator->errors(),
+                'error'   => $validator->errors(),
             ], 200);
         }
 
@@ -578,21 +571,21 @@ class ItemController extends Controller
         // $image = $_FILES['imgUrl']['name'];
         // $image_tmp = $_FILES['imgUrl']['tmp_name'];
         $blance = array(
-            'fromUserId' => $request->user_id,
-            'priority' => $request->priority,
+            'fromUserId'      => $request->user_id,
+            'priority'        => $request->priority,
             // 'imgUrl' => 'http://newzoolifeapi.zoolifeshop.com/uploads/ad/' . $image,
-            'showComments' => $request->showComments ? 1 : 0,
-            'category' => $request->category,
-            'subCategory' => $request->subCategory,
-            'itemTitle' => $request->itemTitle,
-            'itemDesc' => $request->itemDesc,
+            'showComments'    => $request->showComments ? 1 : 0,
+            'category'        => $request->category,
+            'subCategory'     => $request->subCategory,
+            'itemTitle'       => $request->itemTitle,
+            'itemDesc'        => $request->itemDesc,
             'showPhoneNumber' => $request->showPhoneNumber ? 1 : 0,
-            'showMessage' => $request->showMessage ? 1 : 0,
-            'showWhatsapp' => $request->showWhatsapp ? $request->showWhatsapp : 0,
-            'city' => $request->city,
-            'country' => $request->country,
-            'created_at' => Carbon::now()->format('Y-m-d H:i'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i'),
+            'showMessage'     => $request->showMessage ? 1 : 0,
+            'showWhatsapp'    => $request->showWhatsapp ? $request->showWhatsapp : 0,
+            'city'            => $request->city,
+            'country'         => $request->country,
+            'created_at'      => Carbon::now()->format('Y-m-d H:i'),
+            'updated_at'      => Carbon::now()->format('Y-m-d H:i'),
         );
 
         ## if bid is type of auction.
@@ -612,8 +605,8 @@ class ItemController extends Controller
             // Upload image in ad item
             $imageUrl = "";
             if ($request->hasFile('imgUrl')) {
-                $image = $request->file('imgUrl');
-                $imageName = time() .'_'. $id. '.' . $image->getClientOriginalExtension();
+                $image     = $request->file('imgUrl');
+                $imageName = time() . '_' . $id . '.' . $image->getClientOriginalExtension();
                 $image->move($imagePath, $imageName);
                 $imageUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad/' . $imageName;
             }
@@ -621,29 +614,29 @@ class ItemController extends Controller
             // Upload video in ad item
             $videoUrl = "";
             if ($request->hasFile('videoUrl')) {
-                $video = $request->file('videoUrl');
-                $videoName = time() .'_'. $id. '.' . $video->getClientOriginalExtension();
+                $video     = $request->file('videoUrl');
+                $videoName = time() . '_' . $id . '.' . $video->getClientOriginalExtension();
                 $video->move($videoPath, $videoName);
                 $videoUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad_video/' . $videoName;
             }
 
             // save video and image in ad item
-            $item = Item::where('id', '=', $id)->first();
-            $item->imgUrl = $imageUrl;
+            $item           = Item::where('id', '=', $id)->first();
+            $item->imgUrl   = $imageUrl;
             $item->videoUrl = $videoUrl;
             $item->save();
 
             if ($request->hasFile('images')) {
-                $images = $request->file('images');
+                $images    = $request->file('images');
                 $allImages = [];
                 foreach ($images as $k => $image) {
                     // $image = $request->file('imgUrl');
-                    $imageName = time() . $k .'_'. $id. '.' . $image->getClientOriginalExtension();
+                    $imageName = time() . $k . '_' . $id . '.' . $image->getClientOriginalExtension();
                     $image->move($imagePath, $imageName);
                     $imageUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad/' . $imageName;
 
                     $allImages[] = [
-                        'item_id' => $id,
+                        'item_id'   => $id,
                         'file_name' => $imageUrl,
                     ];
                 }
@@ -653,7 +646,7 @@ class ItemController extends Controller
                 }
             }
 
-            $dr['error'] = false;
+            $dr['error']  = false;
             $dr['status'] = 200;
             // $dr['message'] = 'Post added successfully';
             $dr['message'] = trans('messages.post_added');
@@ -661,7 +654,7 @@ class ItemController extends Controller
         } else {
 
             $dr['status'] = 104;
-            $dr['error'] = true;
+            $dr['error']  = true;
             // $dr['message'] = 'Unable to create Post. Please try latter.';
             $dr['message'] = trans('messages.unable_to_process_request');
             // $dr['message'] = 'عفوا..لم يتم اضافة الاعلان نرجو المحاولة لاحقا';
@@ -695,19 +688,19 @@ class ItemController extends Controller
         // $image = $_FILES['imgUrl']['name'];
         // $image_tmp = $_FILES['imgUrl']['tmp_name'];
         $blance = array(
-            'fromUserId' => $request->user_id ?: $request->fromUserId,
-            'priority' => $request->priority,
+            'fromUserId'      => $request->user_id ?: $request->fromUserId,
+            'priority'        => $request->priority,
             // 'imgUrl' => 'http://newzoolifeapi.zoolifeshop.com/uploads/ad/' . $image,
-            'showComments' => $request->showComments ? 1 : 0,
-            'category' => $request->category,
-            'subCategory' => $request->subCategory,
-            'itemTitle' => $request->itemTitle,
-            'itemDesc' => $request->itemDesc,
+            'showComments'    => $request->showComments ? 1 : 0,
+            'category'        => $request->category,
+            'subCategory'     => $request->subCategory,
+            'itemTitle'       => $request->itemTitle,
+            'itemDesc'        => $request->itemDesc,
             'showPhoneNumber' => $request->showPhoneNumber ? 1 : 0,
-            'showMessage' => $request->showMessage ? 1 : 0,
-            'city' => $request->city,
-            'country' => $request->country,
-            'showWhatsapp' => $request->showWhatsapp ? 1 : 0,
+            'showMessage'     => $request->showMessage ? 1 : 0,
+            'city'            => $request->city,
+            'country'         => $request->country,
+            'showWhatsapp'    => $request->showWhatsapp ? 1 : 0,
         );
 
         ## if bid is type of auction.
@@ -719,32 +712,32 @@ class ItemController extends Controller
                 $blance = array_merge($blance, $auctionResponse);
             }
         } else {
-            $blance['post_type'] = 'normal';
+            $blance['post_type']           = 'normal';
             $blance['auction_expiry_time'] = null;
-            $blance['min_bid'] = null;
-            $blance['max_bid'] = null;
-            $blance['expiry_hours'] = null;
-            $blance['expiry_days'] = null;
+            $blance['min_bid']             = null;
+            $blance['max_bid']             = null;
+            $blance['expiry_hours']        = null;
+            $blance['expiry_days']         = null;
         }
 
         // $images = $request->images[];
         $id = DB::table('items')->where('id', '=', $item_id)->update($blance);
         if ($item_id) {
-            
+
             $item = Item::where('id', '=', $item_id)->first();
 
             // Upload image in ad item
             $imageUrl = "";
             if ($request->hasFile('imgUrl')) {
-                $image = $request->file('imgUrl');
-                $imageName = time() .'_'. $item_id. '.' . $image->getClientOriginalExtension();
+                $image     = $request->file('imgUrl');
+                $imageName = time() . '_' . $item_id . '.' . $image->getClientOriginalExtension();
                 $image->move($imagePath, $imageName);
                 $imageUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad/' . $imageName;
 
                 // Remove old Image
                 if (!empty($item->imgUrl)) {
-                    $parts = explode('/', $item->imgUrl);
-                    $oldImage = end($parts);
+                    $parts        = explode('/', $item->imgUrl);
+                    $oldImage     = end($parts);
                     $oldImagePath = $imagePath . $oldImage;
                     if (file_exists($oldImagePath)) {
                         @unlink($oldImagePath);
@@ -752,22 +745,22 @@ class ItemController extends Controller
                 }
 
                 // Set Image Url
-                $item->imgUrl   = $imageUrl;
+                $item->imgUrl = $imageUrl;
             }
 
             // Upload video in ad item
             $videoUrl = "";
             if ($request->hasFile('videoUrl')) {
-                $video = $request->file('videoUrl');
-                $videoName = time() .'_'. $item_id. '.' . $video->getClientOriginalExtension();
-                
+                $video     = $request->file('videoUrl');
+                $videoName = time() . '_' . $item_id . '.' . $video->getClientOriginalExtension();
+
                 $video->move($videoPath, $videoName);
                 $videoUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad_video/' . $videoName;
 
                 // Remove old Video
                 if (!empty($item->videoUrl)) {
-                    $parts = explode('/', $item->videoUrl);
-                    $oldVideo = end($parts);
+                    $parts        = explode('/', $item->videoUrl);
+                    $oldVideo     = end($parts);
                     $oldVideoPath = $videoPath . $oldVideo;
                     if (file_exists($oldVideoPath)) {
                         @unlink($oldVideoPath);
@@ -784,16 +777,16 @@ class ItemController extends Controller
             }
 
             if ($request->hasFile('images')) {
-                $images = $request->file('images');
+                $images    = $request->file('images');
                 $allImages = [];
                 foreach ($images as $k => $image) {
                     // $image = $request->file('imgUrl');
-                    $imageName = time() . $k .'_'. $item_id. '.' . $image->getClientOriginalExtension();
+                    $imageName = time() . $k . '_' . $item_id . '.' . $image->getClientOriginalExtension();
                     $image->move($imagePath, $imageName);
                     $imageUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad/' . $imageName;
 
                     $allImages[] = [
-                        'item_id' => $item_id,
+                        'item_id'   => $item_id,
                         'file_name' => $imageUrl,
                     ];
                 }
@@ -803,14 +796,14 @@ class ItemController extends Controller
                 }
             }
 
-            if(!empty($inputs['del_images']) && is_array($inputs['del_images'])) {
+            if (!empty($inputs['del_images']) && is_array($inputs['del_images'])) {
                 $getImages = ItemImage::where('item_id', $request->item_id)->whereIn('id', $inputs['del_images'])->get();
                 if (count($getImages)) {
-                    foreach($getImages as $delImg) {
+                    foreach ($getImages as $delImg) {
                         // Remove image
                         if (!empty($delImg->file_name)) {
-                            $parts = explode('/', $delImg->file_name);
-                            $oldImage = end($parts);
+                            $parts        = explode('/', $delImg->file_name);
+                            $oldImage     = end($parts);
                             $oldImagePath = $imagePath . $oldImage;
                             if (file_exists($oldImagePath)) {
                                 @unlink($oldImagePath);
@@ -821,7 +814,7 @@ class ItemController extends Controller
                 }
             }
 
-            $dr['error'] = false;
+            $dr['error']  = false;
             $dr['status'] = 200;
             // $dr['message'] = 'Post Updated successfully';
             // $dr['message'] = 'تم تحديث الاعلان بنجاح';
@@ -829,7 +822,7 @@ class ItemController extends Controller
         } else {
 
             $dr['status'] = 104;
-            $dr['error'] = true;
+            $dr['error']  = true;
             // $dr['message'] = 'Unable to Update Post. Please try latter.';
             $dr['message'] = trans('messages.unable_to_process_request');
             // $dr['message'] = 'عفوا..لاحقام يتم تحديث الاعلان نرجو المحاولة لاحقا';
@@ -840,21 +833,21 @@ class ItemController extends Controller
     public function add_delivery(Request $request)
     {
         $dr['status'] = 100;
-        $user_id = $request->user_id;
-        $blance = array(
+        $user_id      = $request->user_id;
+        $blance       = array(
             // 'phone' => $request->phone,
-            'fromUserId' => $user_id,
+            'fromUserId'      => $user_id,
             // 'id' => $request->id,
-            'itemTitle' => $request->itemTitle,
-            'itemDesc' => $request->itemDesc,
-            'category' => 4000,
-            'subCategory' => $request->subCategory,
+            'itemTitle'       => $request->itemTitle,
+            'itemDesc'        => $request->itemDesc,
+            'category'        => 4000,
+            'subCategory'     => $request->subCategory,
             'showPhoneNumber' => $request->showPhoneNumber,
-            'showComments' => $request->showComments,
-            'showMessage' => $request->showMessage,
-            'city' => $request->city,
-            'country' => $request->country,
-            'imgUrl' => '',
+            'showComments'    => $request->showComments,
+            'showMessage'     => $request->showMessage,
+            'city'            => $request->city,
+            'country'         => $request->country,
+            'imgUrl'          => '',
         );
         $user = User::where('id', $user_id)->where('verify', 1)->first();
         if ($user) {
@@ -862,27 +855,27 @@ class ItemController extends Controller
 
             if (isset($user_id)) {
                 $item->favrtitem_status = $item->favrtitemStatus($user_id);
-                $item->likeitem_status = $item->likeitemStatus($user_id);
-                $item->report_status = $item->reportStatus($user_id);
+                $item->likeitem_status  = $item->likeitemStatus($user_id);
+                $item->report_status    = $item->reportStatus($user_id);
             } else {
                 $item->favrtitem_status = 0;
-                $item->likeitem_status = 0;
-                $item->report_status = 0;
+                $item->likeitem_status  = 0;
+                $item->report_status    = 0;
             }
             $item->setAppends([
                 'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
             ])->makeHidden('user');
 
             if ($item) {
-                $dr['error'] = false;
+                $dr['error']  = false;
                 $dr['status'] = 200;
-                $dr['data'] = $item;
+                $dr['data']   = $item;
                 // $dr['message'] = 'Delivery added successfully';
                 $dr['message'] = trans('messages.delivery_added');
                 // $dr['message'] = 'تم اضافة الاعلان بنجاح';
             } else {
                 $dr['status'] = 104;
-                $dr['error'] = true;
+                $dr['error']  = true;
                 // $dr['message'] = 'Unable to create Delivery. Please try latter.';
                 // $dr['message'] = 'عفوا..لم يتم اضافة الاعلان نرجو المحاولة لاحقا';
                 $dr['message'] = trans('messages.unable_to_create_delivery');
@@ -900,18 +893,18 @@ class ItemController extends Controller
     public function like_item(Request $request)
     {
         $dr['status'] = 100;
-        $user_id = $request->user_id;
-        $id = $request->id;
-        $user = User::where('id', '=', $user_id)->where('verify', '=', 1)->first();
+        $user_id      = $request->user_id;
+        $id           = $request->id;
+        $user         = User::where('id', '=', $user_id)->where('verify', '=', 1)->first();
 
         if ($user) {
             $item = Item::find($request->id);
             if ($item) {
                 $blance = array(
-                    'toUserId' => $item->user_id,
-                    'itemId' => $request->id,
+                    'toUserId'   => $item->user_id,
+                    'itemId'     => $request->id,
                     'fromUserId' => $request->user_id,
-                    'createAt' => time(),
+                    'createAt'   => time(),
                 );
                 $alreadyLiked = DB::table('likes')->where('toUserId', $item->user_id)->where('itemId', $request->id)
                     ->where('fromUserId', $request->user_id)->first();
@@ -921,7 +914,7 @@ class ItemController extends Controller
                     DB::table('likes')->where('toUserId', $item->user_id)->where('itemId', $request->id)
                         ->where('fromUserId', $request->user_id)->delete();
 
-                    $dr['error'] = false;
+                    $dr['error']  = false;
                     $dr['status'] = 200;
                     // $dr['message'] = 'user not found.';
                     // $dr['message'] = 'لايوجد اعلانات';
@@ -933,20 +926,20 @@ class ItemController extends Controller
                     $item->likesCount = $item->likesCount + 1;
                     $item->save();
 
-                    $dr['error'] = false;
+                    $dr['error']   = false;
                     $dr['message'] = trans('messages.liked');
                     // $dr['message'] = 'Post added to Liked.';
                     $dr['status'] = 200;
                 }
             } else {
-                $dr['error'] = true;
+                $dr['error']  = true;
                 $dr['status'] = 101;
                 // $dr['message'] = 'user not found.';
                 // $dr['message'] = 'لايوجد اعلانات';
                 $dr['message'] = trans('messages.no_data');
             }
         } else {
-            $dr['error'] = true;
+            $dr['error']  = true;
             $dr['status'] = 101;
             // $dr['message'] = 'user not found.';
             // $dr['message'] = 'لايوجد اعلانات';
@@ -960,29 +953,29 @@ class ItemController extends Controller
     {
 
         $dr['status'] = 100;
-        $dr['data'] = [];
-        $user_id = $request->user_id;
-        $user = DB::table('users')->select('*')->where('id', '=', $user_id)->where('verify', '=', 1)->get();
+        $dr['data']   = [];
+        $user_id      = $request->user_id;
+        $user         = DB::table('users')->select('*')->where('id', '=', $user_id)->where('verify', '=', 1)->get();
 
         if (count($user) > 0) {
-            $favourites = [];
-            $fromUserId = $user[0]->id;
+            $favourites      = [];
+            $fromUserId      = $user[0]->id;
             $favourites_data = DB::table('likes')->select('*')->where('fromUserId', '=', $fromUserId)->where('removeAt', '=', 0)->get();
             if (count($favourites_data) > 0) {
                 foreach ($favourites_data as $favourite) {
-                    $itemId = $favourite->itemId;
+                    $itemId  = $favourite->itemId;
                     $product = Item::where('id', '=', $itemId)
                         ->where('post_type', $request->get('post_type', 'normal'))
                         ->where('removeAt', '=', 0)->with('images')->first();
 
                     if (isset($user_id)) {
                         $product->favrtitem_status = $product->favrtitemStatus($user_id);
-                        $product->likeitem_status = $product->likeitemStatus($user_id);
-                        $product->report_status = $product->reportStatus($user_id);
+                        $product->likeitem_status  = $product->likeitemStatus($user_id);
+                        $product->report_status    = $product->reportStatus($user_id);
                     } else {
                         $product->favrtitem_status = 0;
-                        $product->likeitem_status = 0;
-                        $product->report_status = 0;
+                        $product->likeitem_status  = 0;
+                        $product->report_status    = 0;
                     }
                     $product->setAppends([
                         'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
@@ -992,8 +985,8 @@ class ItemController extends Controller
 
                     $favourites[] = $favourite;
                 }
-                $dr['error'] = false;
-                $dr['data'] = $favourites;
+                $dr['error']  = false;
+                $dr['data']   = $favourites;
                 $dr['status'] = 200;
             } else {
                 $dr['error'] = false;
@@ -1003,7 +996,7 @@ class ItemController extends Controller
                 $dr['status'] = 200;
             }
         } else {
-            $dr['error'] = true;
+            $dr['error']  = true;
             $dr['status'] = 101;
             // $dr['message'] = 'user not found.';
             $dr['message'] = trans('messages.no_data');
@@ -1015,17 +1008,17 @@ class ItemController extends Controller
     public function delete_like_item(Request $request)
     {
         $dr['status'] = 100;
-        $user_id = $request->user_id;
-        $id = $request->id;
-        $user = DB::table('users')->select('*')->where('id', '=', $user_id)->where('verify', '=', 1)->get();
-        $blance = array(
+        $user_id      = $request->user_id;
+        $id           = $request->id;
+        $user         = DB::table('users')->select('*')->where('id', '=', $user_id)->where('verify', '=', 1)->get();
+        $blance       = array(
             'removeAt' => time(),
         );
         if (count($user) > 0) {
             $fromUserId = $user[0]->id;
             $deleteLike = DB::table('likes')->where('fromUserId', '=', $fromUserId)->where('itemId', '=', $id)->delete();
             if ($deleteLike) {
-                $dr['error'] = false;
+                $dr['error']   = false;
                 $dr['message'] = trans('messages.unliked');
                 // $dr['message'] = 'Post removed from like.';
                 $dr['status'] = 200;
@@ -1033,10 +1026,10 @@ class ItemController extends Controller
                 $dr['error'] = false;
                 // $dr['message'] = 'Unable to remove post from like.';
                 $dr['message'] = trans('messages.unable_to_process_request');
-                $dr['status'] = 200;
+                $dr['status']  = 200;
             }
         } else {
-            $dr['error'] = true;
+            $dr['error']  = true;
             $dr['status'] = 101;
             // $dr['message'] = 'user not found.';
             $dr['message'] = trans('messages.no_data');
@@ -1048,8 +1041,8 @@ class ItemController extends Controller
     public function abuse_item(Request $request)
     {
         $dr['status'] = 100;
-        $user_id = $request->user_id;
-        $user = User::where('id', '=', $user_id)->where('verify', '=', 1)->first();
+        $user_id      = $request->user_id;
+        $user         = User::where('id', '=', $user_id)->where('verify', '=', 1)->first();
 
         if ($user) {
             $fromUserId = $user->id;
@@ -1065,7 +1058,7 @@ class ItemController extends Controller
                     ->where('abuseToItemId', $request->id)
                     ->delete();
 
-                $dr['error'] = false;
+                $dr['error']  = false;
                 $dr['status'] = 200;
                 // $dr['message'] = 'user not found.';
                 // $dr['message'] = 'لايوجد اعلانات';
@@ -1075,28 +1068,28 @@ class ItemController extends Controller
 
                 $blance = array(
                     'abuseFromUserId' => $fromUserId,
-                    'abuseToItemId' => $request->id,
-                    'createAt' => time(),
+                    'abuseToItemId'   => $request->id,
+                    'createAt'        => time(),
                 );
                 $abuse = DB::table('items_abuse_reports')->insert($blance);
                 //   print_r($abuse);
                 //   die();
                 if ($abuse) {
-                    $dr['error'] = false;
+                    $dr['error']   = false;
                     $dr['message'] = trans('messages.abused');
                     // $dr['message'] = 'Post marked as abused successfully.';
                     $dr['status'] = 200;
                     return Response::json($dr);
                 } else {
-                    $dr['error'] = false;
+                    $dr['error']   = false;
                     $dr['message'] = trans('messages.abuse_failed');
-                    $dr['status'] = 200;
+                    $dr['status']  = 200;
                     return Response::json($dr);
                 }
             }
 
         } else {
-            $dr['error'] = true;
+            $dr['error']  = true;
             $dr['status'] = 101;
             // $dr['message'] = 'user not found.';
             $dr['message'] = trans('messages.no_data');
@@ -1108,11 +1101,11 @@ class ItemController extends Controller
     public function list_abused_items(Request $request)
     {
         $dr['status'] = 100;
-        $dr['data'] = [];
-        $user_id = $request->user_id;
-        $user = DB::table('users')->select('*')->where('id', '=', $user_id)->where('verify', '=', 1)->get();
+        $dr['data']   = [];
+        $user_id      = $request->user_id;
+        $user         = DB::table('users')->select('*')->where('id', '=', $user_id)->where('verify', '=', 1)->get();
         if (count($user) > 0) {
-            $abuses = [];
+            $abuses     = [];
             $fromUserId = $user[0]->id;
 
             $abuses_data = DB::table('items_abuse_reports')->select('*')->where('abuseFromUserId', '=', $fromUserId)->where('removeAt', '=', 0)->get();
@@ -1143,8 +1136,8 @@ class ItemController extends Controller
 
                     $abuses[] = $abuse;
                 }
-                $dr['error'] = false;
-                $dr['data'] = $abuses;
+                $dr['error']  = false;
+                $dr['data']   = $abuses;
                 $dr['status'] = 200;
             } else {
                 $dr['error'] = false;
@@ -1154,7 +1147,7 @@ class ItemController extends Controller
                 $dr['status'] = 200;
             }
         } else {
-            $dr['error'] = true;
+            $dr['error']  = true;
             $dr['status'] = 101;
             // $dr['message'] = 'user not found.';
             $dr['message'] = trans('messages.no_data');
@@ -1166,9 +1159,9 @@ class ItemController extends Controller
     public function delete_abused_item(Request $request)
     {
         $dr['status'] = 100;
-        $user_id = $request->user_id;
-        $id = $request->id;
-        $user = DB::table('users')->select('*')->where('id', '=', $user_id)->where('verify', '=', 1)->get();
+        $user_id      = $request->user_id;
+        $id           = $request->id;
+        $user         = DB::table('users')->select('*')->where('id', '=', $user_id)->where('verify', '=', 1)->get();
 
         if (count($user) > 0) {
             $fromUserId = $user[0]->id;
@@ -1190,7 +1183,7 @@ class ItemController extends Controller
                 $dr['status'] = 200;
             }
         } else {
-            $dr['error'] = true;
+            $dr['error']  = true;
             $dr['status'] = 101;
             // $dr['message'] = 'user not found.';
             $dr['message'] = trans('messages.no_data');
@@ -1202,8 +1195,8 @@ class ItemController extends Controller
     public function favoruit_item(Request $request)
     {
         $dr['status'] = 100;
-        $user_id = $request->user_id;
-        $itemId = $request->id;
+        $user_id      = $request->user_id;
+        $itemId       = $request->id;
 
         $item = Item::find($itemId)
             ->where('post_type', $request->get('post_type', 'normal'));
@@ -1216,7 +1209,7 @@ class ItemController extends Controller
                 $alreadyFavourite->delete();
 
                 $dr['status'] = 200;
-                $dr['error'] = false;
+                $dr['error']  = false;
                 //     $dr['message'] = 'Item have been added into your favorites';
                 $dr['message'] = trans('messages.item_removed_fvrt');
                 // $dr['message'] = 'item removed from favourites';
@@ -1228,7 +1221,7 @@ class ItemController extends Controller
                 $fvrt = DB::table('item_favorites')->insert($blance);
                 if ($fvrt) {
                     $dr['status'] = 200;
-                    $dr['error'] = false;
+                    $dr['error']  = false;
                     //     $dr['message'] = 'Item have been added into your favorites';
                     $dr['message'] = trans('messages.item_added_fvrt');
                     // $dr['message'] = 'تمت اضافة الاعلان الى المفضلة';
@@ -1253,7 +1246,6 @@ class ItemController extends Controller
     {
         $user_id = $request->user_id;
 
-
         if ($user_id) {
             // $items = DB::table('item_favorites')->join('items', 'items.id', '=', 'item_favorites.itemId')->select('item_favorites.*', 'items.*')->where('userId', '=', $user_id)->get();
 
@@ -1265,12 +1257,12 @@ class ItemController extends Controller
             $items->each(function ($item, $key) use ($user_id) {
                 if (isset($user_id)) {
                     $item->favrtitem_status = $item->favrtitemStatus($user_id);
-                    $item->likeitem_status = $item->likeitemStatus($user_id);
-                    $item->report_status = $item->reportStatus($user_id);
+                    $item->likeitem_status  = $item->likeitemStatus($user_id);
+                    $item->report_status    = $item->reportStatus($user_id);
                 } else {
                     $item->favrtitem_status = 0;
-                    $item->likeitem_status = 0;
-                    $item->report_status = 0;
+                    $item->likeitem_status  = 0;
+                    $item->report_status    = 0;
                 }
                 $item->setAppends([
                     'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
@@ -1278,7 +1270,7 @@ class ItemController extends Controller
             })->makeHidden('user');
 
             $fav_item = [];
-            $i = 0;
+            $i        = 0;
             if (count($items) > 0) {
                 // foreach ($items as $item) {
                 //     $fav_item[$i]['itemId'] = $item->id;
@@ -1292,19 +1284,19 @@ class ItemController extends Controller
                 // }
                 // // die();
 
-                $dr['error'] = false;
+                $dr['error']  = false;
                 $dr['status'] = 200;
-                $dr['data'] = $items;
+                $dr['data']   = $items;
             } else {
                 $dr['status'] = 200;
-                $dr['error'] = false;
-                $dr['data'] = [];
+                $dr['error']  = false;
+                $dr['data']   = [];
                 //             $dr['message'] = 'No data found.';
                 $dr['message'] = trans('messages.no_data');
             }
         } else {
-            $dr['error'] = true;
-            $dr['status'] = 100;
+            $dr['error']   = true;
+            $dr['status']  = 100;
             $dr['message'] = trans('messages.no_data');
             // $dr['message'] = 'please enter user id';
         }
@@ -1315,7 +1307,7 @@ class ItemController extends Controller
     public function favoruit_list_by_item(Request $request)
     {
         $user_id = $request->user_id;
-        $itemId = $request->id;
+        $itemId  = $request->id;
 
         // $items = Db::table('item_favorites')->join('items', 'items.id', '=', 'item_favorites.itemId')->select('item_favorites.*', 'items.*')->where('userId', '=', $user_id)->where('itemId', '=', $itemId)->get();
 
@@ -1326,21 +1318,21 @@ class ItemController extends Controller
                     ->where('itemId', '=', $request->id);
             })->get();
             if ($items) {
-                $items = $this->createItemStructure($items, $user_id);
-                $dr['error'] = false;
+                $items        = $this->createItemStructure($items, $user_id);
+                $dr['error']  = false;
                 $dr['status'] = 200;
-                $dr['data'] = $items;
+                $dr['data']   = $items;
             } else {
                 $dr['status'] = 200;
-                $dr['error'] = false;
-                $dr['data'] = [];
+                $dr['error']  = false;
+                $dr['data']   = [];
                 //             $dr['message'] = 'No data found.';
                 $dr['message'] = trans('messages.no_data');
                 // $dr['message'] = 'لايوجد اعلانات';
             }
         } else {
             $dr['status'] = 200;
-            $dr['error'] = false;
+            $dr['error']  = false;
             //             $dr['message'] = 'No data found.';
             $dr['message'] = trans('messages.no_data');
             // $dr['message'] = 'please enter both user id and id parameter';
@@ -1351,15 +1343,15 @@ class ItemController extends Controller
     public function delete_favorites(Request $request)
     {
         $dr['status'] = 100;
-        $dr['error'] = true;
+        $dr['error']  = true;
         // $dr['message'] = 'Unable to process the request. Please try later.';
         $dr['message'] = trans('messages.unable_to_process_request');
         // $dr['message'] = 'عفوا تم ايقاف حسابك';
         $favoriteId = $request->favoriteId;
-        $sql = DB::table('item_favorites')->where('id', '=', $favoriteId)->delete();
+        $sql        = DB::table('item_favorites')->where('id', '=', $favoriteId)->delete();
         if ($sql) {
             $dr['status'] = 200;
-            $dr['error'] = false;
+            $dr['error']  = false;
             //$dr['message'] = 'Favorite Item has been deleted';
             // $dr['message'] = 'تم حذف التعليق';
             $dr['message'] = trans('messages.fvrt_deleted');
@@ -1376,10 +1368,10 @@ class ItemController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 100,
-                'error' => true,
+                'status'  => 100,
+                'error'   => true,
                 'message' => trans('messages.validation_error'),
-                'error' => $validator->errors(),
+                'error'   => $validator->errors(),
             ], 200);
         }
 
@@ -1389,16 +1381,15 @@ class ItemController extends Controller
             ->orderBy('created_at', 'DESC')
             ->paginate(env('PER_PAGE'));
 
-
         $items->each(function ($item, $key) {
             if (isset($item->fromUserId)) {
                 $item->favrtitem_status = $item->favrtitemStatus($item->fromUserId);
-                $item->likeitem_status = $item->likeitemStatus($item->fromUserId);
-                $item->report_status = $item->reportStatus($item->fromUserId);
+                $item->likeitem_status  = $item->likeitemStatus($item->fromUserId);
+                $item->report_status    = $item->reportStatus($item->fromUserId);
             } else {
                 $item->favrtitem_status = 0;
-                $item->likeitem_status = 0;
-                $item->report_status = 0;
+                $item->likeitem_status  = 0;
+                $item->report_status    = 0;
             }
             $item->setAppends([
                 'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
@@ -1407,8 +1398,8 @@ class ItemController extends Controller
 
         return response()->json([
             'status' => 200,
-            'error' => false,
-            'data' => $items,
+            'error'  => false,
+            'data'   => $items,
         ], 200);
     }
 
@@ -1420,10 +1411,10 @@ class ItemController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 100,
-                'error' => true,
+                'status'  => 100,
+                'error'   => true,
                 'message' => trans('messages.validation_error'),
-                'error' => $validator->errors(),
+                'error'   => $validator->errors(),
             ], 200);
         }
 
@@ -1438,16 +1429,15 @@ class ItemController extends Controller
 
         $items = $items->paginate(env('PER_PAGE'));
 
-
         $items->each(function ($item, $key) {
             if (isset($item->fromUserId)) {
                 $item->favrtitem_status = $item->favrtitemStatus($item->fromUserId);
-                $item->likeitem_status = $item->likeitemStatus($item->fromUserId);
-                $item->report_status = $item->reportStatus($item->fromUserId);
+                $item->likeitem_status  = $item->likeitemStatus($item->fromUserId);
+                $item->report_status    = $item->reportStatus($item->fromUserId);
             } else {
                 $item->favrtitem_status = 0;
-                $item->likeitem_status = 0;
-                $item->report_status = 0;
+                $item->likeitem_status  = 0;
+                $item->report_status    = 0;
             }
             $item->setAppends([
                 'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
@@ -1456,8 +1446,8 @@ class ItemController extends Controller
 
         return response()->json([
             'status' => 200,
-            'error' => false,
-            'data' => $items,
+            'error'  => false,
+            'data'   => $items,
         ], 200);
     }
 
@@ -1466,8 +1456,8 @@ class ItemController extends Controller
         $cities = City::select('id', 'name', 'arabic_name')->get()->makeHidden('arabic_name');
         return response()->json([
             'status' => 200,
-            'error' => false,
-            'data' => $cities,
+            'error'  => false,
+            'data'   => $cities,
         ], 200);
 
     }
@@ -1477,13 +1467,13 @@ class ItemController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    function addBid(Request $request): \Illuminate\Http\JsonResponse
+    public function addBid(Request $request): \Illuminate\Http\JsonResponse
     {
         ## return back if amount is missing
         if (empty($request->amount)) {
             return response()->json([
-                'status' => 100,
-                'error' => true,
+                'status'  => 100,
+                'error'   => true,
                 'message' => __('messages.please_enter_bid_amount'),
             ]);
         }
@@ -1491,69 +1481,66 @@ class ItemController extends Controller
         ## return back if isn't mentioned how place bid.
         if (empty($request->fromUserId)) {
             return response()->json([
-                'status' => 100,
-                'error' => true,
+                'status'  => 100,
+                'error'   => true,
                 'message' => __('messages.invalid_from_user_id'),
             ]);
         }
 
         ## if item wasn't found and item wasn't auction
         $Post = Item::find($request->item_id);
-        if (!$Post instanceof Item || $Post->post_type <> 'auction') {
+        if (!$Post instanceof Item || $Post->post_type != 'auction') {
             return response()->json([
-                'status' => 100,
-                'error' => true,
+                'status'  => 100,
+                'error'   => true,
                 'message' => __('messages.please_enter_valid_post_id'),
             ]);
         }
 
-       // if ($Post->min_bid > $request->amount) {
-       //     return response()->json([
-       //         'status' => 100,
-       //         'error' => true,
-       //         'message' => __('messages.wrong_amount_was_entered'),
-       //     ]);
-       // }
+        // if ($Post->min_bid > $request->amount) {
+        //     return response()->json([
+        //         'status' => 100,
+        //         'error' => true,
+        //         'message' => __('messages.wrong_amount_was_entered'),
+        //     ]);
+        // }
 
-
-       // if ($Post->max_bid < $request->amount) {
-       //     return response()->json([
-       //         'status' => 100,
-       //         'error' => true,
-       //         'message' => __('messages.wrong_amount_was_entered'),
-       //     ]);
-       // }
-
+        // if ($Post->max_bid < $request->amount) {
+        //     return response()->json([
+        //         'status' => 100,
+        //         'error' => true,
+        //         'message' => __('messages.wrong_amount_was_entered'),
+        //     ]);
+        // }
 
         ## if bid is already placed by the user
-       // $IsAlreadyBidByThisUser = BiddingModel::getBidOnBaseOfUserAndPost($request->item_id, $request->fromUserId);
-       // if ($IsAlreadyBidByThisUser) {
-       //     return response()->json([
-       //         'status' => 100,
-       //         'error' => true,
-       //         'message' => __('messages.already_bid_placed_by_you'),
-       //     ]);
-       // }
+        // $IsAlreadyBidByThisUser = BiddingModel::getBidOnBaseOfUserAndPost($request->item_id, $request->fromUserId);
+        // if ($IsAlreadyBidByThisUser) {
+        //     return response()->json([
+        //         'status' => 100,
+        //         'error' => true,
+        //         'message' => __('messages.already_bid_placed_by_you'),
+        //     ]);
+        // }
 
         ## adding bid for user
         $IsBidSaved = BiddingModel::addBidding($request);
         if ($IsBidSaved) {
-            $Post->min_bid = ((float)$request->amount);
+            $Post->min_bid = ((float) $request->amount);
             $Post->save();
             return response()->json([
-                'status' => 200,
-                'error' => false,
+                'status'  => 200,
+                'error'   => false,
                 'message' => __('messages.bid_save_for_user'),
             ]);
         } else {
             return response()->json([
-                'status' => 100,
-                'error' => true,
+                'status'  => 100,
+                'error'   => true,
                 'message' => __('messages.some_thing_went_wrong'),
             ]);
         }
     }
-
 
     /**
      * @Purpose This function inform, Is this user has already place bid or not.
@@ -1562,21 +1549,21 @@ class ItemController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    function alreadyBidByUser(Request $request): \Illuminate\Http\JsonResponse
+    public function alreadyBidByUser(Request $request): \Illuminate\Http\JsonResponse
     {
         if (empty($request->fromUserId)) {
             return response()->json([
-                'status' => 100,
-                'error' => true,
+                'status'  => 100,
+                'error'   => true,
                 'message' => __('messages.invalid_from_user_id'),
             ]);
         }
 
         $Post = Item::find($request->item_id);
-        if (!$Post instanceof Item || $Post->post_type <> 'auction') {
+        if (!$Post instanceof Item || $Post->post_type != 'auction') {
             return response()->json([
-                'status' => 100,
-                'error' => true,
+                'status'  => 100,
+                'error'   => true,
                 'message' => __('messages.please_enter_valid_post_id'),
             ]);
         }
@@ -1584,14 +1571,14 @@ class ItemController extends Controller
         $IsAlreadyBidByThisUser = BiddingModel::getBidOnBaseOfUserAndPost($request->item_id, $request->fromUserId);
         if ($IsAlreadyBidByThisUser) {
             return response()->json([
-                'status' => 100,
-                'error' => true,
+                'status'  => 100,
+                'error'   => true,
                 'message' => __('messages.bid_already_placed_by_user'),
             ]);
         } else {
             return response()->json([
-                'status' => 200,
-                'error' => false,
+                'status'  => 200,
+                'error'   => false,
                 'message' => __('messages.bid_wasnt_placed_by_user'),
             ]);
         }
@@ -1603,13 +1590,13 @@ class ItemController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    function getAllBidsOfPost(Request $request)
+    public function getAllBidsOfPost(Request $request)
     {
         $Post = Item::find($request->item_id);
-        if (!$Post instanceof Item || $Post->post_type <> 'auction') {
+        if (!$Post instanceof Item || $Post->post_type != 'auction') {
             return response()->json([
-                'status' => 100,
-                'error' => true,
+                'status'  => 100,
+                'error'   => true,
                 'message' => __('messages.please_enter_valid_post_id'),
             ]);
         }
@@ -1619,10 +1606,10 @@ class ItemController extends Controller
             $bid->readable_time = $bid->created_at->diffForHumans();
         }
         return response()->json([
-            'status' => 200,
-            'error' => false,
+            'status'  => 200,
+            'error'   => false,
             'message' => __('messages.bid_found'),
-            'data' => $Bids
+            'data'    => $Bids,
         ]);
 
     }
@@ -1632,12 +1619,12 @@ class ItemController extends Controller
         return $items->each(function ($item, $key) use ($user_id) {
             if (isset($user_id)) {
                 $item->favrtitem_status = $item->favrtitemStatus($user_id);
-                $item->likeitem_status = $item->likeitemStatus($user_id);
-                $item->report_status = $item->reportStatus($user_id);
+                $item->likeitem_status  = $item->likeitemStatus($user_id);
+                $item->report_status    = $item->reportStatus($user_id);
             } else {
                 $item->favrtitem_status = 0;
-                $item->likeitem_status = 0;
-                $item->report_status = 0;
+                $item->likeitem_status  = 0;
+                $item->report_status    = 0;
             }
             $item->setAppends([
                 'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
