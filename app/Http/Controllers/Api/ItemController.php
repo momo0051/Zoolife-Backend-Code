@@ -554,6 +554,9 @@ class ItemController extends Controller
         $validator = Validator::make($request->all(), [
             'imgUrl'   => 'required_without:videoUrl|mimes:jpeg,jpg,png,gif,svg,wbmp,webp',
             'videoUrl' => 'required_without:imgUrl|mimes:mp4,3gp,avi,mpeg,flv,mov,qt',
+            'age'      => 'numeric',
+            'sex'      => 'required|in:male,female',
+            'passport' => 'required|in:yes,no',
         ]);
 
         if ($validator->fails()) {
@@ -583,6 +586,10 @@ class ItemController extends Controller
             'showMessage'     => $request->showMessage ? 1 : 0,
             'showWhatsapp'    => $request->showWhatsapp ? $request->showWhatsapp : 0,
             'city'            => $request->city,
+            'age'             => !empty($request->age) ? $request->age : null,
+            'sex'             => !empty($request->sex) ? strtolower($request->sex) : 'male',
+            'passport'        => !empty($request->passport) ? $request->passport : "no",
+            'vaccine_detail'  => !empty($request->vaccine_detail) ? strtolower($request->vaccine_detail) : '',
             'country'         => $request->country,
             'created_at'      => Carbon::now()->format('Y-m-d H:i'),
             'updated_at'      => Carbon::now()->format('Y-m-d H:i'),
