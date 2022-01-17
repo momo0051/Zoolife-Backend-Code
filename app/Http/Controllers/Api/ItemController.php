@@ -1210,7 +1210,7 @@ class ItemController extends Controller
         $user_id      = $request->user_id;
         $itemId       = $request->Itemid;
 
-        $item = Item::where('id', $itemId)->where('post_type', $request->get('post_type', 'normal'))->first();
+        $item = Item::where('id', $itemId)->first();
 
         if ($item) {
             $alreadyFavourite = $item->itemFavorites()->where('userId', $user_id)->first();
