@@ -554,7 +554,6 @@ class ItemController extends Controller
         $validator = Validator::make($request->all(), [
             'imgUrl'   => 'required_without:videoUrl|mimes:jpeg,jpg,png,gif,svg,wbmp,webp',
             'videoUrl' => 'required_without:imgUrl|mimes:mp4,3gp,avi,mpeg,flv,mov,qt',
-            'age'      => 'numeric',
             'sex'      => 'required|in:male,female',
             'passport' => 'required|in:yes,no',
         ]);
@@ -586,7 +585,7 @@ class ItemController extends Controller
             'showMessage'     => $request->showMessage ? 1 : 0,
             'showWhatsapp'    => $request->showWhatsapp ? $request->showWhatsapp : 0,
             'city'            => $request->city,
-            'age'             => !empty($request->age) ? $request->age : null,
+            'age'             => !empty($request->age) ? $request->age : "",
             'sex'             => !empty($request->sex) ? strtolower($request->sex) : 'male',
             'passport'        => !empty($request->passport) ? $request->passport : "no",
             'vaccine_detail'  => !empty($request->vaccine_detail) ? strtolower($request->vaccine_detail) : '',
@@ -674,19 +673,21 @@ class ItemController extends Controller
         $inputs = $request->all();
 
         // Put validation
-        // $validator = Validator::make($inputs, [
-        //     'imgUrl'   => 'required_without:videoUrl|mimes:jpeg,jpg,png,gif,svg,wbmp,webp',
-        //     'videoUrl' => 'required_without:imgUrl|mimes:mp4,3gp,avi,mpeg,flv,mov,qt',
-        // ]);
+        $validator = Validator::make($inputs, [
+            'sex'      => 'required|in:male,female',
+            'passport' => 'required|in:yes,no',
+            // 'imgUrl'   => 'required_without:videoUrl|mimes:jpeg,jpg,png,gif,svg,wbmp,webp',
+            // 'videoUrl' => 'required_without:imgUrl|mimes:mp4,3gp,avi,mpeg,flv,mov,qt',
+        ]);
 
-        // if ($validator->fails()) {
-        //     return response()->json([
-        //         'status' => 100,
-        //         'error' => true,
-        //         'message' => trans('messages.validation_error'),
-        //         'error' => $validator->errors(),
-        //     ], 200);
-        // }
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 100,
+                'error' => true,
+                'message' => trans('messages.validation_error'),
+                'error' => $validator->errors(),
+            ], 200);
+        }
 
         $imagePath = public_path('uploads/ad/');
         $videoPath = public_path('uploads/ad_video/');
@@ -706,6 +707,10 @@ class ItemController extends Controller
             'showPhoneNumber' => $request->showPhoneNumber ? 1 : 0,
             'showMessage'     => $request->showMessage ? 1 : 0,
             'city'            => $request->city,
+            'age'             => !empty($request->age) ? $request->age : "",
+            'sex'             => !empty($request->sex) ? strtolower($request->sex) : 'male',
+            'passport'        => !empty($request->passport) ? $request->passport : "no",
+            'vaccine_detail'  => !empty($request->vaccine_detail) ? strtolower($request->vaccine_detail) : '',
             'country'         => $request->country,
             'showWhatsapp'    => $request->showWhatsapp ? 1 : 0,
         );
@@ -1203,13 +1208,11 @@ class ItemController extends Controller
     {
         $dr['status'] = 100;
         $user_id      = $request->user_id;
-        $itemId       = $request->id;
+        $itemId       = $request->Itemid;
 
-        $item = Item::find($itemId)
-            ->where('post_type', $request->get('post_type', 'normal'));
+        $item = Item::where('id', $itemId)->where('post_type', $request->get('post_type', 'normal'))->first();
 
         if ($item) {
-
             $alreadyFavourite = $item->itemFavorites()->where('userId', $user_id)->first();
 
             if ($alreadyFavourite) {
@@ -1235,12 +1238,6 @@ class ItemController extends Controller
                 }
             }
 
-            // } else {
-            //     $dr['status'] = 100;
-            //     $dr['error'] = false;
-            //     // $dr['message'] = 'Item is already in favorites';
-            //     $dr['message'] = 'هذا الاعلان موجود مسبقا في المفضلة';
-            // }
         } else {
             $dr['message'] = trans('messages.no_data');
             // $dr['message'] = 'item not found';
