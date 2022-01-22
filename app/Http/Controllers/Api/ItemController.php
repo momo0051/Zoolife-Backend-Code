@@ -372,21 +372,16 @@ class ItemController extends Controller
         $id           = $request->id;
         $user_id      = $request->user_id;
 
-        // $items = DB::table('items')->select('*')
-        //     ->where('category', '!=', '4000')
-        //     ->where('fromUserId', '=', $user_id)
-        //     ->get();
-
         if ($user_id) {
-            $items = Item::where('category', '!=', '4000')
-                ->where('fromUserId', '=', $user_id);
+            $postType = !empty($request->post_type) ? strtolower($request->post_type) : "";
 
-            if ($request->auction == 1) {
-                $items = $items->where('post_type', '=', 'auction');
+            $items = Item::with('images')->where('category', '!=', '4000')->where('fromUserId', '=', $user_id);
+
+            if (in_array($postType, ['auction', 'normal'])) {
+                $items = $items->where('post_type', $postType);
             }
 
-            $items = $items->with('images')
-                ->get();
+            $items = $items->get();
 
             $items->each(function ($item, $key) use ($user_id) {
                 if (isset($user_id)) {
@@ -682,10 +677,10 @@ class ItemController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 100,
-                'error' => true,
+                'status'  => 100,
+                'error'   => true,
                 'message' => trans('messages.validation_error'),
-                'error' => $validator->errors(),
+                'error'   => $validator->errors(),
             ], 200);
         }
 
