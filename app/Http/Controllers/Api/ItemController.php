@@ -1208,7 +1208,7 @@ class ItemController extends Controller
     {
         $dr['status'] = 100;
         $user_id      = $request->user_id;
-        $itemId       = $request->Itemid;
+        $itemId       = $request->item_id;
 
         $item = Item::where('id', $itemId)->first();
 
