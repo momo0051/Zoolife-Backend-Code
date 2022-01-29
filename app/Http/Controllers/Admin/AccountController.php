@@ -166,7 +166,7 @@ class AccountController extends Controller
             return Response::json($dr);
         }
 
-        $db_dtl = DB::table('users')->select('*')->where('phone', '=', $phone)->orWhere('username', '=', $user_name)->get();
+        // $db_dtl = DB::table('users')->select('*')->where('phone', '=', $phone)->orWhere('username', '=', $user_name)->get();
 
         $blance = array(
             'username' => $user_name,
@@ -175,8 +175,10 @@ class AccountController extends Controller
             'verify' => 0,
             'otp' => $otp,
         );
-        $inserted = DB::table('users')->insert($blance);
-        if ($inserted) {
+        // $inserted = DB::table('users')->insert($blance);
+        $inserted = User::create($blance);
+
+        if (!empty($inserted->id)) {
             // $message = 'Here is your OTP Code '.$otp.'. Please Verify Your account';
             //   $message = 'الرجاء إدخال رمز التحقق ' . $otp . '. للاستمرار بعملية التسجيل في تطبيق ZOOLIFE';
             $message = trans('messages.verify_account').' ' . $otp .' '. trans('messages.here_is_otp_code');
@@ -187,6 +189,10 @@ class AccountController extends Controller
             $dr['otp'] = $otp;
             // $dr['message'] = 'Your account has been created successfully. Please check your Phone.';
             $dr['message'] = trans('messages.account_created_check_phone');
+            // echo $inserted->id;
+            $dr['data'] = [
+                'user_id' => $inserted->id,
+            ];
             //   $dr['message'] = 'تم انشاء حسابك بنجاح';
         } else {
             $dr['status'] = 104;
