@@ -44,4 +44,5 @@ return [
     'post_added' => 'Post added successfully',
     'image_deleted' => 'Image Deleted successfully.',
     'post_deleted' => 'Post Deleted succefully',
+    'no_user' => 'User Not found',
 ];

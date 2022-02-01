@@ -44,4 +44,5 @@ return [
     'image_deleted' => 'تم حذف الصورة',
     'post_deleted' => 'تم حذف الاعلان بنجاح',
     'select_auction_expiry_time' => 'الرجاء تحديد وقت صالح لانتهاء صلاحية المزاد',
+    'no_user' => 'المستخدم ليس موجود',
 ];

@@ -14,7 +14,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $page_title = 'Manage Slider';
-        $category = category::orderBy('priority', 'DESC')->get();
+        $category = category::orderBy('priority', 'ASC')->get();
         // $category = category::where('mainCategoryId', '=', '0')->orderBy('priority', 'DESC')->get();
         $category = $category->each->setAppends([
             'arabic_name',
@@ -102,7 +102,7 @@ class CategoryController extends Controller
     public function getSubcategory(Request $request)
     {
         //dd($request->id);
-        return Category::where('mainCategoryId', '=', $request->id)->select('id', 'title')->get();
+        return Category::where('mainCategoryId', '=', $request->id)->select('id', 'title')->orderBy('priority')->get();
     }
     public function delete_category($id)
     {
@@ -123,7 +123,7 @@ class CategoryController extends Controller
         //     $column = 'title';
         // }
 
-        $category = category::where('mainCategoryId', '=', '0')->orderBy('priority', 'DESC')->get();
+        $category = category::where('mainCategoryId', '=', '0')->orderBy('priority')->get();
         if ($category) {
             $i = 0;
             foreach ($category as $article) {
@@ -163,6 +163,7 @@ class CategoryController extends Controller
 
         $category = category::where('mainCategoryId', $mainCategoryId)
             ->where('removeAt', 0)
+            ->orderBy('priority')
             ->get()->makeHidden('english_title');
 
         // dd($category);
