@@ -18,7 +18,9 @@ Auth::routes();
 
 \App\Helpers\Route\AdminRouteHelper::routes();
 
-Route::any('/', array('as' => 'home', 'uses' => 'Site\HomeController@index'));
+Route::get('/', array('as' => 'home', 'uses' => 'Site\HomeController@index'));
+Route::get('posts', array('as' => 'posts', 'uses' => 'Site\PostController@index'));
+Route::get('post/{slug}', array('as' => 'post_detail', 'uses' => 'Site\PostController@show'));
 
 
  // Route::any('/', array('as' => 'home', 'uses' => 'Site\HomeController@homePage'));
