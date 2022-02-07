@@ -413,7 +413,7 @@
                     <div class="row align-items-center">
                         <div class="col-xl-2">
                             <div class="logo">
-                                <a href="#" class="d-inline-block brand-logo">
+                                <a href="{{route('home')}}" class="d-inline-block brand-logo">
                                     <img src="/assets/img/logo.png" alt="">
                                 </a>
                                 <div class="user-action-btn">

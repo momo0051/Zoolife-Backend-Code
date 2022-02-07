@@ -2,23 +2,7 @@
 
 @section('content')
 <!-- slider -->
-    <section class="slider-area">
-        <div class="slider owl-carousel">
-            @if(!empty($data['sliders']))
-                @foreach($data['sliders'] as $slide)
-                <div class="slider-item" style="background-image: url({{ asset('/uploads/slider/' . $slide->image) }});">
-                    <div class="container">
-                        <div class="slider-content">
-                            <h2 class="title">{{$slide->title ?? ''}}</h2>
-                            <p class="desc">{{$slide->description ?? ''}}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            @endif
-        </div>
-    </section>
+    @include('layouts.site.includes.slider')
     
     <!-- Explore -->
     <section class="posts-area pt-100 pb-120">
@@ -48,7 +32,13 @@
                                 </div>
                                 <div class="col-lg-8">
                                     <div class="card-body">
-                                        <h5 class="card-title"><a href="#">{{$post->itemTitle ?? ''}}</a></h5>
+                                        <h5 class="card-title" hello>
+                                            @if($post->post_type == 'auction')
+                                            <a href="{{route('auction_detail',[$post->id])}}">{{$post->itemTitle ?? ''}}</a>
+                                            @else
+                                            <a href="{{route('post_detail',[$post->id])}}">{{$post->itemTitle ?? ''}}</a>
+                                            @endif
+                                        </h5>
                                         <p class="card-text">{{$post->itemDesc ?? ''}}</p>
                                         <div class="post-location mb-20">
                                             <i class="las la-map-marker-alt"></i>
@@ -69,12 +59,11 @@
                         </div>
                     </div>
                     @endforeach
-                    <div class="justify-content-end" >
+                    <div class="float-end" >
                         {{ $data['posts']->links() }}
                     </div>
                 @endif
             </div>
         </div>
     </section>
-</div>
 @endsection

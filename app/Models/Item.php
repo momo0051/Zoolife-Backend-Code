@@ -313,4 +313,18 @@ class Item extends Model
             }
         }
     }
+
+    public function getRelatedPost()
+    {
+        $relatedPosts = self::select('items.*', 'u.username as author', 'u.phone')
+                        ->leftjoin('users as u','u.id','fromUserId')
+                        ->where('post_type', $this->post_type)
+                        ->where('category', $this->category)
+                        ->where('items.id',"!=", $this->id)
+                        ->where('removeAt', '0')
+                        ->limit(6)
+                        ->get();
+
+        return $relatedPosts;
+    }
 }

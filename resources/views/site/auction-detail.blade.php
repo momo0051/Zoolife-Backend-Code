@@ -6,13 +6,31 @@
         <div class="container">
             <div class="row">
                 <div class="col-xl-8 col-lg-7 mb-30">
-                    <div class="post-details-img">
-                        @if(!empty($post->imgUrl))
-                        <img src="{{asset('/uploads/ad/'.$post->imgUrl)}}" alt="">
-                        @else
-                        <img src="/assets/img/post-details/Drama 1.png" alt="">
+                    <div class="post-details-slider owl-carousel mb-30">
+                        <div class="post-details-single">
+                            <div class="post-details-img">
+                                @if(!empty($post->imgUrl))
+                                <img src="{{$post->imgUrl}}" alt="">
+                                @else
+                                <img src="/assets/img/posts/post-2.png" alt="">
+                                @endif
+                            </div>
+                        </div>
+                        @if(!empty($post->images))
+                            @foreach($post->images as $img)
+                            <div class="post-details-single">
+                                <div class="post-details-img">
+                                    <img src="{{$img->file_name}}" alt="">
+                                </div>
+                            </div>
+                            @endforeach
                         @endif
                     </div>
+                    <div class="place-bid-form mb-20">
+                        <input type="text" placeholder="Enter Bid">
+                        <a href="#" class="btn theme-btn">Place Bid</a>
+                    </div>
+                    <div class="min-bid-price">Min Bid: 500</div>
                 </div>
                 <div class="col-xl-4 col-lg-5">
                     <div class="post-author-details">
@@ -101,10 +119,8 @@
                         <p>{{$post->itemDesc ?? ''}}</p>
                     </div>
                     <div class="description-btn">
-                        <a href="#" class="btn btn-red w-auto"><i class="lar la-thumbs-up fs-25"></i>Like</a>
                         <a href="#" class="btn theme-btn w-auto"><i class="las la-share fs-25"></i>Share</a>
                         <a href="#" class="btn btn-green w-auto"><i class="lab la-whatsapp fs-25"></i>Whatsapp</a>
-                        <a href="#" class="btn btn-yellow w-auto"><i class="lar la-heart fs-25"></i>Add to Favorite</a>
                     </div>
                 </div>
             </div>
@@ -120,95 +136,55 @@
             </div>
         </div>
     </section>
-    <!-- write a comment -->
-    <section>
+    <!-- Recent Bidders -->
+    <section class="pb-140">
         <div class="container">
             <div class="section-title mb-30">
-                <h2>Write a Comment</h2>
+                <h2>Recent Bidders</h2>
             </div>
-            <div class="comment-form mb-30">
-                <input type="text" placeholder="Type here">
-                <a href="#" class="btn theme-btn">Send</a>
-            </div>
-            <div class="all-comments">
-                <h3 class="title mb-30">Comment</h3>
-                <div class="comment-list">
-                    <div class="single-comment">
-                        <div class="comment-img">
+            <div class="all-bidders">
+                <div class="bidder-list">
+                    <div class="single-bid">
+                        <div class="bidder-img">
                             <a href="#"><img src="/assets/img/posts/author.png" alt=""></a>
                         </div>
-                        <div class="comment-text-box">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <a href="#" class="commenter-name">Marvin McKinney</a>
-                                <span class="comment-time">Friday 2:20pm</span>
+                        <div class="bid-text-box">
+                            <div>
+                                <a href="#" class="bidder-name">Brooklyn Simmons</a>
+                                <span class="bid-time">Friday 2:20pm</span>
                             </div>
-                            <div class="comment-text">Hey Bruce, can you please review the latest design when you can?</div>
+                            <div class="bid-price"><i class="las la-hand-holding-usd"></i> SAR 500</div>
                         </div>
                     </div>
-                    <div class="single-comment">
-                        <div class="comment-img">
+                    <div class="single-bid">
+                        <div class="bidder-img">
                             <a href="#"><img src="/assets/img/posts/author.png" alt=""></a>
                         </div>
-                        <div class="comment-text-box">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <a href="#" class="commenter-name">Marvin McKinney</a>
-                                <span class="comment-time">Friday 2:20pm</span>
+                        <div class="bid-text-box">
+                            <div>
+                                <a href="#" class="bidder-name">Brooklyn Simmons</a>
+                                <span class="bid-time">Friday 2:20pm</span>
                             </div>
-                            <div class="comment-text">Hey Bruce, can you please review the latest design when you can?</div>
+                            <div class="bid-price"><i class="las la-hand-holding-usd"></i> SAR 500</div>
                         </div>
                     </div>
-                    <div class="single-comment">
-                        <div class="comment-img">
+                    <div class="single-bid">
+                        <div class="bidder-img">
                             <a href="#"><img src="/assets/img/posts/author.png" alt=""></a>
                         </div>
-                        <div class="comment-text-box">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <a href="#" class="commenter-name">Marvin McKinney</a>
-                                <span class="comment-time">Friday 2:20pm</span>
+                        <div class="bid-text-box">
+                            <div>
+                                <a href="#" class="bidder-name">Brooklyn Simmons</a>
+                                <span class="bid-time">Friday 2:20pm</span>
                             </div>
-                            <div class="comment-text">Hey Bruce, can you please review the latest design when you can?</div>
+                            <div class="bid-price"><i class="las la-hand-holding-usd"></i> SAR 500</div>
                         </div>
                     </div>
-                    <div class="comment-action-btn">
-                        <a href="#" class="btn btn-link m-auto">View All</a>
-                    </div>
+                </div>
+                <div class="bid-action-btn">
+                    <a href="#" class="btn btn-link m-auto">View All</a>
                 </div>
             </div>
         </div>
     </section>
-    <!-- similar ads -->
-    @if(!empty($post->relatedPosts))
-    <section class="posts-area pt-65 pb-140">
-        <div class="container">
-            <div class="section-title mb-40 d-flex align-items-center justify-content-between">
-                <h2>Similar Ads</h2>
-                <a href="#" class="see-all-link mb-10">See all<i class="las la-angle-right"></i></a>
-            </div>
-            <div class="posts owl-carousel">
-                @foreach($post->relatedPosts as $rPost)
-                    <div class="post-item">
-                        <div class="post-img">
-                            <a href="#">
-                                @if(!empty($rPost->image))
-                                <img src="{{asset('/uploads/article/'.$article->image)}}" alt="">
-                                @else
-                                <img src="/assets/img/explore/ex-1.png" alt="">
-                                @endif
-                            </a>
-                            <div class="post-fav">
-                                <i class="las la-heart"></i>
-                            </div>
-                        </div>
-                        <div class="post-body">
-                            <a class="post-category" href="{{route('post_detail',[$rPost->id])}}">{{$post->itemTitle ?? ''}}</a>
-                            <h2 class="post-title mb-15"><a href="#">{{$rPost->itemDesc ?? ''}}</a>
-                            </h2>
-                            <div class="upload-date">{{\App\Helpers\CommonHelper::getPostTime($rPost->created_at)}}</div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
-    @endif
 @endsection

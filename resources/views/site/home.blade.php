@@ -2,7 +2,8 @@
 
 @section('content')
 <!-- slider -->
-    <section class="slider-area">
+    @include('layouts.site.includes.slider')
+    <section class="slider-area d-none">
         <div class="slider owl-carousel">
             @if(!empty($data['sliders']))
                 @foreach($data['sliders'] as $slide)
@@ -40,7 +41,13 @@
                             </div>
                         </div>
                         <div class="post-body">
-                            <h2 class="post-title"><a href="#">{{$feature->itemTitle ?? ''}}</a></h2>
+                            <h2 class="post-title">
+                                @if($feature->post_type == 'auction')
+                                <a href="{{route('auction_detail',[$feature->id])}}">{{$feature->itemTitle ?? ''}}</a>
+                                @else
+                                <a href="{{route('post_detail',[$feature->id])}}">{{$feature->itemTitle ?? ''}}</a>
+                                @endif
+                            </h2>
                             <p class="post-desc">{{$feature->itemDesc ?? ''}}</p>
                             <div class="post-location">
                                 <i class="las la-map-marker-alt"></i>
@@ -114,7 +121,7 @@
                             </div>
                         </div>
                         <div class="post-body">
-                            <h2 class="post-title"><a href="#">{{$post->itemTitle ?? ''}}</a></h2>
+                            <h2 class="post-title"><a href="{{route('post_detail',[$post->id])}}">{{$post->itemTitle ?? ''}}</a></h2>
                             <p class="post-desc">{{$post->itemDesc ?? ''}}</p>
                             <div class="post-location">
                                 <i class="las la-map-marker-alt"></i>
@@ -141,7 +148,7 @@
         <div class="container">
             <div class="section-title mb-40 d-flex align-items-center justify-content-between">
                 <h2>Auctions</h2>
-                <a href="#" class="see-all-link mb-10">See all<i class="las la-angle-right"></i></a>
+                <a href="{{route('posts',['auction'])}}" class="see-all-link mb-10">See all<i class="las la-angle-right"></i></a>
             </div>
             <div class="posts owl-carousel">
                 @if(!empty($data['auction']))
@@ -160,7 +167,7 @@
                             </div>
                         </div>
                         <div class="post-body">
-                            <h2 class="post-title"><a href="#">{{$post->itemTitle ?? ''}}</a></h2>
+                            <h2 class="post-title"><a href="{{route('auction_detail',[$post->id])}}">{{$post->itemTitle ?? ''}}</a></h2>
                             <p class="post-desc">{{$post->itemDesc ?? ''}}</p>
                             <div class="post-location">
                                 <i class="las la-map-marker-alt"></i>
@@ -187,7 +194,7 @@
         <div class="container">
             <div class="section-title mb-40 d-flex align-items-center justify-content-between">
                 <h2>Explore</h2>
-                <a href="#" class="see-all-link mb-10">See all<i class="las la-angle-right"></i></a>
+                <a href="{{route('articles')}}" class="see-all-link mb-10">See all<i class="las la-angle-right"></i></a>
             </div>
             <div class="posts owl-carousel">
                 @if(!empty($data['articles']))
@@ -206,8 +213,8 @@
                             </div>
                         </div>
                         <div class="post-body">
-                            <a href="{{$article->id}}" class="post-category">{{$article->title ?? ''}}</a>
-                            <h2 class="post-title mb-15"><a href="#">{{!empty($article->description) ? mb_substr(strip_tags($article->description), 0, 100) : ''}}</a>
+                            <a href="{{route('article_detail', [$article->id])}}" class="post-category">{{$article->title ?? ''}}</a>
+                            <h2 class="post-title mb-15">{{!empty($article->description) ? mb_substr(strip_tags($article->description), 0, 100) : ''}}
                             </h2>
                             <div class="upload-date">{{\App\Helpers\CommonHelper::getPostTime($article->date)}}</div>
                         </div>
@@ -217,5 +224,4 @@
             </div>
         </div>
     </section>
-</div>
 @endsection
