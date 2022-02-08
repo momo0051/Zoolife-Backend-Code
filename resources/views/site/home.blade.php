@@ -20,6 +20,7 @@
             @endif
         </div>
     </section>
+    {{ __('I love programming.') }}
     <!-- feature ads -->
     <section class="posts-area pt-140 pb-65">
         <div class="container">

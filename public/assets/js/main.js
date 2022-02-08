@@ -125,17 +125,17 @@ new WOW().init();
 $('.lang').click(function(){
 	$('.lang-switcher').toggleClass('active')
 })
-$('.lang-option').click(function(){
-	$('.lang-switcher').removeClass('active')
-})
-$('.lang-dropdown #eng').click(function(){
-	$('html').removeAttr('dir')
-	$('html').attr("dir", "ltr")
-})
-$('.lang-dropdown #ar').click(function(){
-	$('html').removeAttr('dir')
-	$('html').attr("dir", "rtl")
-})
+// $('.lang-option').click(function(){
+// 	$('.lang-switcher').removeClass('active');
+// })
+// $('.lang-dropdown #eng').click(function(){
+// 	$('html').removeAttr('dir')
+// 	$('html').attr("dir", "ltr")
+// })
+// $('.lang-dropdown #ar').click(function(){
+// 	$('html').removeAttr('dir')
+// 	$('html').attr("dir", "rtl")
+// })
 
 
 // open sidebar
@@ -232,3 +232,13 @@ $('.posts').owlCarousel({
 // });
 
 })(jQuery);
+
+function setLocale(lang) {
+	if (lang == 'ar') {
+        $('html').removeAttr('dir')
+        $('html').attr("dir", "rtl")
+    } else {
+        $('html').removeAttr('dir')
+        $('html').attr("dir", "ltr")
+    }
+}

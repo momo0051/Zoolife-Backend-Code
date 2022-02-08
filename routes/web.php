@@ -18,6 +18,8 @@ Auth::routes();
 
 \App\Helpers\Route\AdminRouteHelper::routes();
 
+Route::get('change-locale/{locale}', ['as' => 'site.change-locale', 'uses' => 'Site\HomeController@changeLocale']);
+
 Route::get('/', array('as' => 'home', 'uses' => 'Site\HomeController@index'));
 
 Route::get('posts/{type?}', array('as' => 'posts', 'uses' => 'Site\PostController@index'));

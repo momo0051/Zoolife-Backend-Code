@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-xl-8 col-lg-7 mb-30">
-                    <div class="post-details-slider owl-carousel mb-30">
+                    <div class="post-details-slider owl-carousel mb-30 pb-5">
                         <div class="post-details-single">
                             <div class="post-details-img">
                                 @if(!empty($post->imgUrl))

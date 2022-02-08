@@ -1,6 +1,6 @@
 <!doctype html>
-<html class="no-js" lang="">
-
+@php $locale = \App::getLocale(); @endphp
+<html class="no-js" lang="{{$locale}}">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -436,10 +436,14 @@
                                             </li>
                                             <li>
                                                 <div class="lang-switcher">
-                                                    <div class="lang">ENG<i class="las la-angle-down"></i></div>
+                                                    <div class="lang text-uppercase">{{$locale}}<i class="las la-angle-down"></i></div>
                                                     <div class="lang-dropdown">
-                                                        <div class="lang-option" id="eng">ENG</div>
-                                                        <div class="lang-option" id="ar">AR</div>
+                                                        <div class="lang-option" id="eng">
+                                                            <a class="{{$locale =='en' ? 'active' : ''}}" id="eng" href="{{route('site.change-locale', ['locale'=>'en'])}}" >EN</a>
+                                                        </div>
+                                                        <div class="lang-option" id="ar">
+                                                            <a class="lang-option {{$locale =='ar' ? 'active' : ''}}" id="ar" href="{{route('site.change-locale', ['locale'=>'ar'])}}" >Ar</a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </li>
@@ -488,10 +492,14 @@
                                         </li>
                                         <li>
                                             <div class="lang-switcher">
-                                                <div class="lang">ENG<i class="las la-angle-down"></i></div>
+                                                <div class="lang text-uppercase">{{$locale}}<i class="las la-angle-down"></i></div>
                                                 <div class="lang-dropdown">
-                                                    <div class="lang-option" id="eng">ENG</div>
-                                                    <div class="lang-option" id="ar">AR</div>
+                                                    <div class="lang-option" id="eng">
+                                                        <a class=" {{$locale =='en' ? 'active' : ''}}" id="eng" href="{{route('site.change-locale', ['locale'=>'en'])}}" >EN</a>
+                                                    </div>
+                                                    <div class="lang-option" id="ar">
+                                                        <a class="{{$locale =='ar' ? 'active' : ''}}" id="ar" href="{{route('site.change-locale', ['locale'=>'ar'])}}" >AR</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </li>
@@ -665,6 +673,10 @@
         <script src="/assets/js/jquery.magnific-popup.min.js"></script>
         <script src="/assets/js/plugins.js"></script>
         <script src="/assets/js/main.js"></script>
+        <script type="text/javascript">
+            let lang = '{{$locale}}';
+            setLocale(lang);
+        </script>
         @yield('scripts')
     </body>
 

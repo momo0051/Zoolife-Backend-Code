@@ -21,6 +21,19 @@ class HomeController extends Controller
 
     }
 
+    public function changeLocale($locale, Request $request)
+    {
+        if (! in_array($locale, ['en', 'ar'])) {
+            abort(400);
+        }
+
+        \App::setLocale($locale);
+        session(['locale' => $locale]);
+        // echo session('locale');
+        
+        return redirect()->back();
+    }
+
     /**
      * Show the application dashboard.
      *
