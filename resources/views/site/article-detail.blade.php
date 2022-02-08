@@ -15,7 +15,7 @@
     <section class="post-specification pt-65 pb-65">
         <div class="container">
             <div class="section-title mb-30">
-                <h2>Details</h2>
+                <h2>{{ __('Details') }}</h2>
             </div>
             <div class="row">
                 <div class="col-12">
@@ -34,7 +34,7 @@
     <section class="post-specification pb-160">
         <div class="container">
             <div class="section-title mb-30">
-                <h2>Description</h2>
+                <h2>{{ __('Description') }}</h2>
             </div>
             <div class="row">
                 <div class="col-12">

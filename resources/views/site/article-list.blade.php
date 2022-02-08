@@ -8,7 +8,7 @@
     <section class="posts-area pt-100 pb-120">
         <div class="container">
             <div class="section-title mb-40 d-flex align-items-center justify-content-between">
-                <h2>Articles</h2>
+                <h2>{{ __('Articles') }}</h2>
             </div>
             <div class="posts owl-carousel">
                 @if(!empty($data['posts']))

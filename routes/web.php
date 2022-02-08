@@ -30,6 +30,9 @@ Route::get('auction/{slug}', array('as' => 'auction_detail', 'uses' => 'Site\Pos
 Route::get('explores', array('as' => 'articles', 'uses' => 'Site\ArticleController@index'));
 Route::get('explore/{slug}', array('as' => 'article_detail', 'uses' => 'Site\ArticleController@show'));
 
+Route::post('user-login', array('as' => 'user-login', 'uses' => 'Site\UserController@userLogin'));
+Route::get('logout', array('as' => 'logout', 'uses' => 'Site\UserController@logout'));
+
  // Route::any('/', array('as' => 'home', 'uses' => 'Site\HomeController@homePage'));
  // Route::any('/about-us', array('as' => 'aboutus', 'uses' => 'Site\HomeController@aboutUsPage'));
  // Route::any('/gallery', array('as' => 'gallery', 'uses' => 'Site\HomeController@galleryPage'));

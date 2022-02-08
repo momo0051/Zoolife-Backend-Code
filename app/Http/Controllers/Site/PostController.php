@@ -31,11 +31,29 @@ class PostController extends Controller
         $data = [];
         $data['sliders'] = Slider::where('status', '=', 1)->get();
         $data['categories'] = Category::get();
-        $data['posts'] = Item::select('items.*', 'u.name as author')
+        $posts = Item::select('items.*', 'u.name as author')
                         ->leftjoin('users as u','u.id','fromUserId')
                         ->where('post_type', $type)
-                        ->orderBy('updated_at', 'DESC')
-                        ->paginate(5);
+                        ->orderBy('updated_at', 'DESC');
+        $searchParam = [];
+
+        if(!empty($request->cat)) {
+            $posts->where(function($where) use($request) {
+                $where->where('category', $request->cat);
+                $where->orWhere('subCategory', $request->cat);
+            });
+            $searchParam['cat'] = $request->cat;
+        }
+
+        if(!empty($request->q)) {
+            $posts->where(function($where) use($request) {
+                $where->where('itemTitle', 'LIKE', '%' . $request->q . '%');
+                $where->orWhere('itemDesc', 'LIKE', '%' . $request->q . '%');
+            });
+            $searchParam['q'] = $request->q;
+        }
+        
+        $data['posts'] = $posts->paginate(5);
         
         // print_r($data['articles']->toArray());
         // exit;

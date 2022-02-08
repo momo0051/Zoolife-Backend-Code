@@ -8,7 +8,8 @@
                 <div class="col-xl-8 col-lg-7 mb-30">
                     <div class="post-details-img">
                         @if(!empty($post->imgUrl))
-                        <img src="{{asset('/uploads/ad/'.$post->imgUrl)}}" alt="">
+                        <!-- <img src="{{asset('/uploads/ad/'.$post->imgUrl)}}" alt=""> -->
+                        <img src="{{\App\Helpers\CommonHelper::getWebUrl($post->imgUrl)}}" alt="">
                         @else
                         <img src="/assets/img/post-details/Drama 1.png" alt="">
                         @endif
@@ -36,8 +37,8 @@
                             </div>
                         </div>
                         <div class="post-action-btn">
-                            <a href="tel:{{$post->phone ?? ''}}" class="btn theme-btn"><i class="las la-phone fs-25"></i>Call</a>
-                            <a href="#" class="btn theme-btn-outline"><i class="lab la-rocketchat fs-25"></i>Chat</a>
+                            <a href="tel:{{$post->phone ?? ''}}" class="btn theme-btn"><i class="las la-phone fs-25"></i>{{ __('Call') }}</a>
+                            <a href="#" class="btn theme-btn-outline"><i class="lab la-rocketchat fs-25"></i>{{ __('Chat') }}</a>
                         </div>
                     </div>
                 </div>
@@ -48,7 +49,7 @@
     <section class="post-specification pb-140 d-none">
         <div class="container">
             <div class="section-title mb-30">
-                <h2>Post Specification</h2>
+                <h2>{{ __('Post Specification') }}</h2>
             </div>
             <div class="row">
                 <div class="col-12">
@@ -63,25 +64,25 @@
     <section class="post-info pb-140">
         <div class="container">
             <div class="section-title mb-30">
-                <h2>Details</h2>
+                <h2>{{ __('Details') }}</h2>
             </div>
             <div class="row">
                 <div class="col-12">
                     <div class="post-info-box">
                         <div class="post-info-list">
-                            <div>Age</div>
+                            <div>{{ __('Age') }}</div>
                             <div>{{$post->age ?? ''}}</div>
                         </div>
                         <div class="post-info-list">
-                            <div>Sex</div>
+                            <div>{{ __('Sex') }}</div>
                             <div>{{$post->sex ?? ''}}</div>
                         </div>
                         <div class="post-info-list">
-                            <div>Passport</div>
+                            <div>{{ __('Passport') }}</div>
                             <div>{{$post->passport ?? ''}}</div>
                         </div>
                         <div class="post-info-list">
-                            <div>Vacine Details</div>
+                            <div>{{ __('Vacine Details') }}</div>
                             <div>{{$post->vaccine_detail ?? ''}}</div>
                         </div>
                     </div>
@@ -93,7 +94,7 @@
     <section class="post-description pb-140">
         <div class="container">
             <div class="section-title mb-30">
-                <h2>Description</h2>
+                <h2>{{ __('Description') }}</h2>
             </div>
             <div class="row">
                 <div class="col-12">
@@ -101,10 +102,10 @@
                         <p>{{$post->itemDesc ?? ''}}</p>
                     </div>
                     <div class="description-btn">
-                        <a href="#" class="btn btn-red w-auto"><i class="lar la-thumbs-up fs-25"></i>Like</a>
-                        <a href="#" class="btn theme-btn w-auto"><i class="las la-share fs-25"></i>Share</a>
-                        <a href="#" class="btn btn-green w-auto"><i class="lab la-whatsapp fs-25"></i>Whatsapp</a>
-                        <a href="#" class="btn btn-yellow w-auto"><i class="lar la-heart fs-25"></i>Add to Favorite</a>
+                        <a href="#" class="btn btn-red w-auto"><i class="lar la-thumbs-up fs-25"></i>{{ __('Like') }}</a>
+                        <a href="#" class="btn theme-btn w-auto"><i class="las la-share fs-25"></i>{{ __('Share') }}</a>
+                        <a href="#" class="btn btn-green w-auto"><i class="lab la-whatsapp fs-25"></i>{{ __('Whatsapp') }}</a>
+                        <a href="#" class="btn btn-yellow w-auto"><i class="lar la-heart fs-25"></i>{{ __('Add to Favorite') }}</a>
                     </div>
                 </div>
             </div>
@@ -114,7 +115,7 @@
     <section class="warning-message pt-60 pb-150">
         <div class="container">
             <div class="alert alert-warning alert-dismissible fade show position-relative" role="alert">
-                <h4 class="alert-heading">Warning!</h4>
+                <h4 class="alert-heading">{{ __('Warning!') }}</h4>
                 <p>“Zoolife” warns against deadline outside the application and strongly advises to deal through Private messages only, to deal hand in hand, to beware of agents, and to make sure that the bank account belongs to the same person who owns the goods.</p>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i class="las la-times"></i></button>
             </div>
@@ -124,14 +125,14 @@
     <section>
         <div class="container">
             <div class="section-title mb-30">
-                <h2>Write a Comment</h2>
+                <h2>{{ __('Write a Comment') }}</h2>
             </div>
             <div class="comment-form mb-30">
                 <input type="text" placeholder="Type here">
-                <a href="#" class="btn theme-btn">Send</a>
+                <a href="#" class="btn theme-btn">{{ __('Send') }}</a>
             </div>
             <div class="all-comments">
-                <h3 class="title mb-30">Comment</h3>
+                <h3 class="title mb-30">{{ __('Comment') }}</h3>
                 <div class="comment-list">
                     <div class="single-comment">
                         <div class="comment-img">
@@ -181,7 +182,7 @@
     <section class="posts-area pt-65 pb-140">
         <div class="container">
             <div class="section-title mb-40 d-flex align-items-center justify-content-between">
-                <h2>Similar Ads</h2>
+                <h2>{{ __('Similar Ads') }}</h2>
                 <a href="#" class="see-all-link mb-10">See all<i class="las la-angle-right"></i></a>
             </div>
             <div class="posts owl-carousel">

@@ -8,10 +8,10 @@
     <section class="posts-area pt-100 pb-120">
         <div class="container">
             <div class="section-title mb-40 d-flex align-items-center justify-content-between">
-                <h2>All Ads</h2>
+                <h2>{{ __('All Ads') }}</h2>
             </div>
             <div class="post-list-view">
-                @if(!empty($data['posts']))
+                @if(!empty($data['posts']) && count($data['posts']))
                     @foreach($data['posts'] as $post)
                     <div class="post-list-item mb-3">
                         <div class="card">
@@ -20,7 +20,8 @@
                                     <div class="post-img">
                                         <a href="#">
                                             @if(!empty($post->imgUrl))
-                                            <img src="{{asset('/uploads/ad/'.$post->imgUrl)}}" alt="">
+                                            <!-- <img src="{{asset('/uploads/ad/'.$post->imgUrl)}}" alt=""> -->
+                                            <img src="{{\App\Helpers\CommonHelper::getWebUrl($post->imgUrl)}}" alt="">
                                             @else
                                             <img src="img/posts/dog.jpg" alt="...">
                                             @endif
@@ -47,7 +48,6 @@
                                         <div class="post-author">
                                             <div class="author">
                                                 <a href="#">
-                                                    <img src="/assets/img/posts/author.png" alt="">
                                                     <span class="author-name">{{$post->author ?? ''}}</span>
                                                 </a>
                                             </div>
@@ -62,6 +62,8 @@
                     <div class="float-end" >
                         {{ $data['posts']->links() }}
                     </div>
+                @else
+                    <h4 class="p-5">No Post found</h4>
                 @endif
             </div>
         </div>

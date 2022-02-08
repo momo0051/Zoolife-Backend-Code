@@ -20,7 +20,7 @@
             @endif
         </div>
     </section>
-    {{ __('I love programming.') }}
+
     <!-- feature ads -->
     <section class="posts-area pt-140 pb-65">
         <div class="container">
@@ -31,12 +31,13 @@
                         <div class="post-img">
                             <a href="#">
                                 @if(!empty($feature->imgUrl))
-                                <img src="{{asset('/uploads/ad/'.$feature->imgUrl)}}" alt="">
+                                <!-- <img src="{{asset('/uploads/ad/'.$feature->imgUrl)}}" alt=""> -->
+                                <img src="{{\App\Helpers\CommonHelper::getWebUrl($feature->imgUrl)}}" alt="">
                                 @else
                                 <img src="/assets/img/posts/post-1.png" alt="">
                                 @endif
                             </a>
-                            <span class="post-badge">Featured</span>
+                            <span class="post-badge">{{ __('Featured') }}</span>
                             <div class="post-fav">
                                 <i class="las la-heart"></i>
                             </div>
@@ -57,7 +58,6 @@
                             <div class="post-author">
                                 <div class="author">
                                     <a href="#">
-                                        <img src="/assets/img/posts/author.png" alt="">
                                         <span class="author-name">{{$feature->author ?? ''}}</span>
                                     </a>
                                 </div>
@@ -74,13 +74,13 @@
     <section class="service-category-area pt-65 pb-65">
         <div class="container">
             <div class="section-title mb-40 d-flex align-items-center justify-content-between">
-                <h2>Services Category</h2>
-                <a href="#" class="see-all-link mb-10">See all<i class="las la-angle-right"></i></a>
+                <h2>{{ __('Services Category') }}</h2>
+                <a href="#" class="see-all-link mb-10">{{ __('See all') }}<i class="las la-angle-right"></i></a>
             </div>
             <div class="service-category owl-carousel">
                 @if(!empty($data['categories']))
                     @foreach($data['categories'] as $category)
-                        <a href="#" class="category-item">
+                        <a href="{{route('posts')}}?cat={{$category->id}}" class="category-item">
                             <div class="category-icon">
                                 <img src="{{asset('/uploads/category/'.$category->cat_img)}}" alt="">
                             </div>
@@ -102,8 +102,8 @@
     <section class="posts-area section--padding">
         <div class="container">
             <div class="section-title mb-40 d-flex align-items-center justify-content-between">
-                <h2>Posts</h2>
-                <a href="{{route('posts')}}" class="see-all-link mb-10">See all<i class="las la-angle-right"></i></a>
+                <h2>{{ __('Posts') }}</h2>
+                <a href="{{route('posts')}}" class="see-all-link mb-10">{{ __('See all') }}<i class="las la-angle-right"></i></a>
             </div>
             <div class="posts owl-carousel">
                 @if(!empty($data['posts']))
@@ -112,7 +112,8 @@
                         <div class="post-img">
                             <a href="#">
                                 @if(!empty($post->imgUrl))
-                                <img src="{{asset('/uploads/ad/'.$post->imgUrl)}}" alt="">
+                                <!-- <img src="{{asset('/uploads/ad/'.$post->imgUrl)}}" alt=""> -->
+                                <img src="{{\App\Helpers\CommonHelper::getWebUrl($post->imgUrl)}}" alt="">
                                 @else
                                 <img src="/assets/img/posts/post-1.png" alt="">
                                 @endif
@@ -131,7 +132,6 @@
                             <div class="post-author">
                                 <div class="author">
                                     <a href="#">
-                                        <img src="/assets/img/posts/author.png" alt="">
                                         <span class="author-name">{{$post->author ?? ''}}</span>
                                     </a>
                                 </div>
@@ -148,8 +148,8 @@
     <section class="posts-area section--padding">
         <div class="container">
             <div class="section-title mb-40 d-flex align-items-center justify-content-between">
-                <h2>Auctions</h2>
-                <a href="{{route('posts',['auction'])}}" class="see-all-link mb-10">See all<i class="las la-angle-right"></i></a>
+                <h2>{{ __('Auctions') }}</h2>
+                <a href="{{route('posts',['auction'])}}" class="see-all-link mb-10">{{ __('See all') }}<i class="las la-angle-right"></i></a>
             </div>
             <div class="posts owl-carousel">
                 @if(!empty($data['auction']))
@@ -158,7 +158,8 @@
                         <div class="post-img">
                             <a href="#">
                                 @if(!empty($post->imgUrl))
-                                <img src="{{asset('/uploads/ad/'.$post->imgUrl)}}" alt="">
+                                <!-- <img src="{{asset('/uploads/ad/'.$post->imgUrl)}}" alt=""> -->
+                                <img src="{{\App\Helpers\CommonHelper::getWebUrl($post->imgUrl)}}" alt="">
                                 @else
                                 <img src="/assets/img/posts/post-1.png" alt="">
                                 @endif
@@ -177,7 +178,6 @@
                             <div class="post-author">
                                 <div class="author">
                                     <a href="#">
-                                        <img src="/assets/img/posts/author.png" alt="">
                                         <span class="author-name">{{$post->author ?? ''}}</span>
                                     </a>
                                 </div>
@@ -195,7 +195,7 @@
         <div class="container">
             <div class="section-title mb-40 d-flex align-items-center justify-content-between">
                 <h2>Explore</h2>
-                <a href="{{route('articles')}}" class="see-all-link mb-10">See all<i class="las la-angle-right"></i></a>
+                <a href="{{route('articles')}}" class="see-all-link mb-10">{{ __('See all') }}<i class="las la-angle-right"></i></a>
             </div>
             <div class="posts owl-carousel">
                 @if(!empty($data['articles']))

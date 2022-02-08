@@ -7,6 +7,7 @@
         <title>Site Title Here</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
         <!-- Place favicon.ico in the root directory -->
@@ -38,7 +39,7 @@
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header pt-45">
-                        <h5 class="modal-title">Add New Post</h5>
+                        <h5 class="modal-title">{{ __('Add New Post') }}</h5>
                     </div>
                     <div class="modal-body">
                         <div class="upload-box mb-40">
@@ -47,8 +48,8 @@
                                     <div class="upload-icon">
                                         <i class="las la-cloud-upload-alt"></i>
                                     </div>
-                                    <p class="upload-text">Select a file or drag and drop here</p>
-                                    <p class="upload-file-format mb-20">JPG, PNG or PDF, file size no more than 10MB</p>
+                                    <p class="upload-text">{{ __('Select a file or drag and drop here') }}</p>
+                                    <p class="upload-file-format mb-20">{{ __('JPG, PNG or PDF, file size no more than 10MB') }}</p>
                                     <div class="btn theme-btn m-auto">Upload</div>
                                 </label>
                                 <input type="file" id="uploadIMG" class="d-none">
@@ -67,7 +68,7 @@
                         <div class="row">
                             <div class="col-xl-6 col-lg-6 mb-30">
                                 <div class="popup-form-field">
-                                    <label for="">Add Location</label>
+                                    <label for="">{{ __('Add Location') }}</label>
                                     <select id="">
                                         <option value="">Select</option>
                                         <option value="">1</option>
@@ -77,13 +78,13 @@
                             </div>
                             <div class="col-xl-6 col-lg-6 mb-30">
                                 <div class="popup-form-field">
-                                    <label for="">Age</label>
+                                    <label for="">{{ __('Age') }}</label>
                                     <input type="text" placeholder="Enter here">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 mb-30">
                                 <div class="popup-form-field">
-                                    <label for="">Choose Category</label>
+                                    <label for="">{{ __('Choose Category') }}</label>
                                     <select id="">
                                         <option value="">Select</option>
                                         <option value="">1</option>
@@ -93,7 +94,7 @@
                             </div>
                             <div class="col-xl-6 col-lg-6 mb-30">
                                 <div class="popup-form-field">
-                                    <label for="">Choose Subcategory</label>
+                                    <label for="">{{ __('Choose Subcategory') }}</label>
                                     <select id="">
                                         <option value="">Select</option>
                                         <option value="">1</option>
@@ -103,34 +104,34 @@
                             </div>
                             <div class="col-xl-6 col-lg-6 mb-30">
                                 <div class="popup-form-field">
-                                    <label for="">Add Post Title</label>
+                                    <label for="">{{ __('Add Post Title') }}</label>
                                     <input type="text" placeholder="Enter here">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 mb-30">
                                 <div class="popup-form-field">
-                                    <label for="">Vaccine Details</label>
+                                    <label for="">{{ __('Vaccine Details') }}</label>
                                     <input type="text" placeholder="Enter here">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 mb-30">
                                 <div class="radio-option">
-                                    <label for="">Sex</label>
+                                    <label for="">{{ __('Sex') }}</label>
                                     <div class="d-flex align-items-center gap-5">
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="female" value="option1">
-                                            <label class="form-check-label" for="female">Female</label>
+                                            <label class="form-check-label" for="female">{{ __('Female') }}</label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="male" value="option2">
-                                            <label class="form-check-label" for="male">Male</label>
+                                            <label class="form-check-label" for="male">{{ __('Male') }}</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 mb-30">
                                 <div class="radio-option">
-                                    <label for="">Passport</label>
+                                    <label for="">{{ __('Passport') }}</label>
                                     <div class="d-flex align-items-center gap-5">
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="pass-yes" value="option1">
@@ -145,36 +146,36 @@
                             </div>
                             <div class="col-12 mb-30">
                                 <div class="popup-form-field">
-                                    <label for="">Post Description</label>
+                                    <label for="">{{ __('Post Description') }}</label>
                                     <textarea cols="10" rows="5" placeholder="Enter here"></textarea>
                                 </div>
                             </div>
                             <div class="radio-option mb-30">
-                                <label for="">Select Communications options:</label>
+                                <label for="">{{ __('Select Communications options:') }}</label>
                                 <div class="communication-options">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="phone" value="option1">
-                                        <label class="form-check-label" for="phone">Phone</label>
+                                        <label class="form-check-label" for="phone">{{ __('Phone') }}</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="message" value="option2">
-                                        <label class="form-check-label" for="message">Message</label>
+                                        <label class="form-check-label" for="message">{{ __('Message') }}</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="comment" value="option2">
-                                        <label class="form-check-label" for="comment">Comments</label>
+                                        <label class="form-check-label" for="comment">{{ __('Comments') }}</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="whatsapp" value="option2">
-                                        <label class="form-check-label" for="whatsapp">WhatsApp</label>
+                                        <label class="form-check-label" for="whatsapp">{{ __('WhatsApp') }}</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer pb-35">
-                        <button type="button" class="btn theme-btn-light" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn theme-btn">Post</button>
+                        <button type="button" class="btn theme-btn-light" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                        <button type="button" class="btn theme-btn">{{ __('Post') }}</button>
                     </div>
                 </div>
             </div>
@@ -185,7 +186,7 @@
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header pt-45">
-                        <h5 class="modal-title">Add New Auction</h5>
+                        <h5 class="modal-title">{{ __('Add New Auction') }}</h5>
                     </div>
                     <div class="modal-body">
                         <div class="upload-box mb-40">
@@ -194,9 +195,9 @@
                                     <div class="upload-icon">
                                         <i class="las la-cloud-upload-alt"></i>
                                     </div>
-                                    <p class="upload-text">Select a file or drag and drop here</p>
-                                    <p class="upload-file-format mb-20">JPG, PNG or PDF, file size no more than 10MB</p>
-                                    <div class="btn theme-btn m-auto">Upload</div>
+                                    <p class="upload-text">{{ __('Select a file or drag and drop here') }}</p>
+                                    <p class="upload-file-format mb-20">{{ __('JPG, PNG or PDF, file size no more than 10MB') }}</p>
+                                    <div class="btn theme-btn m-auto">{{ __('Upload') }}</div>
                                 </label>
                                 <input type="file" id="uploadIMG" class="d-none">
                             </div>
@@ -214,7 +215,7 @@
                         <div class="row">
                             <div class="col-xl-6 col-lg-6 mb-30">
                                 <div class="popup-form-field">
-                                    <label for="">Add Location</label>
+                                    <label for="">{{ __('Add Location') }}</label>
                                     <select id="">
                                         <option value="">Select</option>
                                         <option value="">1</option>
@@ -224,13 +225,13 @@
                             </div>
                             <div class="col-xl-6 col-lg-6 mb-30">
                                 <div class="popup-form-field">
-                                    <label for="">Age</label>
+                                    <label for="">{{ __('Age') }}</label>
                                     <input type="text" placeholder="Enter here">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 mb-30">
                                 <div class="popup-form-field">
-                                    <label for="">Choose Category</label>
+                                    <label for="">{{ __('Choose Category') }}</label>
                                     <select id="">
                                         <option value="">Select</option>
                                         <option value="">1</option>
@@ -240,7 +241,7 @@
                             </div>
                             <div class="col-xl-6 col-lg-6 mb-30">
                                 <div class="popup-form-field">
-                                    <label for="">Choose Subcategory</label>
+                                    <label for="">{{ __('Choose Subcategory') }}</label>
                                     <select id="">
                                         <option value="">Select</option>
                                         <option value="">1</option>
@@ -250,25 +251,25 @@
                             </div>
                             <div class="col-xl-6 col-lg-6 mb-30">
                                 <div class="popup-form-field">
-                                    <label for="">Add Auction Title</label>
+                                    <label for="">{{ __('Add Auction Title') }}</label>
                                     <input type="text" placeholder="Enter here">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 mb-30">
                                 <div class="popup-form-field">
-                                    <label for="">Vaccine Details</label>
+                                    <label for="">{{ __('Vaccine Details') }}</label>
                                     <input type="text" placeholder="Enter here">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 mb-30">
                                 <div class="popup-form-field">
-                                    <label for="">Add Starter Price</label>
+                                    <label for="">{{ __('Add Starter Price') }}</label>
                                     <input type="text" placeholder="Enter here">
                                 </div>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-6 mb-30">
                                 <div class="popup-form-field">
-                                    <label for="">Total Days</label>
+                                    <label for="">{{ __('Total Days') }}</label>
                                     <select id="">
                                         <option value="">Select Day</option>
                                         <option value="">1</option>
@@ -278,7 +279,7 @@
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-6 mb-30">
                                 <div class="popup-form-field">
-                                    <label for="">Hours</label>
+                                    <label for="">{{ __('Hours') }}</label>
                                     <select id="">
                                         <option value="">Select Hours</option>
                                         <option value="">1</option>
@@ -288,7 +289,7 @@
                             </div>
                             <div class="col-xl-6 col-lg-6 mb-30">
                                 <div class="radio-option">
-                                    <label for="">Sex</label>
+                                    <label for="">{{ __('Sex') }}</label>
                                     <div class="d-flex align-items-center gap-5">
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="female" value="option1">
@@ -303,7 +304,7 @@
                             </div>
                             <div class="col-xl-6 col-lg-6 mb-30">
                                 <div class="radio-option">
-                                    <label for="">Passport</label>
+                                    <label for="">{{ __('Passport') }}</label>
                                     <div class="d-flex align-items-center gap-5">
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="pass-yes" value="option1">
@@ -318,15 +319,15 @@
                             </div>
                             <div class="col-12 mb-30">
                                 <div class="popup-form-field">
-                                    <label for="">Auction Description</label>
+                                    <label for="">{{ __('Auction Description') }}</label>
                                     <textarea cols="10" rows="5" placeholder="Enter here"></textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer pb-35">
-                        <button type="button" class="btn theme-btn-light" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn theme-btn">Post</button>
+                        <button type="button" class="btn theme-btn-light" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                        <button type="button" class="btn theme-btn">{{ __('Post') }}</button>
                     </div>
                 </div>
             </div>
@@ -341,28 +342,34 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="welcome-text mb-20">
-                            <h2>Welcome Back...</h2>
-                            <p>We are happy to see you again! Please, Let’s Login First!</p>
-                        </div>
-                        <div class="row">
-                            <div class="popup-form-field mb-20">
-                                <label for="">Phone Number</label>
-                                <input type="text" placeholder="Enter Your Number">
+                        <form id="login-frm">
+                            <div class="welcome-text mb-20">
+                                <h2>{{ __('Welcome Back') }}...</h2>
+                                <p>{{ __('We are happy to see you again! Please, Let’s Login First!') }}</p>
                             </div>
-                            <div class="popup-form-field mb-20">
-                                <label for="">Password</label>
-                                <input type="text" placeholder="Enter Your Password">
+                            <div class="row">
+                                @csrf
+                                <div class="popup-form-field mb-20">
+                                    <label for="">{{ __('Phone Number') }}</label>
+                                    <input type="text" placeholder="Enter Your Number" name="phone">
+                                    <div class="error text-danger" id="phone_error"></div>
+                                </div>
+                                <div class="popup-form-field mb-20">
+                                    <label for="">{{ __('Password') }}</label>
+                                    <input type="text" placeholder="Enter Your Password" name="password">
+                                    <div class="error text-danger" id="password_error"></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="login-action-link text-end mb-30">
-                            <a href="#">Forgot Password?</a>
-                        </div>
-                        <a href="#" class="btn theme-btn btn-block w-auto">Login</a>
+                            <div class="login-action-link text-end mb-30">
+                                <a href="#">{{ __('Forgot Password?') }}</a>
+                            </div>
+                            <a href="#" class="btn theme-btn btn-block w-auto" id="login-btn" data-url="{{route('user-login')}}">{{ __('Login') }}</a>
+                            <div class="submit_notification"></div>
+                        </form>
                     </div>
                     <div class="modal-footer justify-content-center pb-35">
                         <div class="login-action-link text-center">
-                            <span>Don’t have an account? <a href="#" style="color: var(--theme-color);" data-bs-toggle="modal" data-bs-target="#signup">Register Now?</a></span>
+                            <span>{{ __('Don’t have an account?') }} <a href="#" style="color: var(--theme-color);" data-bs-toggle="modal" data-bs-target="#signup">{{ __('Register Now?') }}</a></span>
                         </div>
                     </div>
                 </div>
@@ -379,28 +386,28 @@
                     </div>
                     <div class="modal-body">
                         <div class="welcome-text mb-20">
-                            <h2>Hi There!</h2>
-                            <p>We are happy to see you want to join you Please, Let’s sign up first!</p>
+                            <h2>{{ __('Hi There!') }}</h2>
+                            <p>{{ __('We are happy to see you want to join you Please, Let’s sign up first!') }}</p>
                         </div>
                         <div class="row">
                             <div class="popup-form-field mb-20">
-                                <label for="">Phone Number</label>
+                                <label for="">{{ __('Phone Number') }}</label>
                                 <input type="text" placeholder="Enter Your Number">
                             </div>
                             <div class="popup-form-field mb-20">
-                                <label for="">Username</label>
+                                <label for="">{{ __('Username') }}</label>
                                 <input type="text" placeholder="Enter Your Username">
                             </div>
                             <div class="popup-form-field mb-20">
-                                <label for="">Password</label>
+                                <label for="">{{ __('Password') }}</label>
                                 <input type="text" placeholder="Enter Your Password">
                             </div>
                         </div>
-                        <a href="#" class="btn theme-btn btn-block w-auto">Sign up</a>
+                        <a href="#" class="btn theme-btn btn-block w-auto">{{ __('Sign up') }}</a>
                     </div>
                     <div class="modal-footer justify-content-center pb-35">
                         <div class="login-action-link text-center">
-                            <span>You already have account? <a href="#" style="color: var(--theme-color);" data-bs-toggle="modal" data-bs-target="#login">Log In</a></span>
+                            <span>{{ __('You already have account?') }} <a href="#" style="color: var(--theme-color);" data-bs-toggle="modal" data-bs-target="#login">Log In</a></span>
                         </div>
                     </div>
                 </div>
@@ -476,19 +483,20 @@
                                                 <div class="search-icon">
                                                     <img src="/assets/img/icons/search.svg" alt="">
                                                 </div>
-                                                <input type="search" placeholder="Search">
+                                                <input type="text" placeholder="Search" name="q" id="common-search">
                                             </div>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)" class="theme-bg btn btn-outline"
-                                                data-bs-toggle="modal" data-bs-target="#addNewPost"><img
-                                                    src="/assets/img/icons/plus.svg" alt="" class="me-2">
-                                                Add Post</a>
+                                            <a href="javascript:void(0)" class="theme-bg btn btn-outline" data-bs-toggle="modal" data-bs-target="#addNewPost">
+                                                <img src="/assets/img/icons/plus.svg" alt="" class="me-2">
+                                                {{ __('Add Post') }}
+                                            </a>
                                         </li>
                                         <li>
                                             <a href="javascript:void(0)" class="theme-bg" data-bs-toggle="modal" data-bs-target="#addNewAuction">
                                                 <img src="/assets/img/icons/Auction.svg" alt="" class="me-2">
-                                                Auction</a>
+                                                {{ __('Auction') }}
+                                            </a>
                                         </li>
                                         <li>
                                             <div class="lang-switcher">
@@ -534,62 +542,69 @@
                     <li>
                         <a href="#">
                             <div class="off-canvas-icon"><i class="lar la-heart"></i></div>
-                            Favorites
+                            {{ __('Favorites') }}
                         </a>
                     </li>
                     <li>
                         <a href="#">
                             <div class="off-canvas-icon"><i class="lar la-user"></i></div>
-                            My posts
+                            {{ __('My posts') }}
                         </a>
                     </li>
                     <li>
                         <a href="#">
                             <div class="off-canvas-icon"><i class="las la-plus"></i></div>
-                            add new post
+                            {{ __('add new post') }}
                         </a>
                     </li>
                     <li>
                         <a href="#">
                             <div class="off-canvas-icon"><i class="lar la-user"></i></div>
-                            My auction
+                            {{ __('My auction') }}
                         </a>
                     </li>
                     <li>
                         <a href="#">
                             <div class="off-canvas-icon"><i class="las la-plus"></i></div>
-                            add new auction
+                            {{ __('add new auction') }}
                         </a>
                     </li>
                     <li>
                         <a href="#">
                             <div class="off-canvas-icon"><i class="las la-truck"></i></div>
-                            Delivery post
+                            {{ __('Delivery post') }}
                         </a>
                     </li>
                     <li>
                         <a href="#">
                             <div class="off-canvas-icon"><i class="las la-bullhorn"></i></div>
-                            Banned ads
+                            {{ __('Banned ads') }}
                         </a>
                     </li>
                     <li>
                         <a href="#">
                             <div class="off-canvas-icon"><i class="las la-user-shield"></i></div>
-                            Terms & Policy
+                            {{ __('Terms & Policy') }}
                         </a>
                     </li>
                     <li>
                         <a href="#">
                             <div class="off-canvas-icon"><i class="las la-phone"></i></div>
-                            Contact Us
+                            {{ __('Contact Us') }}
                         </a>
                     </li>
                     <li>
+                        @if (\Auth::user())
+                        <a href="{{route('logout')}}">
+                            <div class="off-canvas-icon"><i class="las la-sign-in-alt"></i></div>
+                            {{ __('Log out') }}
+                        </a>
+                        @else
                         <a href="#" data-bs-toggle="modal" data-bs-target="#login">
                             <div class="off-canvas-icon"><i class="las la-sign-in-alt"></i></div>
-                            Log out
+                            {{ __('Log In') }}
                         </a>
+                        @endif
                     </li>
                 </ul>
             </div>
@@ -609,8 +624,7 @@
                                 <div class="footer-logo mb-30">
                                     <a href="#"><img src="/assets/img/logo.png" alt=""></a>
                                 </div>
-                                <p class="footer-text">Lorem Ipsum is simply dummy text of the printing and typesetting
-                                    industry.</p>
+                                <p class="footer-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                                 <div class="social-icons">
                                     <a href="#"><i class="lab la-facebook-f"></i></a>
                                     <a href="#"><i class="lab la-linkedin-in"></i></a>
@@ -621,22 +635,22 @@
                         </div>
                         <div class="col-xl-2 col-lg-3 col-md-3 offset-xl-1 mb-30">
                             <div class="footer-widget">
-                                <h4 class="widget-title">Help</h4>
+                                <h4 class="widget-title">{{ __('Help') }}</h4>
                                 <ul class="site-map">
-                                    <li><a href="#">Terms & Conditions</a></li>
-                                    <li><a href="#">Content Policy</a></li>
-                                    <li><a href="#">Privacy Policy</a></li>
+                                    <li><a href="#">{{ __('Terms & Conditions') }}</a></li>
+                                    <li><a href="#">{{ __('Content Policy') }}</a></li>
+                                    <li><a href="#">{{ __('Privacy Policy') }}</a></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="col-xl-2 col-lg-2 col-md-4 mb-30">
                             <div class="footer-widget">
-                                <h4 class="widget-title">More</h4>
+                                <h4 class="widget-title">{{ __('More') }}</h4>
                                 <ul class="site-map">
-                                    <li><a href="#">Communities</a></li>
-                                    <li><a href="#">About</a></li>
-                                    <li><a href="#">Help</a></li>
-                                    <li><a href="#">FAQs</a></li>
+                                    <li><a href="#">{{ __('Communities') }}</a></li>
+                                    <li><a href="#">{{ __('About') }}</a></li>
+                                    <li><a href="#">{{ __('Help') }}</a></li>
+                                    <li><a href="#">{{ __('FAQs') }}</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -652,7 +666,7 @@
                 </div>
             </div>
             <div class="bottom-footer">
-                <span>Company Name Inc @2022. All Rights Reserved</span>
+                <span>{{ __('Company Name Inc @2022. All Rights Reserved') }}</span>
             </div>
         </footer>
 
@@ -676,6 +690,13 @@
         <script type="text/javascript">
             let lang = '{{$locale}}';
             setLocale(lang);
+
+            $("#common-search").keyup(function(event) {
+                if (event.keyCode === 13) {
+                    let q = $(this).val();
+                    window.location.href = "{{route('posts')}}?q="+q
+                }
+            });
         </script>
         @yield('scripts')
     </body>

@@ -226,10 +226,51 @@ $('.posts').owlCarousel({
     }
 })
 
-// choosen
-// $(function () {
-// 	$(".chzn-select").chosen();
-// });
+	$('body').on('click', "#login-btn").on('click', "#login-btn", function(event) {
+        event.preventDefault();
+        var btn = $(this);
+        var old_val = btn.val();
+        var form = btn.closest('form');
+        var formData = new FormData(form[0]);
+        var submitUrl = btn.data('url') ? btn.data('url') : "";
+
+        if (submitUrl) {
+            $.ajax({
+                url: submitUrl,
+                type: 'post',
+                dataType: 'json',
+                data: form.serialize(),
+                // data:  formData,
+                // contentType: false,
+                // cache: false,
+                // processData:false,
+                beforeSend: function() {
+                    $('.error,.submit_notification').html('');
+                    form.find(".form-control").removeClass("red-border");
+                    $('.btn').attr("disabled", "disabled").val("Sending...");
+                },
+                success: function(result) {
+                    $('.error').html('');
+                    if (result.code == 200) {
+                        window.location.reload();
+                    } else if (result.code == 402) {
+                        $.each(result.errors, function(i, val) {
+                            if (val != "") {
+                                console.log("#" + i + "_error");
+                                form.find("#" + i + "_error").text(val);
+                            }
+                        });
+                    } else {
+                        form.find('.submit_notification').html('<span class="text-danger error">' + result.message + '</span>');
+                    }
+                },
+                error: function(e) {
+                    $('.btn').removeAttr("disabled").val(old_val);
+                    form.find('.submit_notification').html('<span class="text-danger error">Something Went Wrong!... Please try again after refresh</span>');
+                }
+            });
+        }
+    });
 
 })(jQuery);
 
