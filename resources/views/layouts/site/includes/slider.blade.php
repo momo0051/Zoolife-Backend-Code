@@ -5,8 +5,8 @@
             <div class="slider-item" style="background-image: url({{ asset('/uploads/slider/' . $slide->image) }});">
                 <div class="container">
                     <div class="slider-content">
-                        <h2 class="title">{{$slide->title ?? ''}}</h2>
-                        <p class="desc">{{$slide->description ?? ''}}
+                        <h2 class="title d-none">{{$slide->title ?? ''}}</h2>
+                        <p class="desc d-none">{{$slide->description ?? ''}}
                         </p>
                     </div>
                 </div>
