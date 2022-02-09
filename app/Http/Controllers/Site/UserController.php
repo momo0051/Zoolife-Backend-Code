@@ -50,7 +50,11 @@ class UserController extends Controller
         $customer = User::where(['phone' => $request->phone])->first();
 
         if (!empty($customer) && $customer->id) {
-            if (Auth::attempt(['phone' => $request->phone, 'password' => $request->password])) {
+            $passHash = md5($request->password);
+            if ($customer->password == $passHash) {
+            // if (Auth::attempt(['phone' => $request->phone, 'password' => $request->password])) {
+                // Auth::login($customer);
+                Auth::loginUsingId($customer->id);
             // if (Hash::check($request->input('password'), $customer->password)) {
                 // if ($customer->status == 1) {
                     $response = [
