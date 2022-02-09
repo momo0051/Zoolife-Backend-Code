@@ -592,6 +592,13 @@ html[dir="rtl"] .slider-item{
     direction: ltr;
     overflow: hidden;
 }
+.post-item img{
+    max-width: 100%;
+    width: auto !important;
+    height: 100%;
+    max-height: 200px;
+    margin: auto;
+}
 html[dir="rtl"] .post-item {
     direction: rtl;
 }
@@ -1286,6 +1293,7 @@ html[dir="rtl"] .modal-header .btn-close {
 }
 .post-list-row .post-img img {
     width: 100%;
+    max-height: 200px;
 }
 .post-list-view .card {
     border: 1px solid rgba(0,0,0,.125);
@@ -1302,11 +1310,13 @@ html[dir="rtl"] .modal-header .btn-close {
 }
 .post-list-view .post-img {
     height: 100%;
+    text-align: center;
 }
 .post-list-view .post-img img {
-    object-fit: cover;
+    /*object-fit: cover;*/
     max-width: 100%;
     height: 100%;
+    max-height: 200px;
 }
 /* chat */
 .chat-icon {

@@ -80,12 +80,14 @@
             <div class="service-category owl-carousel">
                 @if(!empty($data['categories']))
                     @foreach($data['categories'] as $category)
+                        @if(!empty($category->cat_img))
                         <a href="{{route('posts')}}?cat={{$category->id}}" class="category-item">
                             <div class="category-icon">
-                                <img src="{{asset('/uploads/category/'.$category->cat_img)}}" alt="">
+                                <img src="{{'http://newzoolifeapi.zoolifeshop.com/uploads/category/'.$category->cat_img}}" alt="">
                             </div>
                             <h3 class="category-title">{{$category->title ?? '' }}</h3>
                         </a>
+                        @endif
                     @endforeach
                 @endif
             </div>
@@ -204,7 +206,7 @@
                         <div class="post-img">
                             <a href="#">
                                 @if(!empty($article->image))
-                                <img src="{{asset('/uploads/article/'.$article->image)}}" alt="">
+                                <img src="{{'http://newzoolifeapi.zoolifeshop.com/uploads/article/'.$article->image}}" alt="">
                                 @else
                                 <img src="/assets/img/explore/ex-1.png" alt="">
                                 @endif

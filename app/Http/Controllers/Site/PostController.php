@@ -64,6 +64,7 @@ class PostController extends Controller
     {
         $data = [];
         $post = Item::select('items.*', 'u.username as author', 'u.phone')
+                        ->with('images')
                         ->leftjoin('users as u','u.id','fromUserId')
                         ->where('post_type', 'normal')
                         ->where('items.id', $slug)
