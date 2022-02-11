@@ -11,7 +11,7 @@
                             <div class="post-details-img">
                                 @if(!empty($post->imgUrl))
                                 <!-- <img src="{{$post->imgUrl}}" alt=""> -->
-                                <img src="{{\App\Helpers\CommonHelper::getWebUrl($post->imgUrl)}}" alt="">
+                                <img src="{{\App\Helpers\CommonHelper::getWebUrl($post->imgUrl, 'ad')}}" alt="">
                                 @else
                                 <img src="/assets/img/posts/post-2.png" alt="">
                                 @endif

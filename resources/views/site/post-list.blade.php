@@ -21,7 +21,7 @@
                                         <a href="#">
                                             @if(!empty($post->imgUrl))
                                             <!-- <img src="{{asset('/uploads/ad/'.$post->imgUrl)}}" alt=""> -->
-                                            <img src="{{\App\Helpers\CommonHelper::getWebUrl($post->imgUrl)}}" alt="">
+                                            <img src="{{\App\Helpers\CommonHelper::getWebUrl($post->imgUrl, 'ad')}}" alt="">
                                             @else
                                             <img src="img/posts/dog.jpg" alt="...">
                                             @endif

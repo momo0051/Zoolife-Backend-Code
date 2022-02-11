@@ -32,7 +32,7 @@
                             <a href="#">
                                 @if(!empty($feature->imgUrl))
                                 <!-- <img src="{{asset('/uploads/ad/'.$feature->imgUrl)}}" alt=""> -->
-                                <img src="{{\App\Helpers\CommonHelper::getWebUrl($feature->imgUrl)}}" alt="">
+                                <img src="{{\App\Helpers\CommonHelper::getWebUrl($feature->imgUrl, 'ad')}}" alt="">
                                 @else
                                 <img src="/assets/img/posts/post-1.png" alt="">
                                 @endif
@@ -81,23 +81,20 @@
                 @if(!empty($data['categories']))
                     @foreach($data['categories'] as $category)
                         @if(!empty($category->cat_img))
-                        <li class="nav-item" role="presentation">
-                            <button class="category-item nav-link" data-bs-toggle="pill" data-bs-target="#category-{{$category->id}}" type="button" role="tab" aria-controls="category-{{$category->id}}" aria-selected="true">
+                        <a href="javascript:void(0)" class="category-item" data-target="#category-{{$category->id}}" title="category-{{$category->id}}">
                             <div class="category-icon">
                                 <img src="{{asset('uploads/category/'.$category->cat_img)}}" alt="">
                             </div>
-                                <h3 class="category-title">{{$category->title ?? '' }}</h3>
-                            </button>
-                        </li>
-                        
+                            <h3 class="category-title">{{$category->title ?? '' }} </h3>
+                        </a>
                         @endif
                     @endforeach
                 @endif
             </div>
-            <div class="tab-content" > 
+            <div class="tab-content category-tab-content" > 
                 @if(!empty($data['sub_categories']))
                     @foreach($data['sub_categories'] as $cat=>$subCategory)
-                        <div class="tab-pane fade " id="pills-home" id="category-{{$cat}}" role="tabpanel" aria-labelledby="pills-home-tab">
+                        <div class="tab-pane " id="category-{{$cat}}" role="tabpanel" aria-labelledby="category-{{$cat}}-tab">
                             <div class="category-tag">
                             @foreach($subCategory as $sub)
                             <a  href="{{route('posts')}}?cat={{$sub->id}}" class="tag-item">{{$sub->title ?? '' }}</a>
@@ -124,7 +121,7 @@
                             <a href="#">
                                 @if(!empty($post->imgUrl))
                                 <!-- <img src="{{asset('/uploads/ad/'.$post->imgUrl)}}" alt=""> -->
-                                <img src="{{\App\Helpers\CommonHelper::getWebUrl($post->imgUrl)}}" alt="">
+                                <img src="{{\App\Helpers\CommonHelper::getWebUrl($post->imgUrl, 'ad')}}" alt="">
                                 @else
                                 <img src="/assets/img/posts/post-1.png" alt="">
                                 @endif
@@ -170,7 +167,7 @@
                             <a href="#">
                                 @if(!empty($post->imgUrl))
                                 <!-- <img src="{{asset('/uploads/ad/'.$post->imgUrl)}}" alt=""> -->
-                                <img src="{{\App\Helpers\CommonHelper::getWebUrl($post->imgUrl)}}" alt="">
+                                <img src="{{\App\Helpers\CommonHelper::getWebUrl($post->imgUrl, 'ad')}}" alt="">
                                 @else
                                 <img src="/assets/img/posts/post-1.png" alt="">
                                 @endif
@@ -236,4 +233,14 @@
             </div>
         </div>
     </section>
+    @section('scripts')
+        <script type="text/javascript">
+            $("body").on('click', '.category-item', function(){
+                let divId = $(this).data('target');
+                console.log(divId);
+                $('.category-tab-content').find('.tab-pane').removeClass('show active');
+                $('.category-tab-content').find(divId).addClass('show active');
+            });
+        </script>
+    @endsection
 @endsection
