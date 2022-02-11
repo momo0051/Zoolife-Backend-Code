@@ -16,10 +16,10 @@
                     <div class="post-item">
                         <div class="post-img">
                             <a href="#">
-                                @if(!empty($post->imgUrl))
-                                <img src="{{asset('/uploads/article/'.$post->imgUrl)}}" alt="">
+                                @if(!empty($post->image))
+                                <img src="{{asset('/uploads/article/'.$post->image)}}" alt="">
                                 @else
-                                <img src="img/explore/ex-1.png" alt="">
+                                <img src="/img/explore/ex-1.png" alt="">
                                 @endif
                             </a>
                             <div class="post-fav">
