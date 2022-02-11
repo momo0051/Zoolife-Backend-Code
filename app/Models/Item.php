@@ -54,10 +54,14 @@ class Item extends Model
 
     // protected $hidden = ['user'];
 
+    protected $appends = [
+        'share_url',
+    ];
 
-    // protected $appends = [
-    //     'related_add',
-    // ];
+    public function getShareUrlAttribute()
+    {
+        return !empty($this->id) ? url('post/'.$this->id) : '';
+    }
 
     public static function boot()
     {
@@ -133,9 +137,14 @@ class Item extends Model
     {
         $relatedads = self::where('category', $this->category)
             ->where('removeAt', '0')
+            ->where('items.id',"!=", $this->id)
             ->limit(6)
             ->get(['id', 'imgUrl', 'city', 'itemTitle', 'created_at'])
             ->makeHidden('related_add');
+
+        foreach ($relatedads as $key => &$item) {
+            $item->imgUrl   = !empty($item->imgUrl) ? url('/uploads/ad/' . $item->imgUrl) : '';
+        }
 
         return $relatedads;
     }

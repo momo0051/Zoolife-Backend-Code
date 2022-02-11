@@ -91,6 +91,8 @@ class ItemController extends Controller
             ->paginate(env('PER_PAGE'));
 
         $items->each(function ($item, $key) use ($user_id) {
+            $item->imgUrl   = !empty($item->imgUrl) ? url('/uploads/ad/' . $item->imgUrl) : '';
+            $item->videoUrl = !empty($item->videoUrl) ? url('/uploads/ad_video/' . $item->videoUrl) : '';
             if (isset($user_id)) {
                 $item->favrtitem_status = $item->favrtitemStatus($user_id);
                 $item->likeitem_status  = $item->likeitemStatus($user_id);
@@ -101,7 +103,7 @@ class ItemController extends Controller
                 $item->report_status    = 0;
             }
             $item->setAppends([
-                'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
+                'share_url', 'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
             ]);
         })->makeHidden('user');
 
@@ -146,6 +148,8 @@ class ItemController extends Controller
             ->paginate(env('PER_PAGE'));
 
         $items->each(function ($item, $key) use ($user_id) {
+            $item->imgUrl   = !empty($item->imgUrl) ? url('/uploads/ad/' . $item->imgUrl) : '';
+            $item->videoUrl = !empty($item->videoUrl) ? url('/uploads/ad_video/' . $item->videoUrl) : '';
             if (isset($user_id)) {
                 $item->favrtitem_status = $item->favrtitemStatus($user_id);
                 $item->likeitem_status  = $item->likeitemStatus($user_id);
@@ -156,7 +160,7 @@ class ItemController extends Controller
                 $item->report_status    = 0;
             }
             $item->setAppends([
-                'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
+                'share_url', 'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
             ]);
         })->makeHidden('user');
 
@@ -222,9 +226,12 @@ class ItemController extends Controller
         if ($request->auction == 1) {
             $items->where('post_type', 'auction');
         }
-        $items->orderBy('id', 'DESC')->get();
+        $items->orderBy('id', 'DESC');
+        $items = $items->get();
 
         $items->each(function ($item, $key) use ($user_id) {
+            $item->imgUrl   = !empty($item->imgUrl) ? url('/uploads/ad/' . $item->imgUrl) : '';
+            $item->videoUrl = !empty($item->videoUrl) ? url('/uploads/ad_video/' . $item->videoUrl) : '';
             if (isset($user_id)) {
                 $item->favrtitem_status = $item->favrtitemStatus($user_id);
                 $item->likeitem_status  = $item->likeitemStatus($user_id);
@@ -235,7 +242,7 @@ class ItemController extends Controller
                 $item->report_status    = 0;
             }
             $item->setAppends([
-                'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
+                'share_url', 'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
             ]);
         })->makeHidden('user');
 
@@ -290,6 +297,8 @@ class ItemController extends Controller
         }
 
         $items->each(function ($item, $key) use ($user_id) {
+            $item->imgUrl   = !empty($item->imgUrl) ? url('/uploads/ad/' . $item->imgUrl) : '';
+            $item->videoUrl = !empty($item->videoUrl) ? url('/uploads/ad_video/' . $item->videoUrl) : '';
             if (isset($user_id)) {
                 $item->favrtitem_status = $item->favrtitemStatus($user_id);
                 $item->likeitem_status  = $item->likeitemStatus($user_id);
@@ -300,7 +309,7 @@ class ItemController extends Controller
                 $item->report_status    = 0;
             }
             $item->setAppends([
-                'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
+                'share_url', 'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
             ]);
         })->makeHidden('user');
 
@@ -330,7 +339,8 @@ class ItemController extends Controller
             $item = Item::find($request->id);
             if ($item) {
                 $item = $item->load('images');
-
+                $item->imgUrl   = !empty($item->imgUrl) ? url('/uploads/ad/' . $item->imgUrl) : '';
+                $item->videoUrl = !empty($item->videoUrl) ? url('/uploads/ad_video/' . $item->videoUrl) : '';
                 if (isset($user_id)) {
                     $item->favrtitem_status = $item->favrtitemStatus($user_id);
                     $item->likeitem_status  = $item->likeitemStatus($user_id);
@@ -341,7 +351,7 @@ class ItemController extends Controller
                     $item->report_status    = 0;
                 }
                 $item->setAppends([
-                    'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
+                    'share_url', 'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
                 ])->makeHidden('user');
 
                 if ($item) {
@@ -384,6 +394,8 @@ class ItemController extends Controller
             $items = $items->get();
 
             $items->each(function ($item, $key) use ($user_id) {
+                $item->imgUrl   = !empty($item->imgUrl) ? url('/uploads/ad/' . $item->imgUrl) : '';
+                $item->videoUrl = !empty($item->videoUrl) ? url('/uploads/ad_video/' . $item->videoUrl) : '';
                 if (isset($user_id)) {
                     $item->favrtitem_status = $item->favrtitemStatus($user_id);
                     $item->likeitem_status  = $item->likeitemStatus($user_id);
@@ -394,7 +406,7 @@ class ItemController extends Controller
                     $item->report_status    = 0;
                 }
                 $item->setAppends([
-                    'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
+                    'share_url', 'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
                 ]);
             });
             // ->makeHidden('user');
@@ -570,7 +582,6 @@ class ItemController extends Controller
         $blance = array(
             'fromUserId'      => $request->user_id,
             'priority'        => $request->priority,
-            // 'imgUrl' => 'http://newzoolifeapi.zoolifeshop.com/uploads/ad/' . $image,
             'showComments'    => $request->showComments ? 1 : 0,
             'category'        => $request->category,
             'subCategory'     => $request->subCategory,
@@ -609,7 +620,8 @@ class ItemController extends Controller
                 $image     = $request->file('imgUrl');
                 $imageName = time() . '_' . $id . '.' . $image->getClientOriginalExtension();
                 $image->move($imagePath, $imageName);
-                $imageUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad/' . $imageName;
+                // $imageUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad/' . $imageName;
+                $imageUrl = $imageName;
             }
 
             // Upload video in ad item
@@ -618,7 +630,8 @@ class ItemController extends Controller
                 $video     = $request->file('videoUrl');
                 $videoName = time() . '_' . $id . '.' . $video->getClientOriginalExtension();
                 $video->move($videoPath, $videoName);
-                $videoUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad_video/' . $videoName;
+                // $videoUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad_video/' . $videoName;
+                $videoUrl = $videoName;
             }
 
             // save video and image in ad item
@@ -634,7 +647,8 @@ class ItemController extends Controller
                     // $image = $request->file('imgUrl');
                     $imageName = time() . $k . '_' . $id . '.' . $image->getClientOriginalExtension();
                     $image->move($imagePath, $imageName);
-                    $imageUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad/' . $imageName;
+                    // $imageUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad/' . $imageName;
+                    $imageUrl = $imageName;
 
                     $allImages[] = [
                         'item_id'   => $id,
@@ -693,7 +707,6 @@ class ItemController extends Controller
         $blance = array(
             'fromUserId'      => $request->user_id ?: $request->fromUserId,
             'priority'        => $request->priority,
-            // 'imgUrl' => 'http://newzoolifeapi.zoolifeshop.com/uploads/ad/' . $image,
             'showComments'    => $request->showComments ? 1 : 0,
             'category'        => $request->category,
             'subCategory'     => $request->subCategory,
@@ -739,7 +752,8 @@ class ItemController extends Controller
                 $image     = $request->file('imgUrl');
                 $imageName = time() . '_' . $item_id . '.' . $image->getClientOriginalExtension();
                 $image->move($imagePath, $imageName);
-                $imageUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad/' . $imageName;
+                // $imageUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad/' . $imageName;
+                $imageUrl = $imageName;
 
                 // Remove old Image
                 if (!empty($item->imgUrl)) {
@@ -762,7 +776,8 @@ class ItemController extends Controller
                 $videoName = time() . '_' . $item_id . '.' . $video->getClientOriginalExtension();
 
                 $video->move($videoPath, $videoName);
-                $videoUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad_video/' . $videoName;
+                // $videoUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad_video/' . $videoName;
+                $videoUrl = $videoName;
 
                 // Remove old Video
                 if (!empty($item->videoUrl)) {
@@ -790,7 +805,8 @@ class ItemController extends Controller
                     // $image = $request->file('imgUrl');
                     $imageName = time() . $k . '_' . $item_id . '.' . $image->getClientOriginalExtension();
                     $image->move($imagePath, $imageName);
-                    $imageUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad/' . $imageName;
+                    // $imageUrl = 'http://newzoolifeapi.zoolifeshop.com/uploads/ad/' . $imageName;
+                    $imageUrl = $imageName;
 
                     $allImages[] = [
                         'item_id'   => $item_id,
@@ -859,7 +875,8 @@ class ItemController extends Controller
         $user = User::where('id', $user_id)->where('verify', 1)->first();
         if ($user) {
             $item = Item::create($blance);
-
+            $item->imgUrl   = !empty($item->imgUrl) ? url('/uploads/ad/' . $item->imgUrl) : '';
+            $item->videoUrl = !empty($item->videoUrl) ? url('/uploads/ad_video/' . $item->videoUrl) : '';
             if (isset($user_id)) {
                 $item->favrtitem_status = $item->favrtitemStatus($user_id);
                 $item->likeitem_status  = $item->likeitemStatus($user_id);
@@ -870,7 +887,7 @@ class ItemController extends Controller
                 $item->report_status    = 0;
             }
             $item->setAppends([
-                'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
+                'share_url', 'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
             ])->makeHidden('user');
 
             if ($item) {
@@ -974,6 +991,9 @@ class ItemController extends Controller
                     $product = Item::where('id', '=', $itemId)
                         ->where('post_type', $request->get('post_type', 'normal'))
                         ->where('removeAt', '=', 0)->with('images')->first();
+
+                    $product->imgUrl   = !empty($product->imgUrl) ? url('/uploads/ad/' . $product->imgUrl) : '';
+                    $product->videoUrl = !empty($product->videoUrl) ? url('/uploads/ad_video/' . $product->videoUrl) : '';
 
                     if (isset($user_id)) {
                         $product->favrtitem_status = $product->favrtitemStatus($user_id);
@@ -1254,6 +1274,8 @@ class ItemController extends Controller
             })->get();
 
             $items->each(function ($item, $key) use ($user_id) {
+                $item->imgUrl   = !empty($item->imgUrl) ? url('/uploads/ad/' . $item->imgUrl) : '';
+                $item->videoUrl = !empty($item->videoUrl) ? url('/uploads/ad_video/' . $item->videoUrl) : '';
                 if (isset($user_id)) {
                     $item->favrtitem_status = $item->favrtitemStatus($user_id);
                     $item->likeitem_status  = $item->likeitemStatus($user_id);
@@ -1264,7 +1286,7 @@ class ItemController extends Controller
                     $item->report_status    = 0;
                 }
                 $item->setAppends([
-                    'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
+                    'share_url', 'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
                 ]);
             })->makeHidden('user');
 
@@ -1381,6 +1403,8 @@ class ItemController extends Controller
             ->paginate(env('PER_PAGE'));
 
         $items->each(function ($item, $key) {
+            $item->imgUrl   = !empty($item->imgUrl) ? url('/uploads/ad/' . $item->imgUrl) : '';
+            $item->videoUrl = !empty($item->videoUrl) ? url('/uploads/ad_video/' . $item->videoUrl) : '';
             if (isset($item->fromUserId)) {
                 $item->favrtitem_status = $item->favrtitemStatus($item->fromUserId);
                 $item->likeitem_status  = $item->likeitemStatus($item->fromUserId);
@@ -1391,7 +1415,7 @@ class ItemController extends Controller
                 $item->report_status    = 0;
             }
             $item->setAppends([
-                'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
+                'share_url', 'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
             ]);
         })->makeHidden('user');
 
@@ -1429,6 +1453,8 @@ class ItemController extends Controller
         $items = $items->paginate(env('PER_PAGE'));
 
         $items->each(function ($item, $key) {
+            $item->imgUrl   = !empty($item->imgUrl) ? url('/uploads/ad/' . $item->imgUrl) : '';
+            $item->videoUrl = !empty($item->videoUrl) ? url('/uploads/ad_video/' . $item->videoUrl) : '';
             if (isset($item->fromUserId)) {
                 $item->favrtitem_status = $item->favrtitemStatus($item->fromUserId);
                 $item->likeitem_status  = $item->likeitemStatus($item->fromUserId);
@@ -1439,7 +1465,7 @@ class ItemController extends Controller
                 $item->report_status    = 0;
             }
             $item->setAppends([
-                'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
+                'share_url', 'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
             ]);
         })->makeHidden('user');
 
@@ -1616,6 +1642,8 @@ class ItemController extends Controller
     public function createItemStructure($items, $user_id)
     {
         return $items->each(function ($item, $key) use ($user_id) {
+            $item->imgUrl   = !empty($item->imgUrl) ? url('/uploads/ad/' . $item->imgUrl) : '';
+            $item->videoUrl = !empty($item->videoUrl) ? url('/uploads/ad_video/' . $item->videoUrl) : '';
             if (isset($user_id)) {
                 $item->favrtitem_status = $item->favrtitemStatus($user_id);
                 $item->likeitem_status  = $item->likeitemStatus($user_id);
@@ -1626,7 +1654,7 @@ class ItemController extends Controller
                 $item->report_status    = 0;
             }
             $item->setAppends([
-                'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
+                'share_url', 'username', 'userid', 'device_token', 'phone', 'email', 'related_add',
             ]);
         })->makeHidden('user');
     }

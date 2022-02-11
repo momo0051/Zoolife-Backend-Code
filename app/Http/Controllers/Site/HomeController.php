@@ -43,7 +43,12 @@ class HomeController extends Controller
     {
         $data = [];
         $data['sliders'] = Slider::where('status', '=', 1)->get();
-        $data['categories'] = Category::get();
+        $data['categories'] = Category::where('mainCategoryId', 0)->get();
+
+        $catArray = $data['categories']->toArray();
+        $catIds = array_column($catArray, 'id');
+        $data['sub_categories'] = Category::whereIn('mainCategoryId', $catIds)->get()->groupBy('mainCategoryId');
+
         $data['articles'] = Article::orderBy('updated_at', 'DESC')->limit(10)->get();
         $data['featuredPosts'] = Item::select('items.*', 'u.name as author')->leftjoin('users as u','u.id','fromUserId')->where('priority','>',0)->orderBy('updated_at', 'DESC')->get();
         $data['posts'] = Item::select('items.*', 'u.name as author')

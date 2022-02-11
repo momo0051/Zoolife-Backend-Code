@@ -77,26 +77,35 @@
                 <h2>{{ __('Services Category') }}</h2>
                 <a href="#" class="see-all-link mb-10">{{ __('See all') }}<i class="las la-angle-right"></i></a>
             </div>
-            <div class="service-category owl-carousel">
+            <div class="service-category owl-carousel nav-pills">
                 @if(!empty($data['categories']))
                     @foreach($data['categories'] as $category)
                         @if(!empty($category->cat_img))
-                        <a href="{{route('posts')}}?cat={{$category->id}}" class="category-item">
+                        <li class="nav-item" role="presentation">
+                            <button class="category-item nav-link" data-bs-toggle="pill" data-bs-target="#category-{{$category->id}}" type="button" role="tab" aria-controls="category-{{$category->id}}" aria-selected="true">
                             <div class="category-icon">
-                                <img src="{{'http://newzoolifeapi.zoolifeshop.com/uploads/category/'.$category->cat_img}}" alt="">
+                                <img src="{{asset('uploads/category/'.$category->cat_img)}}" alt="">
                             </div>
-                            <h3 class="category-title">{{$category->title ?? '' }}</h3>
-                        </a>
+                                <h3 class="category-title">{{$category->title ?? '' }}</h3>
+                            </button>
+                        </li>
+                        
                         @endif
                     @endforeach
                 @endif
             </div>
-            <div class="category-tag">
-                <a href="#" class="tag-item">German Shepherd Dog</a>
-                <a href="#" class="tag-item">Siberian Husky Dog</a>
-                <a href="#" class="tag-item">Doberman Dog</a>
-                <a href="#" class="tag-item">Bulldog</a>
-                <a href="#" class="tag-item">Poodle Dog</a>
+            <div class="tab-content" > 
+                @if(!empty($data['sub_categories']))
+                    @foreach($data['sub_categories'] as $cat=>$subCategory)
+                        <div class="tab-pane fade " id="pills-home" id="category-{{$cat}}" role="tabpanel" aria-labelledby="pills-home-tab">
+                            <div class="category-tag">
+                            @foreach($subCategory as $sub)
+                            <a  href="{{route('posts')}}?cat={{$sub->id}}" class="tag-item">{{$sub->title ?? '' }}</a>
+                            @endforeach
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
             </div>
         </div>
     </section>
@@ -206,7 +215,7 @@
                         <div class="post-img">
                             <a href="#">
                                 @if(!empty($article->image))
-                                <img src="{{'http://newzoolifeapi.zoolifeshop.com/uploads/article/'.$article->image}}" alt="">
+                                <img src="{{asset('uploads/article/'.$article->image)}}" alt="">
                                 @else
                                 <img src="/assets/img/explore/ex-1.png" alt="">
                                 @endif
