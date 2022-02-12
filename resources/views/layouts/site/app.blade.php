@@ -50,7 +50,7 @@
                                     </div>
                                     <p class="upload-text">{{ __('Select a file or drag and drop here') }}</p>
                                     <p class="upload-file-format mb-20">{{ __('JPG, PNG or PDF, file size no more than 10MB') }}</p>
-                                    <div class="btn theme-btn m-auto">Upload</div>
+                                    <div class="btn theme-btn m-auto">{{ __('Upload') }}</div>
                                 </label>
                                 <input type="file" id="uploadIMG" class="d-none">
                             </div>
@@ -483,7 +483,7 @@
                                                 <div class="search-icon">
                                                     <img src="/assets/img/icons/search.svg" alt="">
                                                 </div>
-                                                <input type="text" placeholder="Search" name="q" id="common-search">
+                                                <input type="text" placeholder="{{ __('Search') }}" name="q" id="common-search">
                                             </div>
                                         </li>
                                         <li>

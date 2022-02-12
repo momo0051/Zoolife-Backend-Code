@@ -206,7 +206,7 @@
     <section class="posts-area pt-65 pb-140 explore-list">
         <div class="container">
             <div class="section-title mb-40 d-flex align-items-center justify-content-between">
-                <h2>Explore</h2>
+                <h2>{{ __('Explore') }}</h2>
                 <a href="{{route('articles')}}" class="see-all-link mb-10">{{ __('See all') }}<i class="las la-angle-right"></i></a>
             </div>
             <div class="posts owl-carousel">
