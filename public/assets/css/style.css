@@ -512,6 +512,7 @@ html[dir="rtl"] .slider-item{
 /* service category */
 .category-icon {
     width: 90px;
+    height: 90px;
     margin: auto;
     margin-bottom: 15px;
 }
@@ -609,6 +610,12 @@ html[dir="rtl"] .post-item {
     font-size: 18px;
     line-height: 28px;
     font-weight: 600;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.explore-list .post-title {
+    height: 85px;
 }
 .post-title a:hover{
 	color: var(--theme-color);
@@ -620,6 +627,8 @@ html[dir="rtl"] .post-item {
     font-size: 16px;
     line-height: 26px;
     font-weight: 500;
+    height: 100px;
+    overflow: hidden;
 }
 .post-author {
     display: flex;
@@ -645,7 +654,7 @@ html[dir="rtl"] .post-item {
     color: var(--text-color);
     font-weight: 400;
 }
-.posts .owl-nav div {
+.posts .owl-nav div, .service-category .owl-nav div{
     background: white;
     height: 55px;
     width: 55px;
@@ -661,19 +670,21 @@ html[dir="rtl"] .post-item {
     transform: translateY(-50%);
     transition: all 0.3s ease 0s;
 }
-.posts .owl-nav {
+.posts .owl-nav, .service-category .owl-nav {
     direction: ltr;
 }
-.posts .owl-nav div.owl-next {
+.posts .owl-nav div.owl-next, .service-category .owl-nav div.owl-next{
     left: auto;
     right: -75px;
 }
-.posts .owl-nav div:hover{
+.posts .owl-nav div:hover, .service-category .owl-nav div:hover{
 	background: var(--theme-color);
 	color: white;
 }
 .post-img {
     position: relative;
+    width: 100%;
+    height: 200px;
 }
 .post-fav {
     position: absolute;
@@ -763,9 +774,16 @@ html[dir="rtl"] .social-icons a:first-child{
 }
 
 /* post details */
+.post-details-img {
+    height: 540px;
+    background: #fff;
+}
 .post-details-img img {
     width: 100%;
     border-radius: 25px;
+    width: auto !important;
+    max-height: 100%;
+    margin: auto;
 }
 .post-author-details{
     background: var(--light);
@@ -1163,10 +1181,12 @@ html[dir="rtl"] .radio-option .form-check-input{
     border-radius: 100%;
     border: 2px solid #FFFFFF;
     color: white;
-}
-.post-details-slider .owl-nav div:hover{
     background-color: white;
     color: var(--theme-color);
+}
+.post-details-slider .owl-nav div:hover{
+    color: white;
+    background-color: var(--theme-color);
 }
 .post-details-slider .owl-nav .owl-next {
     right: 20px;

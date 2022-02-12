@@ -65,6 +65,7 @@ class PostController extends Controller
         $data = [];
         $post = Item::select('items.*', 'u.username as author', 'u.phone')
                         ->with('images')
+                        ->with('itemComments')
                         ->leftjoin('users as u','u.id','fromUserId')
                         ->where('post_type', 'normal')
                         ->where('items.id', $slug)
@@ -83,6 +84,7 @@ class PostController extends Controller
         $data = [];
         $post = Item::select('items.*', 'u.username as author', 'u.phone')
                         ->with('images')
+                        ->with('biddingObject')
                         ->leftjoin('users as u','u.id','fromUserId')
                         ->where('post_type', 'auction')
                         ->where('items.id', $slug)

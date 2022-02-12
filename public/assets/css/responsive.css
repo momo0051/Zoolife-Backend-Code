@@ -1,12 +1,12 @@
 /* Normal desktop :1200px. */
 @media (min-width: 1200px) and (max-width: 1500px) {
-    .posts .owl-nav div {
+    .posts .owl-nav div, .service-category .owl-nav div {
         height: 50px;
         width: 50px;
         left: -60px;
         line-height: 50px;
     }
-    .posts .owl-nav div.owl-next {
+    .posts .owl-nav div.owl-next, .service-category .owl-nav div.owl-next {
         right: -60px;
     }
 }
@@ -30,7 +30,7 @@
     .slider .owl-nav {
         left: 40px;
     }
-    .posts .owl-nav div {
+    .posts .owl-nav div, .service-category .owl-nav div {
         height: 40px;
         width: 40px;
         line-height: 40px;
@@ -65,7 +65,7 @@
         justify-content: space-between;
     }
     /* posts */
-    .posts .owl-nav div {
+    .posts .owl-nav div, .service-category .owl-nav div {
         height: 40px;
         width: 40px;
         line-height: 40px;
@@ -156,7 +156,7 @@
     .category-tag .tag-item {
         margin-bottom: 15px;
     }
-    .posts .owl-nav div {
+    .posts .owl-nav div, .service-category .owl-nav div {
         height: 40px;
         width: 40px;
         line-height: 40px;

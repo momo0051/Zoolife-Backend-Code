@@ -6,12 +6,25 @@
         <div class="container">
             <div class="row">
                 <div class="col-xl-8 col-lg-7 mb-30">
-                    <div class="post-details-img">
-                        @if(!empty($post->imgUrl))
-                        <!-- <img src="{{asset('/uploads/ad/'.$post->imgUrl)}}" alt=""> -->
-                        <img src="{{\App\Helpers\CommonHelper::getWebUrl($post->imgUrl, 'ad')}}" alt="">
-                        @else
-                        <img src="/assets/img/post-details/Drama 1.png" alt="">
+                    <div class="post-details-slider owl-carousel mb-30 pb-5">
+                        <div class="post-details-single">
+                            <div class="post-details-img">
+                                @if(!empty($post->imgUrl))
+                                <!-- <img src="{{$post->imgUrl}}" alt=""> -->
+                                <img src="{{\App\Helpers\CommonHelper::getWebUrl($post->imgUrl, 'ad')}}" alt="">
+                                @else
+                                <img src="/assets/img/posts/post-2.png" alt="">
+                                @endif
+                            </div>
+                        </div>
+                        @if(!empty($post->images))
+                            @foreach($post->images as $img)
+                            <div class="post-details-single">
+                                <div class="post-details-img">
+                                    <img src="{{$img->file_name}}" alt="">
+                                </div>
+                            </div>
+                            @endforeach
                         @endif
                     </div>
                 </div>
@@ -189,11 +202,9 @@
                 @foreach($post->relatedPosts as $rPost)
                     <div class="post-item">
                         <div class="post-img">
-                            <a href="#">
+                            <a href="{{route('post_detail',[$rPost->id])}}">
                                 @if(!empty($rPost->image))
-                                <img src="{{asset('/uploads/article/'.$article->image)}}" alt="">
-                                @else
-                                <img src="/assets/img/explore/ex-1.png" alt="">
+                                <img src="{{asset('/uploads/article/'.$rPost->image)}}" alt="">
                                 @endif
                             </a>
                             <div class="post-fav">

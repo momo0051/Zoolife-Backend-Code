@@ -186,7 +186,8 @@ $('.service-category').owlCarousel({
     loop:true,
     margin:0,
 	items:7,
-    nav:false,
+    navText:['<i class="las la-long-arrow-alt-left"></i>','<i class="las la-long-arrow-alt-right"></i>'],
+    nav:true,
 	dots:false,
 	responsive:{
         0:{

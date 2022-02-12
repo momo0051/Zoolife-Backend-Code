@@ -29,13 +29,17 @@
                     @foreach($data['featuredPosts'] as $feature)
                     <div class="post-item">
                         <div class="post-img">
-                            <a href="#">
-                                @if(!empty($feature->imgUrl))
-                                <!-- <img src="{{asset('/uploads/ad/'.$feature->imgUrl)}}" alt=""> -->
-                                <img src="{{\App\Helpers\CommonHelper::getWebUrl($feature->imgUrl, 'ad')}}" alt="">
-                                @else
-                                <img src="/assets/img/posts/post-1.png" alt="">
-                                @endif
+                            @if($feature->post_type == 'auction')
+                            <a href="{{route('auction_detail',[$feature->id])}}">
+                            @else
+                            <a href="{{route('post_detail',[$feature->id])}}">
+                            @endif
+                            @if(!empty($feature->imgUrl))
+                            <!-- <img src="{{asset('/uploads/ad/'.$feature->imgUrl)}}" alt=""> -->
+                            <img src="{{\App\Helpers\CommonHelper::getWebUrl($feature->imgUrl, 'ad')}}" alt="">
+                            @else
+                            <img src="/assets/img/posts/post-1.png" alt="">
+                            @endif
                             </a>
                             <span class="post-badge">{{ __('Featured') }}</span>
                             <div class="post-fav">
@@ -118,7 +122,7 @@
                     @foreach($data['posts'] as $post)
                     <div class="post-item">
                         <div class="post-img">
-                            <a href="#">
+                            <a href="{{route('post_detail',[$post->id])}}">
                                 @if(!empty($post->imgUrl))
                                 <!-- <img src="{{asset('/uploads/ad/'.$post->imgUrl)}}" alt=""> -->
                                 <img src="{{\App\Helpers\CommonHelper::getWebUrl($post->imgUrl, 'ad')}}" alt="">
@@ -164,7 +168,7 @@
                     @foreach($data['auction'] as $post)
                     <div class="post-item">
                         <div class="post-img">
-                            <a href="#">
+                            <a href="{{route('auction_detail',[$post->id])}}">
                                 @if(!empty($post->imgUrl))
                                 <!-- <img src="{{asset('/uploads/ad/'.$post->imgUrl)}}" alt=""> -->
                                 <img src="{{\App\Helpers\CommonHelper::getWebUrl($post->imgUrl, 'ad')}}" alt="">
@@ -199,7 +203,7 @@
         </div>
     </section>
     <!-- Explore -->
-    <section class="posts-area pt-65 pb-140">
+    <section class="posts-area pt-65 pb-140 explore-list">
         <div class="container">
             <div class="section-title mb-40 d-flex align-items-center justify-content-between">
                 <h2>Explore</h2>
@@ -210,11 +214,9 @@
                     @foreach($data['articles'] as $article)
                     <div class="post-item">
                         <div class="post-img">
-                            <a href="#">
+                            <a href="{{route('article_detail', [$article->id])}}">
                                 @if(!empty($article->image))
                                 <img src="{{asset('uploads/article/'.$article->image)}}" alt="">
-                                @else
-                                <img src="/assets/img/explore/ex-1.png" alt="">
                                 @endif
                             </a>
                             <div class="post-fav">
