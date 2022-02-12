@@ -548,37 +548,37 @@
                     <li>
                         <a href="#">
                             <div class="off-canvas-icon"><i class="lar la-user"></i></div>
-                            {{ __('My posts') }}
+                            {{ __('My Posts') }}
                         </a>
                     </li>
                     <li>
                         <a href="#">
                             <div class="off-canvas-icon"><i class="las la-plus"></i></div>
-                            {{ __('add new post') }}
+                            {{ __('Add New Post') }}
                         </a>
                     </li>
                     <li>
                         <a href="#">
                             <div class="off-canvas-icon"><i class="lar la-user"></i></div>
-                            {{ __('My auction') }}
+                            {{ __('My Auction') }}
                         </a>
                     </li>
                     <li>
                         <a href="#">
                             <div class="off-canvas-icon"><i class="las la-plus"></i></div>
-                            {{ __('add new auction') }}
+                            {{ __('Add New Auction') }}
                         </a>
                     </li>
                     <li>
                         <a href="#">
                             <div class="off-canvas-icon"><i class="las la-truck"></i></div>
-                            {{ __('Delivery post') }}
+                            {{ __('Delivery Post') }}
                         </a>
                     </li>
                     <li>
                         <a href="#">
                             <div class="off-canvas-icon"><i class="las la-bullhorn"></i></div>
-                            {{ __('Banned ads') }}
+                            {{ __('Banned Ads') }}
                         </a>
                     </li>
                     <li>

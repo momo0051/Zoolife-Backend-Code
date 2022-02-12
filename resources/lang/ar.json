@@ -5,7 +5,6 @@
     "Posts": "أحدث الإعلانات ",
     "Auctions": "المزادات ",
     "Explore": "اكتشف ",
-    "Add New Auction": "اضافة مزاد جديد ",
     "Select a file or drag and drop here": "اختر صورة ",
     "Upload": "رفع صور ",
     "Add Location": "اختر المدينة ",
@@ -70,5 +69,12 @@
     "Comment": "التعليقات",
     "Send": "ارسال",
     "Similar Ads": "الاعلانات المشابهه",
-    "See all": "كل الاعلانات"
+    "Add Post": "اضافةاعلان",
+    "My Post": "إعلاناتي",
+    "Log In": "تسجيل دخول",
+    "Logout": "تسجيل خروج",
+    "More":"أكثر",
+    "Communities":"مجتمعات",
+    "Featured":"متميز",
+    "Description":"وصف"
 }
