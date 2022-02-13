@@ -252,6 +252,7 @@ $('.posts').owlCarousel({
                 },
                 success: function(result) {
                     $('.error').html('');
+                    $('.btn').removeAttr("disabled").val(old_val);
                     if (result.code == 200) {
                         window.location.reload();
                     } else if (result.code == 402) {

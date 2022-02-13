@@ -196,6 +196,8 @@ class ItemController extends Controller
             ->paginate();
 
         $items->each(function ($item, $key) {
+            $item->imgUrl   = !empty($item->imgUrl) ? url('/uploads/ad/' . $item->imgUrl) : '';
+            $item->videoUrl = !empty($item->videoUrl) ? url('/uploads/ad_video/' . $item->videoUrl) : '';
             $latestBid            = $item->biddingObject()->orderBy('id', 'desc')->first();
             $item->latest_bid     = 'SAR ' . number_format($latestBid ? $latestBid->bid_amount : 0, 2);
             $item->remaining_time = $item->auction_expiry_time->diffForHumans();
