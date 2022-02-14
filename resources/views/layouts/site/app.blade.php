@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Site Title Here</title>
+        <title>Zoolife-زوولايف</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -626,10 +626,11 @@
                                 </div>
                                 <p class="footer-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                                 <div class="social-icons">
-                                    <a href="#"><i class="lab la-facebook-f"></i></a>
-                                    <a href="#"><i class="lab la-linkedin-in"></i></a>
-                                    <a href="#"><i class="lab la-twitter"></i></a>
-                                    <a href="#"><i class="lab la-instagram"></i></a>
+                                    <a target="_blank" href="https://www.facebook.com/zoolife.mooh"><i class="lab la-facebook-f"></i></a>
+                                    <a target="_blank" href="https://twitter.com/zoolife2030"><i class="lab la-twitter"></i></a>
+                                    <a target="_blank" href="https://www.instagram.com/zoolife.sa"><i class="lab la-instagram"></i></a>
+                                    <a target="_blank" href="https://www.snapchat.com/add/zoolife.sa"><i class="lab la-snapchat"></i></a>
+                                    <a target="_blank" href="https://t.me/ZooLife2030"><i class="lab la-telegram"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -657,8 +658,8 @@
                         <div class="col-xl-3 col-lg-3 col-md-12">
                             <div class="footer-widget">
                                 <div class="app-download">
-                                    <a href="#"><img src="/assets/img/playstore.png" alt=""></a>
-                                    <a href="#"><img src="/assets/img/appstore.png" alt=""></a>
+                                    <a target="_blank" href="https://play.google.com/store/apps/details?id=com.zoolife.app"><img src="/assets/img/playstore.png" alt=""></a>
+                                    <a target="_blank" href="https://apps.apple.com/sa/app/%D8%B2%D9%88%D9%88%D9%84%D8%A7%D9%8A%D9%81-zoolife/id1549373638"><img src="/assets/img/appstore.png" alt=""></a>
                                 </div>
                             </div>
                         </div>

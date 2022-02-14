@@ -12,8 +12,6 @@
                                 @if(!empty($post->imgUrl))
                                 <!-- <img src="{{$post->imgUrl}}" alt=""> -->
                                 <img src="{{\App\Helpers\CommonHelper::getWebUrl($post->imgUrl, 'ad')}}" alt="">
-                                @else
-                                <img src="/assets/img/posts/post-2.png" alt="">
                                 @endif
                             </div>
                         </div>
@@ -129,7 +127,7 @@
         <div class="container">
             <div class="alert alert-warning alert-dismissible fade show position-relative" role="alert">
                 <h4 class="alert-heading">{{ __('Warning!') }}</h4>
-                <p>“Zoolife” warns against deadline outside the application and strongly advises to deal through Private messages only, to deal hand in hand, to beware of agents, and to make sure that the bank account belongs to the same person who owns the goods.</p>
+                <p>{{__('“Zoolife” warns against deadline outside the application and strongly advises to deal through Private messages only, to deal hand in hand, to beware of agents, and to make sure that the bank account belongs to the same person who owns the goods.')}}</p>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i class="las la-times"></i></button>
             </div>
         </div>
@@ -203,8 +201,8 @@
                     <div class="post-item">
                         <div class="post-img">
                             <a href="{{route('post_detail',[$rPost->id])}}">
-                                @if(!empty($rPost->image))
-                                <img src="{{asset('/uploads/article/'.$rPost->image)}}" alt="">
+                                @if(!empty($rPost->imgUrl))
+                                <img src="{{asset('/uploads/ad/'.$rPost->imgUrl)}}" alt="">
                                 @endif
                             </a>
                             <div class="post-fav">

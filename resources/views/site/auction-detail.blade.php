@@ -132,7 +132,7 @@
         <div class="container">
             <div class="alert alert-warning alert-dismissible fade show position-relative" role="alert">
                 <h4 class="alert-heading">{{ __('Warning!') }}</h4>
-                <p>“Zoolife” warns against deadline outside the application and strongly advises to deal through Private messages only, to deal hand in hand, to beware of agents, and to make sure that the bank account belongs to the same person who owns the goods.</p>
+                <p>{{__('“Zoolife” warns against deadline outside the application and strongly advises to deal through Private messages only, to deal hand in hand, to beware of agents, and to make sure that the bank account belongs to the same person who owns the goods.')}}</p>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i class="las la-times"></i></button>
             </div>
         </div>

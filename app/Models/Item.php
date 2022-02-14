@@ -60,7 +60,11 @@ class Item extends Model
 
     public function getShareUrlAttribute()
     {
-        return !empty($this->id) ? ($this->itemTitle . " " . url('post/'.$this->id)) : '';
+        if ($this->post_type == 'auction') {
+            return !empty($this->id) ? ($this->itemTitle . " " . url('auction/'.$this->id)) : '';
+        } else {
+            return !empty($this->id) ? ($this->itemTitle . " " . url('post/'.$this->id)) : '';
+        }
     }
 
     public static function boot()
