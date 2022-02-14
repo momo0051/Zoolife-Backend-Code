@@ -876,6 +876,8 @@ html[dir="rtl"] .social-icons a:first-child{
 }
 .warning-message .alert-warning p{
     color: white;
+    font-weight: 700;
+    font-size: 28px;
 }
 .warning-message .alert-warning:before {
     content: "";
