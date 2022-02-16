@@ -141,6 +141,9 @@
     .header-menu-content{
         display: none;
     }
+    .lang-switcher .lang-option {
+        padding: 0px;
+    }
     .user-action-btn{
         display: block;
     }

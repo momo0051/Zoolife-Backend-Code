@@ -449,7 +449,7 @@
                                                             <a class="{{$locale =='en' ? 'active' : ''}}" id="eng" href="{{route('site.change-locale', ['locale'=>'en'])}}" >EN</a>
                                                         </div>
                                                         <div class="lang-option" id="ar">
-                                                            <a class="lang-option {{$locale =='ar' ? 'active' : ''}}" id="ar" href="{{route('site.change-locale', ['locale'=>'ar'])}}" >Ar</a>
+                                                            <a class=" {{$locale =='ar' ? 'active' : ''}}" id="ar" href="{{route('site.change-locale', ['locale'=>'ar'])}}" >Ar</a>
                                                         </div>
                                                     </div>
                                                 </div>

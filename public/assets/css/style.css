@@ -305,6 +305,9 @@ html[dir="rtl"] .search-form input {
 	-ms-border-radius: 8px;
 	-o-border-radius: 8px;
 }
+.lang-switcher .lang-option a {
+    color: #333;
+}
 .lang-switcher .lang-option:hover{
 	background: var(--theme-color);
 	color: white;
