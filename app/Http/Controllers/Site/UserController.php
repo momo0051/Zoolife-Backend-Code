@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Site;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Item;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -96,5 +97,22 @@ class UserController extends Controller
         $request->session()->regenerateToken();
      
         return redirect('/');
+    }
+
+    public function myPosts(Request $request)
+    {
+        $user = \Auth::user();
+        if (!empty($user->id)) {
+            $data = [];
+            $posts = Item::select('items.*', 'u.name as author')
+                            ->leftjoin('users as u','u.id','fromUserId')
+                            // ->where('post_type', $type)
+                            ->where('fromUserId', $user->id)
+                            ->orderBy('updated_at', 'DESC');
+            $data['posts'] = $posts->paginate(5);
+            return view('site.my-post-list', compact('data'));
+        } else {
+            abort(404);
+        }
     }
 }

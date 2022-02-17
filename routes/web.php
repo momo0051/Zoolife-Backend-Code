@@ -31,7 +31,16 @@ Route::get('explores', array('as' => 'articles', 'uses' => 'Site\ArticleControll
 Route::get('explore/{slug}', array('as' => 'article_detail', 'uses' => 'Site\ArticleController@show'));
 
 Route::post('user-login', array('as' => 'user-login', 'uses' => 'Site\UserController@userLogin'));
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::post('post/load-post-auction-modal/{type?}/{id?}', array('as' => 'load-post-auction-modal', 'uses' => 'Site\PostController@loadPostOrAuctionModal'));
+    Route::post('post/savePost', array('as' => 'save-post', 'uses' => 'Site\PostController@savePost'));
+    Route::get('my-post', array('as' => 'my-posts', 'uses' => 'Site\UserController@myPosts'));
+});
+
 Route::get('logout', array('as' => 'logout', 'uses' => 'Site\UserController@logout'));
+
+Route::post('get-sub-category', array('as' => 'get_sub_category', 'uses' => 'Site\PostController@getSubCategory'));
 
  // Route::any('/', array('as' => 'home', 'uses' => 'Site\HomeController@homePage'));
  // Route::any('/about-us', array('as' => 'aboutus', 'uses' => 'Site\HomeController@aboutUsPage'));

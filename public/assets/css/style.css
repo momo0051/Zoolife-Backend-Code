@@ -164,8 +164,8 @@ label {
     transition: all 0.3s ease 0s;
     vertical-align: middle;
     white-space: nowrap;
-    width: 150px;
-    display: flex;
+    /*width: 150px;*/
+    /*display: flex;*/
     align-items: center;
     justify-content: center;
     gap: 10px;
@@ -1659,4 +1659,9 @@ html[dir="rtl"] .typing-area input {
 .term-and-policy-content p{
     line-height: 2;
     text-align: justify;
+}
+.action-btns {
+    position: absolute;
+    right: 0;
+    z-index: 1;
 }

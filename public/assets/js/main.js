@@ -274,6 +274,88 @@ $('.posts').owlCarousel({
         }
     });
 
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $('#commonModal').on('show.bs.modal', function (e) {
+
+        var btn = $(e.relatedTarget);
+        var type = btn.data('type');
+        var modalContent = $(this).find('.modal-content');
+        var url = btn.data('url') ? btn.data('url') : "";
+        if (url) {
+            $.ajax({
+                url: url,
+                type: 'post',
+                dataType: 'html',
+                data: {type: type },
+                beforeSend: function() {
+                    modalContent.html('<div class="text-center p-5"><i class="la la-5x la-spin la-spinner"></i><div> Loading...</div></div>')
+                    $('.error,.submit_notification').html('');
+                },
+                success: function(result) {
+                    $('.error').html('');
+                    modalContent.html(result);
+                },
+                error: function(e) {
+                    modalContent.html('<div class="modal-header pt-45"><h5 class="modal-title">Post</h5></div><div class="modal-body"><span class="text-danger error">Something Went Wrong!... Please try again after refresh</span><div class="modal-footer pb-35"><button type="button" class="btn theme-btn-light" data-bs-dismiss="modal">Cancel</button></div>');
+                }
+            });
+        }
+        
+    });
+
+    
+    $('body').on('click', "#savePost").on('click', "#savePost", function(event) {
+        event.preventDefault();
+        var btn = $(this);
+        var old_val = btn.val();
+        var form = $('#savePostForm');
+        var formData = new FormData(form[0]);
+        var submitUrl = btn.data('url') ? btn.data('url') : "";
+
+        if (submitUrl) {
+            $.ajax({
+                url: submitUrl,
+                type: 'post',
+                dataType: 'json',
+                data:  formData,
+                contentType: false,
+                cache: false,
+                processData:false,
+                beforeSend: function() {
+                    $('.error,.submit_notification').html('');
+                    form.find(".form-control").removeClass("red-border");
+                    $('.btn').attr("disabled", "disabled").val("Sending...");
+                },
+                success: function(result) {
+                    $('.error').html('');
+                    $('.btn').removeAttr("disabled").val(old_val);
+                    if (result.status == 200) {
+                        window.location.reload();
+                        $('#post_submit_notification').html('<span class="text-success error">' + result.message + '</span>');
+                    } else if (result.status == 402) {
+                        $.each(result.errors, function(i, val) {
+                            if (val != "") {
+                                console.log("#" + i + "_error");
+                                form.find("#" + i + "_error").text(val);
+                            }
+                        });
+                    } else {
+                        $('#post_submit_notification').html('<span class="text-danger error">' + result.message + '</span>');
+                    }
+                },
+                error: function(e) {
+                    $('.btn').removeAttr("disabled").val(old_val);
+                    $('#post_submit_notification').html('<span class="text-danger error">Something Went Wrong!... Please try again after refresh</span>');
+                }
+            });
+        }
+    });
+
 })(jQuery);
 
 function setLocale(lang) {

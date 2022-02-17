@@ -26,6 +26,7 @@
         <link rel="stylesheet" href="/assets/css/meanmenu.css">
         <link rel="stylesheet" href="/assets/css/slick.css">
         <link rel="stylesheet" href="/assets/css/default.css">
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="/assets/css/style.css">
         <link rel="stylesheet" href="/assets/css/responsive.css">
         @yield('styles')
@@ -34,154 +35,16 @@
     <body>
         <!-- popup -->
         <!-- add new post -->
-        <div class="modal fade" id="addNewPost" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        <div class="modal fade" id="commonModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header pt-45">
-                        <h5 class="modal-title">{{ __('Add New Post') }}</h5>
-                    </div>
-                    <div class="modal-body">
-                        <div class="upload-box mb-40">
-                            <div class="img-upload">
-                                <label for="uploadIMG">
-                                    <div class="upload-icon">
-                                        <i class="las la-cloud-upload-alt"></i>
-                                    </div>
-                                    <p class="upload-text">{{ __('Select a file or drag and drop here') }}</p>
-                                    <p class="upload-file-format mb-20">{{ __('JPG, PNG or PDF, file size no more than 10MB') }}</p>
-                                    <div class="btn theme-btn m-auto">{{ __('Upload') }}</div>
-                                </label>
-                                <input type="file" id="uploadIMG" class="d-none">
-                            </div>
-                            <div class="show-uploaded-img">
-                                <div class="single-img">
-                                    <img src="/assets/img/dog.png" alt="">
-                                    <span class="remove-img-btn"><i class="las la-times"></i></span>
-                                </div>
-                                <div class="single-img">
-                                    <img src="/assets/img/dog.png" alt="">
-                                    <span class="remove-img-btn"><i class="las la-times"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xl-6 col-lg-6 mb-30">
-                                <div class="popup-form-field">
-                                    <label for="">{{ __('Add Location') }}</label>
-                                    <select id="">
-                                        <option value="">Select</option>
-                                        <option value="">1</option>
-                                        <option value="">2</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 mb-30">
-                                <div class="popup-form-field">
-                                    <label for="">{{ __('Age') }}</label>
-                                    <input type="text" placeholder="Enter here">
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 mb-30">
-                                <div class="popup-form-field">
-                                    <label for="">{{ __('Choose Category') }}</label>
-                                    <select id="">
-                                        <option value="">Select</option>
-                                        <option value="">1</option>
-                                        <option value="">2</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 mb-30">
-                                <div class="popup-form-field">
-                                    <label for="">{{ __('Choose Subcategory') }}</label>
-                                    <select id="">
-                                        <option value="">Select</option>
-                                        <option value="">1</option>
-                                        <option value="">2</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 mb-30">
-                                <div class="popup-form-field">
-                                    <label for="">{{ __('Add Post Title') }}</label>
-                                    <input type="text" placeholder="Enter here">
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 mb-30">
-                                <div class="popup-form-field">
-                                    <label for="">{{ __('Vaccine Details') }}</label>
-                                    <input type="text" placeholder="Enter here">
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 mb-30">
-                                <div class="radio-option">
-                                    <label for="">{{ __('Sex') }}</label>
-                                    <div class="d-flex align-items-center gap-5">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="female" value="option1">
-                                            <label class="form-check-label" for="female">{{ __('Female') }}</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="male" value="option2">
-                                            <label class="form-check-label" for="male">{{ __('Male') }}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 mb-30">
-                                <div class="radio-option">
-                                    <label for="">{{ __('Passport') }}</label>
-                                    <div class="d-flex align-items-center gap-5">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="pass-yes" value="option1">
-                                            <label class="form-check-label" for="pass-yes">Yes</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="pass-no" value="option2">
-                                            <label class="form-check-label" for="pass-no">No</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 mb-30">
-                                <div class="popup-form-field">
-                                    <label for="">{{ __('Post Description') }}</label>
-                                    <textarea cols="10" rows="5" placeholder="Enter here"></textarea>
-                                </div>
-                            </div>
-                            <div class="radio-option mb-30">
-                                <label for="">{{ __('Select Communications options:') }}</label>
-                                <div class="communication-options">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="phone" value="option1">
-                                        <label class="form-check-label" for="phone">{{ __('Phone') }}</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="message" value="option2">
-                                        <label class="form-check-label" for="message">{{ __('Message') }}</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="comment" value="option2">
-                                        <label class="form-check-label" for="comment">{{ __('Comments') }}</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="whatsapp" value="option2">
-                                        <label class="form-check-label" for="whatsapp">{{ __('WhatsApp') }}</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer pb-35">
-                        <button type="button" class="btn theme-btn-light" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                        <button type="button" class="btn theme-btn">{{ __('Post') }}</button>
-                    </div>
+                    love
                 </div>
             </div>
         </div>
         <!-- add ne auction -->
-        <div class="modal fade" id="addNewAuction" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        <div class="modal fade" id="commonModal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
@@ -432,12 +295,12 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#addNewPost">
+                                                <a href="javascript:void(0)" data-bs-toggle="modal" data-type="post" data-url="{{route('load-post-auction-modal')}}" @if (\Auth::user()) data-bs-target="#commonModal" @else data-bs-target="#login" @endif>
                                                     <img src="/assets/img/icons/Plus-dark.svg" alt="">
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#addNewAuction">
+                                                <a href="javascript:void(0)" data-bs-toggle="modal" data-type="auction" data-url="{{route('load-post-auction-modal')}}" @if (\Auth::user()) data-bs-target="#commonModal"  @else data-bs-target="#login" @endif>
                                                     <img src="/assets/img/icons/Auction-dark.svg" alt="">
                                                 </a>
                                             </li>
@@ -487,13 +350,13 @@
                                             </div>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)" class="theme-bg btn btn-outline" data-bs-toggle="modal" data-bs-target="#addNewPost">
+                                            <a href="javascript:void(0)" class="theme-bg btn btn-outline" data-bs-toggle="modal" data-type="normal" data-url="{{route('load-post-auction-modal')}}" data-bs-target="{{ (\Auth::user()) ? '#commonModal' : '#login'}}">
                                                 <img src="/assets/img/icons/plus.svg" alt="" class="me-2">
                                                 {{ __('Add Post') }}
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)" class="theme-bg" data-bs-toggle="modal" data-bs-target="#addNewAuction">
+                                            <a href="javascript:void(0)" class="theme-bg" data-bs-toggle="modal" data-type="auction" data-url="{{route('load-post-auction-modal')}}" @if (\Auth::user()) data-bs-target="#commonModal"  @else data-bs-target="#login" @endif>
                                                 <img src="/assets/img/icons/Auction.svg" alt="" class="me-2">
                                                 {{ __('Auction') }}
                                             </a>
@@ -546,13 +409,13 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="{{route('my-posts')}}">
                             <div class="off-canvas-icon"><i class="lar la-user"></i></div>
                             {{ __('My Posts') }}
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="javascript:void(0)" data-bs-toggle="modal" data-type="post" data-url="{{route('load-post-auction-modal')}}" @if (\Auth::user()) data-bs-target="#commonModal" @else data-bs-target="#login" @endif>
                             <div class="off-canvas-icon"><i class="las la-plus"></i></div>
                             {{ __('Add New Post') }}
                         </a>
@@ -564,7 +427,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="javascript:void(0)" data-bs-toggle="modal" data-type="auction" data-url="{{route('load-post-auction-modal')}}" @if (\Auth::user()) data-bs-target="#commonModal"  @else data-bs-target="#login" @endif>
                             <div class="off-canvas-icon"><i class="las la-plus"></i></div>
                             {{ __('Add New Auction') }}
                         </a>
@@ -688,6 +551,8 @@
         <script src="/assets/js/jquery.magnific-popup.min.js"></script>
         <script src="/assets/js/plugins.js"></script>
         <script src="/assets/js/main.js"></script>
+        
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script type="text/javascript">
             let lang = '{{$locale}}';
             setLocale(lang);
