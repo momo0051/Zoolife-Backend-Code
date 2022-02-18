@@ -1,52 +1,81 @@
 <div class="modal-header pt-45">
+    @if($data['type'] == 'auction')
+    <h5 class="modal-title">{{ __('Add New Auction') }}</h5>
+    @else
     <h5 class="modal-title">{{ __('Add New Post') }}</h5>
+    @endif
 </div>
 <div class="modal-body">
     <form id="savePostForm">
     <div class="row">
-    <div class="upload-box mb-40 col-md-6">
-        <div class="img-upload">
-            <label for="uploadIMG">
-                <div class="upload-icon">
-                    <i class="las la-cloud-upload-alt"></i>
+        <div class="col-md-12">
+            <div class="upload-container">
+                <div class="image-preview">
+                    <img src="{{asset('uploads/ad/'.($post->imgUrl ?? ''))}}" alt="">
+                    <div class="img-btns">
+                        <span class="" ><i class="fa fa-plus"></i><br> Add Image</span>
+                        <input type="file" name="imgUrl" onchange="previewImage($(this), 'image')">
+                    </div>
+                    <input type="hidden" name="imgUrl" id="image_hidden" class="img_name"/>
                 </div>
-                <p class="upload-text">{{ __('Select a file or drag and drop here') }}</p>
-                <p class="upload-file-format mb-20">{{ __('jpeg, jpg, png, gif, svg, wbmp or webp file, max 5 image upload, size no more than 10MB') }}</p>
-                <div class="btn theme-btn m-auto">{{ __('Upload') }}</div>
-            </label>
-            <input type="file" id="uploadIMG" name="imgUrl" class="d-none">
-        </div>
-        <div class="error text-danger" id="imgUrl_error"></div>
-        <div class="show-uploaded-img">
-            {{-- <div class="single-img">
-                <img src="/assets/img/dog.png" alt="">
-                <span class="remove-img-btn"><i class="las la-times"></i></span>
-            </div> --}}
-        </div>
-    </div>
-    <div class="upload-box mb-40 col-md-6">
-        <div class="img-upload">
-            <label for="uploadVideo">
-                <div class="upload-icon">
-                    <i class="las la-cloud-upload-alt"></i>
+                <div id="progress" class=""></div>
+            </div>
+            <div class="upload-container">
+                <div class="image-preview">
+                    <img src="{{$post->images[0]->file_name ?? ''}}" alt="">
+                    <div class="img-btns">
+                        <span class="" ><i class="fa fa-plus"></i><br> Add Image</span>
+                        <input type="file" name="images[]" onchange="previewImage($(this), 'image')">
+                    </div>
                 </div>
-                <p class="upload-text">{{ __('Select a file or drag and drop here') }}</p>
-                <p class="upload-file-format mb-20">{{ __('mp4,3gp,avi,mpeg,flv,mov or qt file size no more than 10MB') }}</p>
-                <div class="btn theme-btn m-auto">{{ __('Upload') }}</div>
-            </label>
-            <input type="file" id="uploadVideo" name="videoUrl" class="d-none">
+            </div>
+            <div class="upload-container">
+                <div class="image-preview">
+                    <img src="{{$post->images[1]->file_name ?? ''}}" alt="">
+                    <div class="img-btns">
+                        <span class="" ><i class="fa fa-plus"></i><br> Add Image</span>
+                        <input type="file" name="images[]" onchange="previewImage($(this), 'image')">
+                    </div>
+                </div>
+            </div>
+            <div class="upload-container">
+                <div class="image-preview">
+                    <img src="{{$post->images[2]->file_name ?? ''}}" alt="">
+                    <div class="img-btns">
+                        <span class="" ><i class="fa fa-plus"></i><br> Add Image</span>
+                        <input type="file" name="images[]" onchange="previewImage($(this), 'image')">
+                    </div>
+                </div>
+            </div>
+            <div class="upload-container">
+                <div class="image-preview">
+                    <img src="{{$post->images[3]->file_name ?? ''}}" alt="">
+                    <div class="img-btns">
+                        <span class="" ><i class="fa fa-plus"></i><br> Add Image</span>
+                        <input type="file" name="images[]" onchange="previewImage($(this), 'image')">
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="error text-danger" id="videoUrl_error"></div>
-        <div class="show-uploaded-img">
-            {{-- <div class="single-img">
-                <img src="/assets/img/dog.png" alt="">
-                <span class="remove-img-btn"><i class="las la-times"></i></span>
-            </div> --}}
+        @if($data['type'] == 'auction')
+        <div class="col-md-12">
+            <div class="upload-container">
+                <div class="image-preview">
+                    <video src="{{asset('uploads/ad_video/'.($post->videoUrl ?? ''))}}" alt=""></video>
+                    <div class="img-btns">
+                        <span class="" ><i class="fa fa-plus"></i><br> Add video</span>
+                        <input type="file" name="videoUrl" onchange="previewImage($(this), 'video')">
+                    </div>
+                    <input type="hidden" name="videoUrl" id="video_hidden" class="img_name"/>
+                </div>
+                <div id="progress" class=""></div>
+            </div>
         </div>
-    </div>
+        @endif
     </div>
     <div class="row">
         <input type="hidden" name="id" value="{{$post->id ?? ''}}">
+        <input type="hidden" name="post_type" value="{{$data['type'] ?? ''}}">
         <div class="col-xl-6 col-lg-6 mb-30">
             <div class="popup-form-field">
                 <label for="">{{ __('Add Location') }}</label>
@@ -82,8 +111,6 @@
                 <label for="subCategory">{{ __('Choose Subcategory') }}</label>
                 <select id="sub_category" name="subCategory" class="form-control">
                     <option value="">Select</option>
-                    <option value="">1</option>
-                    <option value="">2</option>
                 </select>
             </div>
         </div>
@@ -100,6 +127,41 @@
                 <input type="text" name="vaccine_detail" value="{{$post->vaccine_detail??''}}" placeholder="Enter here">
             </div>
         </div>
+        @if(!empty($data['type']) && $data['type'] == 'auction')
+        <div class="col-xl-6 col-lg-6 mb-30">
+            <div class="popup-form-field">
+                <label for="">{{ __('Add Starter Price') }}</label>
+                <input type="text" name="min_bid" placeholder="Enter here" value="{{$post->min_bid ?? ''}}">
+                <div class="error text-danger" id="min_bid_error"></div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-6 mb-30">
+            <div class="popup-form-field">
+                @php $days = [1,2,3,4,5,6,7,8] @endphp
+                <label for="">{{ __('Total Days') }}</label>
+                <select id="" name="expiry_days">
+                    <option value="">Select Day</option>
+                    @foreach ($days as $day)
+                    <option value="{{$day}}" {{(!empty($post->expiry_days) && ($post->expiry_days == $day)) ? 'selected' : ''}}>{{$day}}</option>
+                    @endforeach
+                </select>
+                <div class="error text-danger" id="expiry_days_error"></div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-6 mb-30">
+            <div class="popup-form-field">
+                <label for="">{{ __('Hours') }}</label>
+                @php $hours = [1,2,3,4,5,6,7,8] @endphp
+                <select id="" name="expiry_hours">
+                    <option value="">Select Hours</option>
+                    @foreach ($hours as $hour)
+                    <option value="{{$hour}}" {{(!empty($post->expiry_hours) && ($post->expiry_hours == $hour)) ? 'selected' : ''}}>{{$hour}}</option>
+                    @endforeach
+                </select>
+                <div class="error text-danger" id="expiry_hours_error"></div>
+            </div>
+        </div>
+        @endif
         <div class="col-xl-6 col-lg-6 mb-30">
             <div class="radio-option">
                 <label for="">{{ __('Sex') }}</label>
@@ -138,6 +200,7 @@
                 <textarea cols="10" name="itemDesc" rows="5" placeholder="Enter here">{{$post->itemDesc??''}}</textarea>
             </div>
         </div>
+        @if(!empty($data['type']) && $data['type'] == 'normal')
         <div class="radio-option mb-30">
             <label for="">{{ __('Select Communications options:') }}</label>
             <div class="communication-options">
@@ -159,6 +222,7 @@
                 </div>
             </div>
         </div>
+        @endif
     </div>
     </form>
 </div>
@@ -167,9 +231,29 @@
     <button type="button" class="btn theme-btn-light" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
     <button type="button" class="btn theme-btn" id="savePost" data-url="{{route('save-post')}}">{{ __('Post') }}</button>
 </div>
-
 <script type="text/javascript">
+
+    function previewImage(ele, type){
+        console.log(type);
+        const [file] = ele[0].files;
+        // $('#upload-img').attr('src',URL.createObjectURL(file));
+        if (type == 'video') {
+            // $(".video-preview .single-img").html(`<video src="`+URL.createObjectURL(file)+`" style="width: 100%; height: 50px;" />`);
+            ele.closest(".image-preview").find('video').attr("src", URL.createObjectURL(file));
+        } else {
+            // let html = `<div class="single-img">
+            //                 <input type="hidden" name="images[]" value="`+file+`"/>
+            //                 <img src="`+URL.createObjectURL(file)+`" alt="">
+            //                 <span class="remove-img-btn"><i class="las la-times"></i></span>
+            //             </div>`;
+            ele.closest(".image-preview").find('img').attr("src", URL.createObjectURL(file));
+        }
+        ele.closest(".image-preview").find('.remove-img-btn').removeClass('d-none');
+        $('.show-uploaded-img').show();
+    }
+
     $("#sub_category").select2({
+        dropdownParent: $('#commonModal'),
         placeholder: "Select Sub Category",
         ajax: {
             url: "<?php echo route("get_sub_category") ?>",
@@ -187,9 +271,11 @@
             },
             processResults: function(data, params) {
                 params.page = params.page || 1;
-                console.log(data.results);
                 return {
-                    results: data.results,
+                    results: $.map(data.results, function(obj) {
+                        let result = { id: obj.id, text: obj.title };
+                        return result;
+                    })
                     // pagination: {
                     //     more: (params.page * 30) < data.total_count
                     // }
@@ -197,9 +283,9 @@
             },
             cache: true
         },
-        escapeMarkup: function(markup) {
+        /*escapeMarkup: function(markup) {
             return markup;
-        }, // let our custom formatter work
+        }, */// let our custom formatter work
     });
 </script>
 

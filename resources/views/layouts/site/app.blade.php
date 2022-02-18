@@ -35,8 +35,7 @@
     <body>
         <!-- popup -->
         <!-- add new post -->
-        <div class="modal fade" id="commonModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-hidden="true">
+        <div class="modal fade" id="commonModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     love
@@ -535,8 +534,9 @@
         </footer>
 
         <!-- JS here -->
+        <!-- <script src="/assets/js/vendor/jquery-1.12.4.min.js"></script> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="/assets/js/vendor/modernizr-3.5.0.min.js"></script>
-        <script src="/assets/js/vendor/jquery-1.12.4.min.js"></script>
         <script src="/assets/js/popper.min.js"></script>
         <script src="/assets/js/bootstrap.min.js"></script>
         <script src="/assets/js/owl.carousel.min.js"></script>
@@ -564,6 +564,7 @@
                 }
             });
         </script>
+        
         @yield('scripts')
     </body>
 

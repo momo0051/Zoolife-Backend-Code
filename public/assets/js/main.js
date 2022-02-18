@@ -1,4 +1,4 @@
-(function ($) {
+$(document).ready(function(){
 // "use strict";
 
 // meanmenu
@@ -227,7 +227,7 @@ $('.posts').owlCarousel({
     }
 })
 
-	$('body').on('click', "#login-btn").on('click', "#login-btn", function(event) {
+	$('body').off('click', "#login-btn").on('click', "#login-btn", function(event) {
         event.preventDefault();
         var btn = $(this);
         var old_val = btn.val();
@@ -309,7 +309,7 @@ $('.posts').owlCarousel({
     });
 
     
-    $('body').on('click', "#savePost").on('click', "#savePost", function(event) {
+    $('body').off('click', "#savePost").on('click', "#savePost", function(event) {
         event.preventDefault();
         var btn = $(this);
         var old_val = btn.val();
@@ -356,7 +356,7 @@ $('.posts').owlCarousel({
         }
     });
 
-})(jQuery);
+});
 
 function setLocale(lang) {
 	if (lang == 'ar') {

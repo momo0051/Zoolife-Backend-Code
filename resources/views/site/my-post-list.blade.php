@@ -82,6 +82,10 @@
                 @if(!empty($data['auction']))
                     @foreach($data['auction'] as $post)
                     <div class="post-item">
+                        <div class="action-btns">
+                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-type="auction" data-url="{{route('load-post-auction-modal', ['auction',$post->id])}}" data-bs-target="{{ (\Auth::user()) ? '#commonModal' : '#login'}}"><i class="las la-edit"></i></button>
+                            <button class="btn btn-danger"><i class="las la-times"></i></button>
+                        </div>
                         <div class="post-img">
                             <a href="{{route('auction_detail',[$post->id])}}">
                                 @if(!empty($post->imgUrl))

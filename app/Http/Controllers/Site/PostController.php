@@ -118,6 +118,8 @@ class PostController extends Controller
             ->first();
         }
 
+        $data['type'] = $type;
+
         return view('site.post-auction-modal', compact('data', 'post', 'cities', 'categories'));
     }
 
@@ -128,13 +130,21 @@ class PostController extends Controller
 
         // Put validation
         $validator = Validator::make($request->all(), [
-            'imgUrl'   => 'required_without:videoUrl|mimes:jpeg,jpg,png,gif,svg,wbmp,webp',
-            'videoUrl' => 'required_without:imgUrl|mimes:mp4,3gp,avi,mpeg,flv,mov,qt',
+            'imgUrl'   => 'required|mimes:jpeg,jpg,png,gif,svg,wbmp,webp',
             'sex'      => 'required|in:male,female',
             'passport' => 'required|in:yes,no',
             'category' => 'required',
             'age'      => 'required',
             'itemTitle'=> 'required',
+            'post_type'=> 'required',
+            'videoUrl' => 'required_if:post_type,auction|mimes:mp4,3gp,avi,mpeg,flv,mov,qt',
+            'min_bid'  => 'required_if:post_type,auction',
+            'expiry_days'  => 'required_if:post_type,auction',
+            'expiry_hours'  => 'required_if:post_type,auction',
+        ], [
+            "min_bid.required_if" => "Please Enter Bid Price",
+            "expiry_days.required_if" => "Please Select Bid day",
+            "expiry_hours.required_if" => "Please Select Bid hours",
         ]);
 
         if ($validator->fails()) {
@@ -149,36 +159,65 @@ class PostController extends Controller
         $imagePath = public_path('uploads/ad/');
         $videoPath = public_path('uploads/ad_video/');
 
-        $blance = array(
-            'fromUserId'      => $user_id,
-            'priority'        => $request->priority??0,
-            'category'        => $request->category,
-            // 'subCategory'     => $request->subCategory,
-            'itemTitle'       => $request->itemTitle,
-            'itemDesc'        => $request->itemDesc,
-            'showComments'    => $request->showComments ? 1 : 0,
-            'showPhoneNumber' => $request->showPhoneNumber ? 1 : 0,
-            'showMessage'     => $request->showMessage ? 1 : 0,
-            'showWhatsapp'    => $request->showWhatsapp ? $request->showWhatsapp : 0,
-            'city'            => $request->city,
-            'age'             => !empty($request->age) ? $request->age : "",
-            'sex'             => !empty($request->sex) ? strtolower($request->sex) : 'male',
-            'passport'        => !empty($request->passport) ? $request->passport : "no",
-            'vaccine_detail'  => !empty($request->vaccine_detail) ? strtolower($request->vaccine_detail) : '',
-            'country'         => !empty($request->country) ? $request->country : "",
-            'created_at'      => Carbon::now()->format('Y-m-d H:i'),
-            'updated_at'      => Carbon::now()->format('Y-m-d H:i'),
-        );
+        // $blance = array(
+        //     'fromUserId'      => $user_id,
+        //     'priority'        => $request->priority??0,
+        //     'category'        => $request->category,
+        //     // 'subCategory'     => $request->subCategory,
+        //     'itemTitle'       => $request->itemTitle,
+        //     'itemDesc'        => $request->itemDesc,
+        //     'showComments'    => $request->showComments ? 1 : 0,
+        //     'showPhoneNumber' => $request->showPhoneNumber ? 1 : 0,
+        //     'showMessage'     => $request->showMessage ? 1 : 0,
+        //     'showWhatsapp'    => $request->showWhatsapp ? $request->showWhatsapp : 0,
+        //     'city'            => $request->city,
+        //     'age'             => !empty($request->age) ? $request->age : "",
+        //     'sex'             => !empty($request->sex) ? strtolower($request->sex) : 'male',
+        //     'passport'        => !empty($request->passport) ? $request->passport : "no",
+        //     'vaccine_detail'  => !empty($request->vaccine_detail) ? strtolower($request->vaccine_detail) : '',
+        //     'country'         => !empty($request->country) ? $request->country : "",
+        //     'post_type'       => $request->post_type,
+        //     'min_bid'         => $request->min_bid,
+        //     'expiry_days'     => $request->expiry_days,
+        //     'expiry_hours'    => $request->expiry_hours,
+        //     'updated_at'      => Carbon::now()->format('Y-m-d H:i'),
+        // );
 
         if (!empty($id)) {
             $item = Item::find($id);
-            if (!empty($item)) {
-                $item->update($blance);
-            }
+            // if (!empty($item)) {
+            //     // $item->update($blance);
+            // }
         } else {
-            $item = new Item($blance);
-            $item->save();
+            // $blance['created_at'] = Carbon::now()->format('Y-m-d H:i');
+            $item = new Item();
+            $item->created_at = Carbon::now()->format('Y-m-d H:i');
+            // $item->save();
         }
+
+        $item->fromUserId      = $user_id;
+        $item->priority        = $request->priority??0;
+        $item->category        = $request->category;
+        // $item->subCategory    => $request->subCategory;
+        $item->itemTitle       = $request->itemTitle;
+        $item->itemDesc        = $request->itemDesc;
+        $item->showComments    = $request->showComments ? 1 : 0;
+        $item->showPhoneNumber = $request->showPhoneNumber ? 1 : 0;
+        $item->showMessage     = $request->showMessage ? 1 : 0;
+        $item->showWhatsapp    = $request->showWhatsapp ? $request->showWhatsapp : 0;
+        $item->city            = $request->city;
+        $item->age             = !empty($request->age) ? $request->age : "";
+        $item->sex             = !empty($request->sex) ? strtolower($request->sex) : "male";
+        $item->passport        = !empty($request->passport) ? $request->passport : "no";
+        $item->vaccine_detail  = !empty($request->vaccine_detail) ? strtolower($request->vaccine_detail) : "";
+        $item->country         = !empty($request->country) ? $request->country : "";
+        $item->post_type       = $request->post_type;
+        $item->min_bid         = $request->min_bid;
+        $item->expiry_days     = $request->expiry_days;
+        $item->expiry_hours    = $request->expiry_hours;
+        $item->updated_at      = Carbon::now()->format("Y-m-d H:i");
+
+        $item->save();
 
         // $id = DB::table('items')->insertGetId($blance);
         $id = $item->id;
@@ -208,7 +247,7 @@ class PostController extends Controller
             $item->videoUrl = $videoUrl;
             $item->save();
 
-            /* if ($request->hasFile('images')) {
+             if ($request->hasFile('images')) {
                 $images    = $request->file('images');
                 $allImages = [];
                 foreach ($images as $k => $image) {
@@ -225,7 +264,7 @@ class PostController extends Controller
                 if (!empty($allImages)) {
                     $image = ItemImage::insert($allImages);
                 }
-            } */
+            } 
 
             $dr['error']  = false;
             $dr['status'] = 200;

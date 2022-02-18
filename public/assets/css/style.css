@@ -235,7 +235,7 @@ label {
     padding: 10px;
 }
 html[dir="rtl"] .search-icon {
-    right: 0;
+    /*right: 0;*/
 }
 html[dir="rtl"] .search-form input {
     padding-right: 40px;
@@ -1007,6 +1007,9 @@ html[dir="rtl"] .warning-message .alert-warning {
 }
 .single-img {
     position: relative;
+    width: 120px;
+    height: 115px;
+    background: #f4f4f4;
 }
 .remove-img-btn {
     position: absolute;
@@ -1029,6 +1032,10 @@ html[dir="rtl"] .warning-message .alert-warning {
 .single-img img {
     width: 100%;
     border-radius: 15px;
+    height: auto;
+    width: auto;
+    max-width: 100%;
+    max-height: 100%;
 }
 .popup-form-field label {
     color: #202020;
@@ -1663,5 +1670,77 @@ html[dir="rtl"] .typing-area input {
 .action-btns {
     position: absolute;
     right: 0;
+    z-index: 1;
+}
+
+.upload-container{display: inline-block;width: 140px;}
+.upload-container .image-preview{
+    height: 130px;
+    /*width: 150px;*/
+    overflow: hidden;
+    position: relative;
+    background: #ccc;
+    margin: 5px;
+}
+.upload-container .image-preview img, .upload-container .image-preview video{
+    max-width: 100%;
+    height: auto;
+    max-height: 100%;
+    top: 50%;
+    left: 50%;
+    position: relative;
+    vertical-align: middle;
+    transform: translate(-50%,-50%);
+}
+.upload-container .image-preview .img-btns{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    /*background: rgba(255, 255, 255, 0.6);*/
+    font-size: 18px;
+    top: 0;
+}
+.upload-container .image-preview .img-btns input[type="file"]{
+    height: 100%;
+    width: 100%;
+    background: #ccc;
+    opacity: 0;
+}
+.upload-container .image-preview .img-btns span{
+    position: absolute;
+    text-align: center;
+    z-index: 0;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: 100%;
+    top: 50%;
+    left: 50%;
+    vertical-align: middle;
+    transform: translate(-50%,-50%);
+}
+.upload-container .image-preview .img-btns .img_text{
+    position: absolute;
+    bottom: 0;
+    width: 95%;
+    margin: 8px;
+}
+#progress{background: none; width: 100%;}
+.upload-container .image-list .image-preview{margin: 5px;}
+.hover{opacity: 0;}
+.hover:hover{
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.6);
+}
+.upload-container .img-remove-btn{
+    position: absolute;
+    z-index: 1;
+}
+
+.upload-container .progress,.progress-bar{max-width: 100%;}
+
+.upload-container.select_file input[type=file] {
+    opacity: 0;
+    width: 100%;
     z-index: 1;
 }

@@ -106,10 +106,17 @@ class UserController extends Controller
             $data = [];
             $posts = Item::select('items.*', 'u.name as author')
                             ->leftjoin('users as u','u.id','fromUserId')
-                            // ->where('post_type', $type)
+                            ->where('post_type', "normal")
                             ->where('fromUserId', $user->id)
                             ->orderBy('updated_at', 'DESC');
             $data['posts'] = $posts->paginate(5);
+
+            $auction = Item::select('items.*', 'u.name as author')
+                            ->leftjoin('users as u','u.id','fromUserId')
+                            ->where('post_type', 'auction')
+                            ->where('fromUserId', $user->id)
+                            ->orderBy('updated_at', 'DESC');
+            $data['auction'] = $auction->paginate(5);
             return view('site.my-post-list', compact('data'));
         } else {
             abort(404);
