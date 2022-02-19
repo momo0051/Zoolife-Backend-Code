@@ -12,8 +12,6 @@
                                 @if(!empty($post->imgUrl))
                                 <!-- <img src="{{$post->imgUrl}}" alt=""> -->
                                 <img src="{{\App\Helpers\CommonHelper::getWebUrl($post->imgUrl, 'ad')}}" alt="">
-                                @else
-                                <img src="/assets/img/posts/post-2.png" alt="">
                                 @endif
                             </div>
                         </div>
@@ -25,6 +23,13 @@
                                 </div>
                             </div>
                             @endforeach
+                        @endif
+                        @if(!empty($post->imgUrl))
+                        <div class="post-details-single">
+                            <div class="post-details-img">
+                                <video src="{{\App\Helpers\CommonHelper::getWebUrl($post->videoUrl, 'ad_video')}}" alt="" controls style="width: 100%;"></video>
+                            </div>
+                        </div>
                         @endif
                     </div>
                     <div class="place-bid-form mb-20">
