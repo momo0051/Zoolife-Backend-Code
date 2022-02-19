@@ -360,6 +360,113 @@ $('.posts').owlCarousel({
         }
     });
 
+    $('body').off('click', ".do-fav").on('click', ".do-fav", function(event) {
+        event.preventDefault();
+        var btn = $(this);
+        // var submitUrl = btn.data('url') ? btn.data('url') : "";
+        var fav = btn.data('fav');
+        var itemId = btn.data('itemid');
+        var type = btn.data('type');
+        console.log(fav);
+
+        if (favouritUrl) {
+            $.ajax({
+                url: favouritUrl,
+                type: 'post',
+                dataType: 'json',
+                data: {fav: fav, id: itemId, type:type},
+                beforeSend: function() {
+                    $('.error,.submit_notification').html('');
+                    $('.btn').attr("disabled", "disabled");
+                },
+                success: function(result) {
+                    $('.error').html('');
+                    $('.btn').removeAttr("disabled");
+                    if (result.status == 200) {
+                        if(fav == '1'){
+                            btn.data('fav','0');
+                            console.log(btn);
+                            btn.find('.favrt-icon').removeClass('lar').addClass('las');
+                            if(btn.find('span').length){
+                                btn.find('span').text('Remove from favourites');
+                            }
+                        }else{
+                            btn.data('fav','1');
+                            btn.find('.favrt-icon').removeClass('las').addClass('lar');
+                            if(btn.find('span').length){
+                                btn.find('span').text('Add to favourites');
+                            }
+                        }
+                        $('.toast-notify').find('.toast-body').text(result.message);
+                        $('.toast-notify').toast('show');
+                    } else {
+                        // alert(result.message);
+                        $('.toast-notify').removeClass('bg-success').addClass('bg-danger');
+                        $('.toast-notify').find('.toast-body').text(result.message);
+                        $('.toast-notify').toast('show');
+                    }
+                },
+                error: function(e) {
+                    $('.btn').removeAttr("disabled");
+                    $('.toast-notify').removeClass('bg-success').addClass('bg-danger');
+                        $('.toast-notify').find('.toast-body').text(result.message);
+                        $('.toast-notify').toast('show');
+                }
+            });
+        }
+    });
+
+    $('body').off('click', ".do-like").on('click', ".do-like", function(event) {
+        event.preventDefault();
+        var btn = $(this);
+        // var submitUrl = btn.data('url') ? btn.data('url') : "";
+        var like = btn.data('like');
+        var itemId = btn.data('itemid');
+        var type = btn.data('type');
+
+        if (likeUrl) {
+            $.ajax({
+                url: likeUrl,
+                type: 'post',
+                dataType: 'json',
+                data: {like: like, id: itemId, type:type},
+                beforeSend: function() {
+                    $('.error,.submit_notification').html('');
+                    $('.btn').attr("disabled", "disabled");
+                },
+                success: function(result) {
+                    $('.error').html('');
+                    $('.btn').removeAttr("disabled");
+                    if (result.status == 200) {
+                        if(like == '1'){
+                            btn.data('like','0');
+                            btn.find('.like-icon').removeClass('lar').addClass('las');
+                            if(btn.find('span').length){
+                                btn.find('span').text('Unlike');
+                            }
+                        }else{
+                            btn.data('like','1');
+                            btn.find('.like-icon').removeClass('las').addClass('lar');
+                            if(btn.find('span').length){
+                                btn.find('span').text('Like');
+                            }
+                        }
+                    } else {
+                        $('.toast-notify').removeClass('bg-success').addClass('bg-danger');
+                        $('.toast-notify').find('.toast-body').text(result.message);
+                        $('.toast-notify').toast('show');
+                    }
+                },
+                error: function(e) {
+                    $('.btn').removeAttr("disabled");
+                    $('.toast-notify').removeClass('bg-success').addClass('bg-danger');
+                    $('.toast-notify').find('.toast-body').text("Something Went Wrong!... Please try again after refresh");
+                    $('.toast-notify').toast('show');
+                }
+            });
+        }
+    });
+
 });
 
 function setLocale(lang) {

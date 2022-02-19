@@ -41,6 +41,9 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        $user   = \Auth::user();
+        $userId = !empty($user->id) ? $user->id : 0;
+        
         $data = [];
         $data['sliders'] = Slider::where('status', '=', 1)->get();
         $data['categories'] = Category::where('mainCategoryId', 0)->get();
@@ -50,12 +53,28 @@ class HomeController extends Controller
         $data['sub_categories'] = Category::whereIn('mainCategoryId', $catIds)->get()->groupBy('mainCategoryId');
 
         $data['articles'] = Article::orderBy('updated_at', 'DESC')->limit(10)->get();
-        $data['featuredPosts'] = Item::select('items.*', 'u.name as author')->leftjoin('users as u','u.id','fromUserId')->where('priority','>',0)->orderBy('updated_at', 'DESC')->get();
-        $data['posts'] = Item::select('items.*', 'u.name as author')
+        $data['featuredPosts'] = Item::select('items.*', 'u.name as author', \DB::raw("IF(if.itemId > 0, 1, 0) as is_favorite"))
+                                ->leftjoin('users as u','u.id','fromUserId')
+                                ->leftJoin("item_favorites as if", function($query) use ($userId) {
+                                    $query->on('if.itemId','items.id');
+                                    $query->where('if.userId', $userId);
+                                    // $query->where('if.type', 'post');
+                                })
+                                ->where('priority','>',0)
+                                ->orderBy('updated_at', 'DESC')
+                                ->get();
+
+        $data['posts'] = Item::select('items.*', 'u.name as author', \DB::raw("IF(if.itemId > 0, 1, 0) as is_favorite"))
                         ->leftjoin('users as u','u.id','fromUserId')
+                        ->leftJoin("item_favorites as if", function($query) use ($userId) {
+                            $query->on('if.itemId','items.id');
+                            $query->where('if.userId', $userId);
+                            // $query->where('if.type', 'post');
+                        })
                         ->where('post_type', 'normal')
                         ->orderBy('updated_at', 'DESC')
                         ->limit(10)->get();
+
         $data['auction'] = Item::select('items.*', 'u.name as author')
                         ->leftjoin('users as u','u.id','fromUserId')
                         ->where('post_type', 'auction')

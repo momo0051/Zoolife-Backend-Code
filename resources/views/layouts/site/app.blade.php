@@ -33,7 +33,11 @@
     </head>
 
     <body>
-        <!-- popup -->
+        <div class="toast toast-notify bg-success" style="">
+            <div class="toast-header"></div>
+            <div class="toast-body"></div>
+        </div>
+
         <!-- add new post -->
         <div class="modal fade" id="commonModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -551,6 +555,10 @@
         <script src="/assets/js/jquery.magnific-popup.min.js"></script>
         <script src="/assets/js/plugins.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script type="text/javascript">
+            var favouritUrl = "{{route('do-favourite')}}";
+            var likeUrl     = "{{route('do-like')}}";
+        </script>
         <script src="/assets/js/main.js"></script>
         
         <script type="text/javascript">

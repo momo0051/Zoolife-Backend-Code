@@ -36,19 +36,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('post/load-post-auction-modal/{type?}/{id?}', array('as' => 'load-post-auction-modal', 'uses' => 'Site\PostController@loadPostOrAuctionModal'));
     Route::post('post/savePost', array('as' => 'save-post', 'uses' => 'Site\PostController@savePost'));
     Route::get('my-post', array('as' => 'my-posts', 'uses' => 'Site\UserController@myPosts'));
+    
+    Route::post('post/doFavourite', array('as' => 'do-favourite', 'uses' => 'Site\PostController@doFavourite'));
+    Route::post('post/doLike', array('as' => 'do-like', 'uses' => 'Site\PostController@doLike'));
 });
 
 Route::get('logout', array('as' => 'logout', 'uses' => 'Site\UserController@logout'));
 
 Route::post('get-sub-category', array('as' => 'get_sub_category', 'uses' => 'Site\PostController@getSubCategory'));
-
- // Route::any('/', array('as' => 'home', 'uses' => 'Site\HomeController@homePage'));
- // Route::any('/about-us', array('as' => 'aboutus', 'uses' => 'Site\HomeController@aboutUsPage'));
- // Route::any('/gallery', array('as' => 'gallery', 'uses' => 'Site\HomeController@galleryPage'));
- // Route::any('/services', array('as' => 'services', 'uses' => 'Site\HomeController@servicesPage'));
- // Route::any('/services/{slug}', array('as' => 'services.detail', 'uses' => 'Site\HomeController@servicesDetail'));
- // Route::any('/contact', array('as' => 'contact', 'uses' => 'Site\HomeController@contactUsPage'));
-
- // Route::post('/send', array('as' => 'contact.sendemail', 'uses' => 'Site\HomeController@emailSendToAdmin'));
- 
- // Route::get('/thankyou', array('as' => 'contact.thankyou', 'uses' => 'Site\HomeController@thankyou'));

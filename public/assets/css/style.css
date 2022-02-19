@@ -1744,3 +1744,11 @@ html[dir="rtl"] .typing-area input {
     width: 100%;
     z-index: 1;
 }
+
+.toast-notify{
+    position:fixed;
+    top:10px;
+    right:10px;
+    z-index: 100;
+    color: #fff;
+}

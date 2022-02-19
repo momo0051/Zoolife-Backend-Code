@@ -3,7 +3,7 @@
 @section('content')
 <!-- slider -->
     @include('layouts.site.includes.slider')
-    
+    @php $logged_in = (\Auth::user()); @endphp
     <!-- Explore -->
     <section class="posts-area pt-100 pb-120">
         <div class="container">
@@ -26,8 +26,8 @@
                                             <img src="img/posts/dog.jpg" alt="...">
                                             @endif
                                         </a>
-                                        <div class="post-fav">
-                                            <i class="las la-heart"></i>
+                                        <div class="post-fav {{$logged_in ? 'do-fav' : 'do-fav'}}" data-itemid="{{$post->id}}" data-fav="{{ !empty($post->is_favorite) ? '0' : '1'}}" data-type="post">
+                                            <i class="{{!empty($post->is_favorite) ? 'las' : 'lar'}} la-heart favrt-icon"></i>
                                         </div>
                                     </div>
                                 </div>

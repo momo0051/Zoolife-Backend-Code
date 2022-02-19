@@ -3,6 +3,7 @@
 @section('content')
 <!-- slider -->
     @include('layouts.site.includes.slider')
+    @php $loggedIn = (\Auth::user()); @endphp
     <section class="slider-area d-none">
         <div class="slider owl-carousel">
             @if(!empty($data['sliders']))
@@ -37,13 +38,11 @@
                             @if(!empty($feature->imgUrl))
                             <!-- <img src="{{asset('/uploads/ad/'.$feature->imgUrl)}}" alt=""> -->
                             <img src="{{\App\Helpers\CommonHelper::getWebUrl($feature->imgUrl, 'ad')}}" alt="">
-                            @else
-                            <img src="/assets/img/posts/post-1.png" alt="">
                             @endif
                             </a>
                             <span class="post-badge">{{ __('Featured') }}</span>
-                            <div class="post-fav">
-                                <i class="las la-heart"></i>
+                            <div class="post-fav {{$loggedIn ? 'do-fav' : 'do-fav'}}" data-itemid="{{$feature->id}}" data-fav="{{ !empty($feature->is_favorite) ? '0' : '1'}}" data-type="post">
+                                <i class="{{!empty($feature->is_favorite) ? 'las' : 'lar'}} la-heart favrt-icon"></i>
                             </div>
                         </div>
                         <div class="post-body">
@@ -130,8 +129,8 @@
                                 <img src="/assets/img/posts/post-1.png" alt="">
                                 @endif
                             </a>
-                            <div class="post-fav">
-                                <i class="las la-heart"></i>
+                            <div class="post-fav {{$loggedIn ? 'do-fav' : 'do-fav'}}" data-itemid="{{$post->id}}" data-fav="{{ !empty($post->is_favorite) ? '0' : '1'}}" data-type="post">
+                                <i class="{{!empty($post->is_favorite) ? 'las' : 'lar'}} la-heart favrt-icon"></i>
                             </div>
                         </div>
                         <div class="post-body">
@@ -176,8 +175,8 @@
                                 <img src="/assets/img/posts/post-1.png" alt="">
                                 @endif
                             </a>
-                            <div class="post-fav">
-                                <i class="las la-heart"></i>
+                            <div class="post-fav {{$loggedIn ? 'do-fav' : 'do-fav'}}" data-itemid="{{$post->id}}" data-fav="{{ !empty($post->is_favorite) ? '0' : '1'}}" data-type="post">
+                                <i class="{{!empty($post->is_favorite) ? 'las' : 'lar'}} la-heart favrt-icon"></i>
                             </div>
                         </div>
                         <div class="post-body">
@@ -219,7 +218,7 @@
                                 <img src="{{asset('uploads/article/'.$article->image)}}" alt="">
                                 @endif
                             </a>
-                            <div class="post-fav">
+                            <div class="post-fav d-none">
                                 <i class="las la-heart"></i>
                             </div>
                         </div>

@@ -1,6 +1,7 @@
 @extends('layouts.site.app')
 
 @section('content')
+    @php $logged_in = (\Auth::user()); @endphp
     <!-- post details -->
     <section class="post-details pt-65 pb-90">
         <div class="container">
@@ -113,10 +114,12 @@
                         <p>{{$post->itemDesc ?? ''}}</p>
                     </div>
                     <div class="description-btn">
-                        <a href="#" class="btn btn-red w-auto"><i class="lar la-thumbs-up fs-25"></i>{{ __('Like') }}</a>
+                        <a href="#" class="btn btn-red w-auto {{$logged_in ? 'do-like' : ''}}" data-itemId="{{$post->id}}" data-like="{{ !empty($post->is_liked) ? '0' : '1'}}">
+                            <i class="{{!empty($post->is_liked) ? 'las' : 'lar'}} la-thumbs-up fs-25 like-icon"></i><span>{{ __(!empty($post->is_liked) ? 'Unlike' : 'Like') }}</span>
+                        </a>
                         <a href="#" class="btn theme-btn w-auto"><i class="las la-share fs-25"></i>{{ __('Share') }}</a>
                         <a href="#" class="btn btn-green w-auto"><i class="lab la-whatsapp fs-25"></i>{{ __('Whatsapp') }}</a>
-                        <a href="#" class="btn btn-yellow w-auto"><i class="lar la-heart fs-25"></i>{{ __('Add to Favorite') }}</a>
+                        <a href="#" class="btn btn-yellow w-auto {{$logged_in ? 'do-fav' : ''}}" data-itemid="{{$post->id}}" data-fav="{{ !empty($post->is_favorite) ? '0' : '1'}}"><i class="{{!empty($post->is_favorite) ? 'las' : 'lar'}} la-heart fs-25 favrt-icon"></i><span>{{ __(!empty($post->is_favorite) ? 'Remove From Favorites' : 'Add to Favorites') }}</span></a>
                     </div>
                 </div>
             </div>
@@ -205,7 +208,7 @@
                                 <img src="{{asset('/uploads/ad/'.$rPost->imgUrl)}}" alt="">
                                 @endif
                             </a>
-                            <div class="post-fav">
+                            <div class="post-fav d-none">
                                 <i class="las la-heart"></i>
                             </div>
                         </div>

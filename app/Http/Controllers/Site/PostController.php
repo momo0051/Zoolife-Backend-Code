@@ -9,7 +9,9 @@ use App\Models\Slider;
 use App\Models\Category;
 use App\Models\Article;
 use App\Models\Item;
+use App\Models\ItemFavourite;
 use App\Models\ItemImage;
+use App\Models\Like;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -33,11 +35,19 @@ class PostController extends Controller
      */
     public function index($type = "normal", Request $request)
     {
+        $user   = \Auth::user();
+        $userId = !empty($user->id) ? $user->id : 0;
+
         $data = [];
         $data['sliders'] = Slider::where('status', '=', 1)->get();
         $data['categories'] = Category::get();
-        $posts = Item::select('items.*', 'u.name as author')
+        $posts = Item::select('items.*', 'u.name as author', \DB::raw("IF(if.itemId > 0, 1, 0) as is_favorite"))
                         ->leftjoin('users as u','u.id','fromUserId')
+                        ->leftJoin("item_favorites as if", function($query) use ($userId) {
+                            $query->on('if.itemId','items.id');
+                            $query->where('if.userId', $userId);
+                            // $query->where('if.type', 'post');
+                        })
                         ->where('post_type', $type)
                         ->orderBy('updated_at', 'DESC');
         $searchParam = [];
@@ -67,11 +77,24 @@ class PostController extends Controller
 
     public function postShow($slug, Request $request)
     {
+        $user   = \Auth::user();
+        $userId = !empty($user->id) ? $user->id : 0;
+
         $data = [];
-        $post = Item::select('items.*', 'u.username as author', 'u.phone')
+        $post = Item::select('items.*', 'u.username as author', 'u.phone', \DB::raw("IF(if.itemId > 0, 1, 0) as is_favorite"), \DB::raw("IF(l.itemId > 0, 1, 0) as is_liked"))
                         ->with('images')
                         ->with('itemComments')
                         ->leftjoin('users as u','u.id','fromUserId')
+                        ->leftJoin("item_favorites as if", function($query) use ($userId) {
+                            $query->on('if.itemId','items.id');
+                            $query->where('if.userId', $userId);
+                            // $query->where('if.type', 'post');
+                        })
+                        ->leftJoin("likes as l", function($query) use ($userId) {
+                            $query->on('l.itemId','items.id');
+                            $query->where('l.fromUserId', $userId);
+                            // $query->where('l.type', 'post');
+                        })
                         ->where('post_type', 'normal')
                         ->where('items.id', $slug)
                         ->first();
@@ -86,6 +109,9 @@ class PostController extends Controller
 
     public function auctionShow($slug, Request $request)
     {
+        $user   = \Auth::user();
+        $userId = !empty($user->id) ? $user->id : 0;
+
         $data = [];
         $post = Item::select('items.*', 'u.username as author', 'u.phone')
                         ->with('images')
@@ -306,6 +332,53 @@ class PostController extends Controller
 
         $data['results'] = $categories->toArray();
         return response()->json($data);
+    }
+
+    public function doFavourite(Request $request)
+    {
+        $user   = \Auth::user();
+        $userId = !empty($user->id) ? $user->id : 0;
+        
+        $item = ItemFavourite::where('itemId',$request->id)->where('userId', $userId)->first();
+
+        if (!empty($item)) {
+            $item->delete();
+            $msg = trans('messages.item_removed_fvrt');
+        } else{
+            $insert = [
+                'itemId' => $request->id,
+                'userId' => $userId,
+                'co'     => date('Y-m-d H:i:s'),
+                'uo'     => date('Y-m-d H:i:s'),
+            ];
+            ItemFavourite::insert($insert);
+            $msg = trans('messages.item_added_fvrt');
+        }
+
+        return response()->json(['status'=>200, 'message'=>$msg]);
+    }
+
+    public function doLike(Request $request)
+    {
+        $user   = \Auth::user();
+        $userId = !empty($user->id) ? $user->id : 0;
+        
+        $item = Like::where('itemId',$request->id)->where('fromUserId', $userId)->first();
+
+        if (!empty($item)) {
+            $item->delete();
+            $msg = trans('messages.unliked');
+        } else{
+            $insert = [
+                'itemId' => $request->id,
+                'fromUserId' => $userId,
+                'createAt'   => time(),
+            ];
+            Like::insert($insert);
+            $msg = trans('messages.liked');
+        }
+
+        return response()->json(['status'=>200, 'message'=>$msg]);
     }
 
 }
