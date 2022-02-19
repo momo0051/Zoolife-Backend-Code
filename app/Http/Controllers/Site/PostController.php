@@ -23,9 +23,13 @@ class PostController extends Controller
      *
      * @return void
      */
+    public $imagePath;
+    public $videoPath;
+
     public function __construct()
     {
-
+        $this->imagePath = public_path('uploads/ad/');
+        $this->videoPath = public_path('uploads/ad_video/');
     }
 
     /**
@@ -176,9 +180,9 @@ class PostController extends Controller
             "expiry_hours.required_if" => "Please Select Bid hours",
         ]);
 
-        $validator->sometimes('videoUrl', 'required', function($input){
-            return (($input->old_videoUrl == '') && ($input->post_type == 'auction'));
-        });
+        // $validator->sometimes('videoUrl', 'required', function($input){
+        //     return (($input->old_videoUrl == '') && ($input->post_type == 'auction'));
+        // });
 
         if ($validator->fails()) {
             return response()->json([
@@ -299,16 +303,71 @@ class PostController extends Controller
                 }
             } 
 
-            $dr['error']  = false;
-            $dr['status'] = 200;
-            $dr['message'] = trans('messages.post_added');
+            $result = [
+                'status'  => 200,
+                'message' => trans('messages.post_added'),
+            ];
         } else {
-
-            $dr['status'] = 104;
-            $dr['error']  = true;
-            $dr['message'] = trans('messages.unable_to_process_request');
+            $result = [
+                'status'  => 500,
+                'message' => trans('messages.unable_to_process_request'),
+            ];
         }
-        return response()->json($dr);
+        return response()->json($result);
+    }
+
+    public function deletePost(Request $request)
+    {
+        $user   = \Auth::user();
+        $userId = !empty($user->id) ? $user->id : 0;
+        
+        $item = Item::where('id', $request->id)->where('fromUserId', $userId)->first();
+
+        if (!empty($item)) {
+            $item->delete();
+            $result = [
+                'status'  => 200,
+                'message' => trans('messages.post_deleted'),
+            ];
+        } else {
+            $result = [
+                'status'  => 500,
+                'message' => "Something went wrong! please try againg after refresh",
+            ];
+        }
+        return response()->json($result);
+    }
+
+    public function deletePostImage(Request $request)
+    {
+        $user   = \Auth::user();
+        $userId = !empty($user->id) ? $user->id : 0;
+        
+        $image = ItemImage::where(['item_id' => $request->item_id, 'id' => $request->id])->first();
+
+        if (!empty($image)) {
+            // Remove old Image
+            if (!empty($image->file_name)) {
+                $parts        = explode('/', $image->file_name);
+                $oldImage     = end($parts);
+                $oldImagePath = $this->imagePath . $oldImage;
+                if (file_exists($oldImagePath)) {
+                    @unlink($oldImagePath);
+                }
+            }
+
+            $image->delete();
+            $result = [
+                'status'  => 200,
+                'message' => "Image removed successfully",
+            ];
+        } else {
+            $result = [
+                'status'  => 500,
+                'message' => "Something went wrong! please try againg after refresh",
+            ];
+        }
+        return response()->json($result);
     }
 
     public function getSubcategory(Request $request)

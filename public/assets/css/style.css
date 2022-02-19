@@ -157,7 +157,8 @@ label {
     font-weight: 500;
     line-height: 24px;
     margin-bottom: 0;
-    padding: 15px 20px;
+    /*padding: 15px 20px;*/
+    padding: 10px 15px;
     text-align: center;
     text-transform: capitalize;
     touch-action: manipulation;
@@ -1679,8 +1680,9 @@ html[dir="rtl"] .typing-area input {
     /*width: 150px;*/
     overflow: hidden;
     position: relative;
-    background: #ccc;
+    /*background: #f4f4f4;*/
     margin: 5px;
+    border: 1px solid #f4f4f4;
 }
 .upload-container .image-preview img, .upload-container .image-preview video{
     max-width: 100%;
@@ -1751,4 +1753,16 @@ html[dir="rtl"] .typing-area input {
     right:10px;
     z-index: 100;
     color: #fff;
+}
+
+.remove-post-img, .remove-img-btn {
+    padding: 0px 5px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 50px;
+    z-index: 10;
+}
+.bootbox-close-button{
+    display: none;
 }

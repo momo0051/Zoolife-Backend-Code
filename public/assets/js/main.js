@@ -299,9 +299,9 @@ $('.posts').owlCarousel({
                 success: function(result) {
                     $('.error').html('');
                     modalContent.html(result);
-                    setTimeout(function(){
-                        loadSubCategory();
-                    },1000);
+                    // setTimeout(function(){
+                    //     loadSubCategory();
+                    // },1000);
                 },
                 error: function(e) {
                     modalContent.html('<div class="modal-header pt-45"><h5 class="modal-title">Post</h5></div><div class="modal-body"><span class="text-danger error">Something Went Wrong!... Please try again after refresh</span><div class="modal-footer pb-35"><button type="button" class="btn theme-btn-light" data-bs-dismiss="modal">Cancel</button></div>');
@@ -311,7 +311,6 @@ $('.posts').owlCarousel({
         
     });
 
-    
     $('body').off('click', "#savePost").on('click', "#savePost", function(event) {
         event.preventDefault();
         var btn = $(this);
@@ -462,6 +461,83 @@ $('.posts').owlCarousel({
                     $('.toast-notify').removeClass('bg-success').addClass('bg-danger');
                     $('.toast-notify').find('.toast-body').text("Something Went Wrong!... Please try again after refresh");
                     $('.toast-notify').toast('show');
+                }
+            });
+        }
+    });
+
+    $('body').off('click', ".remove-img-btn").on('click', ".remove-img-btn", function(event) {
+        var btn = $(this);
+        btn.closest('.image-preview').find('img').attr("src", "");
+        btn.closest('.image-preview').find('input').val('');
+        btn.closest(".image-preview").find('.remove-img-btn').addClass('d-none');
+    });
+
+    $('body').off('click', ".delete-post-btn, .remove-post-img").on('click', ".delete-post-btn, .remove-post-img", function(event) {
+        event.preventDefault();
+        var btn = $(this);
+        var submitUrl = btn.data('url') ? btn.data('url') : "";
+        var id = btn.data('id');
+        var type = btn.data('type');
+        var data = {id: id};
+
+        if (type == 'remove_image') {
+            submitUrl = removePostImageUrl;
+            data.item_id = btn.data('item');
+            console.log(data);
+        } else if (type == 'remove_post') {
+            submitUrl = removePostUrl;
+        }
+
+        if (submitUrl) {
+            bootbox.confirm({
+                message: "Are you sure you want to delete this data?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (confirm) {
+                    if (confirm) {
+                        $.ajax({
+                            url: submitUrl,
+                            type: 'post',
+                            dataType: 'json',
+                            data: data,
+                            beforeSend: function() {
+                                $('.error,.submit_notification').html('');
+                                $('.btn').attr("disabled", "disabled");
+                            },
+                            success: function(result) {
+                                $('.error').html('');
+                                $('.btn').removeAttr("disabled");
+                                $('.toast-notify').find('.toast-body').text(result.message);
+                                if (result.status == 200) {
+                                    if (type == 'remove_image') {
+                                        btn.closest('.image-preview').find('img').attr("src", "");
+                                        btn.remove();
+                                    } else if (type == 'remove_post') {
+                                        btn.closest('.post-item').remove();
+                                        location.reload();
+                                    }
+                                } else {
+                                    $('.toast-notify').removeClass('bg-success').addClass('bg-danger');
+                                }
+                                $('.toast-notify').toast('show');
+                            },
+                            error: function(e) {
+                                $('.btn').removeAttr("disabled");
+                                $('.toast-notify').removeClass('bg-success').addClass('bg-danger');
+                                $('.toast-notify').find('.toast-body').text("Something Went Wrong!... Please try again after refresh");
+                                $('.toast-notify').toast('show');
+                            }
+                        });
+                    }
                 }
             });
         }

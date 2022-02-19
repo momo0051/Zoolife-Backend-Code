@@ -1,7 +1,10 @@
 @extends('layouts.site.app')
 
 @section('content')
-    @php $logged_in = (\Auth::user()); @endphp
+    @php
+        $logged_in  = (\Auth::user());
+        $currentUrl = \Request::url();
+    @endphp
     <!-- post details -->
     <section class="post-details pt-65 pb-90">
         <div class="container">
@@ -117,8 +120,8 @@
                         <a href="#" class="btn btn-red w-auto {{$logged_in ? 'do-like' : ''}}" data-itemId="{{$post->id}}" data-like="{{ !empty($post->is_liked) ? '0' : '1'}}">
                             <i class="{{!empty($post->is_liked) ? 'las' : 'lar'}} la-thumbs-up fs-25 like-icon"></i><span>{{ __(!empty($post->is_liked) ? 'Unlike' : 'Like') }}</span>
                         </a>
-                        <a href="#" class="btn theme-btn w-auto"><i class="las la-share fs-25"></i>{{ __('Share') }}</a>
-                        <a href="#" class="btn btn-green w-auto"><i class="lab la-whatsapp fs-25"></i>{{ __('Whatsapp') }}</a>
+                        <a href="#" onclick="copyShareLink('{{$currentUrl}}') .then(() => alert('Link copied !'))" class="btn theme-btn w-auto"><i class="las la-share fs-25"></i>{{ __('Share') }}</a>
+                        <a target="_blank" href="https://wa.me/?text={{urlencode($currentUrl)}}" class="btn btn-green w-auto"><i class="lab la-whatsapp fs-25"></i>{{ __('Whatsapp') }}</a>
                         <a href="#" class="btn btn-yellow w-auto {{$logged_in ? 'do-fav' : ''}}" data-itemid="{{$post->id}}" data-fav="{{ !empty($post->is_favorite) ? '0' : '1'}}"><i class="{{!empty($post->is_favorite) ? 'las' : 'lar'}} la-heart fs-25 favrt-icon"></i><span>{{ __(!empty($post->is_favorite) ? 'Remove From Favorites' : 'Add to Favorites') }}</span></a>
                     </div>
                 </div>

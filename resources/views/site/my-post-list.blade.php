@@ -26,7 +26,6 @@
         <div class="container">
             <div class="section-title mb-40 d-flex align-items-center justify-content-between">
                 <h2>{{ __('Posts') }}</h2>
-                <a href="{{route('posts')}}" class="see-all-link mb-10">{{ __('See all') }}<i class="las la-angle-right"></i></a>
             </div>
             <div class="posts owl-carousel">
                 @if(!empty($data['posts']))
@@ -34,7 +33,7 @@
                     <div class="post-item">
                         <div class="action-btns">
                             <button type="button" class="btn btn-info" data-bs-toggle="modal" data-type="normal" data-url="{{route('load-post-auction-modal', ['normal',$post->id])}}" data-bs-target="{{ (\Auth::user()) ? '#commonModal' : '#login'}}"><i class="las la-edit"></i></button>
-                            <button class="btn btn-danger"><i class="las la-times"></i></button>
+                            <button class="btn btn-danger delete-post-btn" data-type="remove_post" data-id="{{$post->id ?? ''}}"><i class="las la-times"></i></button>
                         </div>
                         <div class="post-img">
                             <a href="{{route('post_detail',[$post->id])}}">
@@ -76,7 +75,6 @@
         <div class="container">
             <div class="section-title mb-40 d-flex align-items-center justify-content-between">
                 <h2>{{ __('Auctions') }}</h2>
-                <a href="{{route('posts',['auction'])}}" class="see-all-link mb-10">{{ __('See all') }}<i class="las la-angle-right"></i></a>
             </div>
             <div class="posts owl-carousel">
                 @if(!empty($data['auction']))

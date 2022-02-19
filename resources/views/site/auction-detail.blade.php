@@ -1,6 +1,10 @@
 @extends('layouts.site.app')
 
 @section('content')
+    @php
+        $logged_in  = (\Auth::user());
+        $currentUrl = \Request::url();
+    @endphp
     <!-- post details -->
     <section class="post-details pt-65 pb-90">
         <div class="container">
@@ -125,8 +129,8 @@
                         <p>{{$post->itemDesc ?? ''}}</p>
                     </div>
                     <div class="description-btn">
-                        <a href="#" class="btn theme-btn w-auto"><i class="las la-share fs-25"></i>{{ __('Share') }}</a>
-                        <a href="#" class="btn btn-green w-auto"><i class="lab la-whatsapp fs-25"></i>{{ __('Whatsapp') }}</a>
+                        <a onclick="copyShareLink('{{$currentUrl}}') .then(() => alert('Link copied !'))" class="btn theme-btn w-auto"><i class="las la-share fs-25"></i>{{ __('Share') }}</a>
+                        <a target="_blank" href="https://wa.me/?text={{urlencode($currentUrl)}}" class="btn btn-green w-auto"><i class="lab la-whatsapp fs-25"></i>{{ __('Whatsapp') }}</a>
                     </div>
                 </div>
             </div>

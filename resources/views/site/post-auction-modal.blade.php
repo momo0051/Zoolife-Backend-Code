@@ -24,6 +24,10 @@
             </div>
             <div class="upload-container">
                 <div class="image-preview">
+                    @if(!empty($post->images[0]->id))
+                    <button class="btn btn-danger remove-post-img" data-type="remove_image" data-id="{{$post->images[0]->id}}" data-item="{{$post->id}}"><i class="las la-times"></i></button>
+                    @endif
+                    <button type="button" class="btn btn-danger remove-img-btn d-none"><i class="las la-times"></i></button>
                     <img src="{{$post->images[0]->file_name ?? ''}}" alt="">
                     <div class="img-btns">
                         <span class="" ><i class="fa fa-plus"></i><br> Add Image</span>
@@ -33,6 +37,10 @@
             </div>
             <div class="upload-container">
                 <div class="image-preview">
+                    @if(!empty($post->images[1]->id))
+                    <button class="btn btn-danger remove-post-img" data-type="remove_image" data-id="{{$post->images[1]->id}}" data-item="{{$post->id}}"><i class="las la-times"></i></button>
+                    @endif
+                    <button type="button" class="btn btn-danger remove-img-btn d-none"><i class="las la-times"></i></button>
                     <img src="{{$post->images[1]->file_name ?? ''}}" alt="">
                     <div class="img-btns">
                         <span class="" ><i class="fa fa-plus"></i><br> Add Image</span>
@@ -42,6 +50,10 @@
             </div>
             <div class="upload-container">
                 <div class="image-preview">
+                    @if(!empty($post->images[2]->id))
+                    <button class="btn btn-danger remove-post-img" data-type="remove_image" data-id="{{$post->images[2]->id}}" data-item="{{$post->id}}"><i class="las la-times"></i></button>
+                    @endif
+                    <button type="button" class="btn btn-danger remove-img-btn d-none"><i class="las la-times"></i></button>
                     <img src="{{$post->images[2]->file_name ?? ''}}" alt="">
                     <div class="img-btns">
                         <span class="" ><i class="fa fa-plus"></i><br> Add Image</span>
@@ -51,6 +63,10 @@
             </div>
             <div class="upload-container">
                 <div class="image-preview">
+                    @if(!empty($post->images[3]->id))
+                    <button class="btn btn-danger remove-post-img" data-type="remove_image" data-id="{{$post->images[3]->id}}" data-item="{{$post->id}}"><i class="las la-times"></i></button>
+                    @endif
+                    <button type="button" class="btn btn-danger remove-img-btn d-none"><i class="las la-times"></i></button>
                     <img src="{{$post->images[3]->file_name ?? ''}}" alt="">
                     <div class="img-btns">
                         <span class="" ><i class="fa fa-plus"></i><br> Add Image</span>
@@ -254,10 +270,19 @@
             //                 <img src="`+URL.createObjectURL(file)+`" alt="">
             //                 <span class="remove-img-btn"><i class="las la-times"></i></span>
             //             </div>`;
+            console.log(URL.createObjectURL(file));
             ele.closest(".image-preview").find('img').attr("src", URL.createObjectURL(file));
         }
         ele.closest(".image-preview").find('.remove-img-btn').removeClass('d-none');
         $('.show-uploaded-img').show();
     }
+
+    @if(!empty($post->subCategory))
+        loadSubCategory({{$post->subCategory ?? ''}});
+    @endif
+
+    $('#category').on('change', function() {
+        loadSubCategory();
+    });
 </script>
 

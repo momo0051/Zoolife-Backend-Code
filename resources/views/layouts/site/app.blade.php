@@ -514,7 +514,6 @@
                             <div class="footer-widget">
                                 <h4 class="widget-title">{{ __('More') }}</h4>
                                 <ul class="site-map">
-                                    <li><a href="#">{{ __('Communities') }}</a></li>
                                     <li><a href="#">{{ __('About') }}</a></li>
                                     <li><a href="#">{{ __('Help') }}</a></li>
                                     <li><a href="#">{{ __('FAQs') }}</a></li>
@@ -555,10 +554,15 @@
         <script src="/assets/js/jquery.magnific-popup.min.js"></script>
         <script src="/assets/js/plugins.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js
+"></script>
         <script type="text/javascript">
             var favouritUrl = "{{route('do-favourite')}}";
             var likeUrl     = "{{route('do-like')}}";
+            var removePostUrl = "{{route('delete-post')}}";
+            var removePostImageUrl = "{{route('remove-post-image')}}";
         </script>
+
         <script src="/assets/js/main.js"></script>
         
         <script type="text/javascript">
@@ -572,44 +576,81 @@
                 }
             });
 
-            function loadSubCategory(){
-                $("#sub_category").select2({
-                    dropdownParent: $('#commonModal'),
-                    placeholder: "Select Sub Category",
-                    dropdownPosition: 'auto',
-                    ajax: {
-                        url: "<?php echo route("get_sub_category") ?>",
-                        dataType: 'json',
-                        type: 'post',
-                        delay: 250,
-                        data: function (params) {
-                            var query = {
-                                cat_id: $('#category').val(),
-                                search: params.term,
-                                page: params.page || 1
-                            }
+            function loadSubCategory(selected) {
+                // $("#sub_category").select2({
+                //     dropdownParent: $('#commonModal'),
+                //     placeholder: "Select Sub Category",
+                //     dropdownPosition: 'auto',
+                //     ajax: {
+                //         url: "<?php echo route("get_sub_category") ?>",
+                //         dataType: 'json',
+                //         type: 'post',
+                //         delay: 250,
+                //         data: function (params) {
+                //             var query = {
+                //                 cat_id: $('#category').val(),
+                //                 search: params.term,
+                //                 page: params.page || 1
+                //             }
 
-                          // Query parameters will be ?search=[term]&type=public
-                          return query;
-                        },
-                        processResults: function(data, params) {
-                            params.page = params.page || 1;
-                            return {
-                                results: $.map(data.results, function(obj) {
-                                    let result = { id: obj.id, text: obj.title };
-                                    return result;
-                                })
-                                // pagination: {
-                                //     more: (params.page * 30) < data.total_count
-                                // }
-                            };
-                        },
-                        cache: true
-                    },
-                    escapeMarkup: function(markup) {
-                        return markup;
-                    }, // let our custom formatter work
+                //           // Query parameters will be ?search=[term]&type=public
+                //           return query;
+                //         },
+                //         processResults: function(data, params) {
+                //             params.page = params.page || 1;
+                //             return {
+                //                 results: $.map(data.results, function(obj) {
+                //                     let result = { id: obj.id, text: obj.title };
+                //                     return result;
+                //                 })
+                //                 // pagination: {
+                //                 //     more: (params.page * 30) < data.total_count
+                //                 // }
+                //             };
+                //         },
+                //         cache: true
+                //     },
+                //     escapeMarkup: function(markup) {
+                //         return markup;
+                //     }, // let our custom formatter work
+                // });
+                $("#sub_category").children().remove();
+                $("#sub_category").append('<option value="">Select Sub Category</option>');
+                $.ajax({
+                    url: "{{route('get_sub_category')}}",
+                    type: 'post',
+                    dataType: 'json',
+                    data: {cat_id: $('#category').val()},
+                    success: function(data) {
+                        $.each(data.results, function(){
+                            $("#sub_category").append('<option value="'+ this.id +'"'+ ((selected == this.id) ? "selected" : "") +' >'+ this.title +'</option>')
+                        });
+                    }
                 });
+            }
+
+            function copyShareLink(textToCopy) {
+                // navigator clipboard api needs a secure context (https)
+                if (navigator.clipboard && window.isSecureContext) {
+                    // navigator clipboard api method'
+                    return navigator.clipboard.writeText(textToCopy);
+                } else {
+                    // text area method
+                    let textArea = document.createElement("textarea");
+                    textArea.value = textToCopy;
+                    // make the textarea out of viewport
+                    textArea.style.position = "fixed";
+                    textArea.style.left = "-999999px";
+                    textArea.style.top = "-999999px";
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    return new Promise((res, rej) => {
+                        // here the magic happens
+                        document.execCommand('copy') ? res() : rej();
+                        textArea.remove();
+                    });
+                }
             }
         </script>
         

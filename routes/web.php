@@ -39,6 +39,8 @@ Route::group(['middleware' => 'auth'], function () {
     
     Route::post('post/doFavourite', array('as' => 'do-favourite', 'uses' => 'Site\PostController@doFavourite'));
     Route::post('post/doLike', array('as' => 'do-like', 'uses' => 'Site\PostController@doLike'));
+    Route::post('post/delete', array('as' => 'delete-post', 'uses' => 'Site\PostController@deletePost'));
+    Route::post('post/remove-post-image', array('as' => 'remove-post-image', 'uses' => 'Site\PostController@deletePostImage'));
 });
 
 Route::get('logout', array('as' => 'logout', 'uses' => 'Site\UserController@logout'));
