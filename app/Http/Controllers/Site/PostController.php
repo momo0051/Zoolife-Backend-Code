@@ -110,9 +110,10 @@ class PostController extends Controller
         $categories = Category::where('mainCategoryId',0)->get(['id','title','english_title']);
 
         if(!empty($id)){
-            $post = Item::select('items.*', 'u.username as author', 'u.phone')
+            $post = Item::select('items.*', 'u.username as author', 'u.phone', 'c.title as sub_category', 'c.english_title as sub_category_en')
             ->with('images')
             ->leftjoin('users as u','u.id','fromUserId')
+            ->leftjoin('category as c','c.id','subCategory')
             ->where('post_type', $type)
             ->where('items.id', $id)
             ->first();
@@ -198,7 +199,7 @@ class PostController extends Controller
         $item->fromUserId      = $user_id;
         $item->priority        = $request->priority??0;
         $item->category        = $request->category;
-        // $item->subCategory    => $request->subCategory;
+        $item->subCategory     = !empty($request->subCategory) ? $request->subCategory : 0;
         $item->itemTitle       = $request->itemTitle;
         $item->itemDesc        = $request->itemDesc;
         $item->showComments    = $request->showComments ? 1 : 0;
@@ -224,7 +225,7 @@ class PostController extends Controller
         if ($id) {
 
             // Upload image in ad item
-            $imageUrl = "";
+            $imageUrl = !empty($request->old_imgUrl) ? $request->old_imgUrl : "";
             if ($request->hasFile('imgUrl')) {
                 $image     = $request->file('imgUrl');
                 $imageName = time() . '_' . $id . '.' . $image->getClientOriginalExtension();
@@ -233,7 +234,7 @@ class PostController extends Controller
             }
 
             // Upload video in ad item
-            $videoUrl = "";
+            $videoUrl = !empty($request->old_videoUrl) ? $request->old_videoUrl : "";
             if ($request->hasFile('videoUrl')) {
                 $video     = $request->file('videoUrl');
                 $videoName = time() . '_' . $id . '.' . $video->getClientOriginalExtension();

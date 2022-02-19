@@ -16,7 +16,9 @@
                         <span class="" ><i class="fa fa-plus"></i><br> Add Image</span>
                         <input type="file" name="imgUrl" onchange="previewImage($(this), 'image')">
                     </div>
-                    <input type="hidden" name="imgUrl" id="image_hidden" class="img_name"/>
+                    @if(!empty($post->imgUrl))
+                    <input type="hidden" name="old_imgUrl" id="image_hidden" class="img_name" value="{{$post->imgUrl}}" />
+                    @endif
                 </div>
                 <div id="progress" class=""></div>
             </div>
@@ -56,6 +58,7 @@
                     </div>
                 </div>
             </div>
+            <div class="error text-danger" id="imgUrl_error"></div>
         </div>
         @if($data['type'] == 'auction')
         <div class="col-md-12">
@@ -66,7 +69,9 @@
                         <span class="" ><i class="fa fa-plus"></i><br> Add video</span>
                         <input type="file" name="videoUrl" onchange="previewImage($(this), 'video')">
                     </div>
-                    <input type="hidden" name="videoUrl" id="video_hidden" class="img_name"/>
+                    @if(!empty($post->videoUrl))
+                    <input type="hidden" name="old_videoUrl" id="video_hidden" class="img_name" value="{{$post->videoUrl}}" />
+                    @endif
                 </div>
                 <div id="progress" class=""></div>
             </div>
@@ -106,11 +111,13 @@
             </div>
             <div class="error text-danger" id="category_error"></div>
         </div>
-        <div class="col-xl-6 col-lg-6 mb-30">
-            <div class="popup-form-field">
-                <label for="subCategory">{{ __('Choose Subcategory') }}</label>
-                <select id="sub_category" name="subCategory" class="form-control">
-                    <option value="">Select</option>
+        <div class="col-xl-6 col-lg-6 mb-30" >
+            <label for="subCategory">{{ __('Choose Subcategory') }}</label>
+            <div class="form-group" style="position: relative;">
+                <select id="sub_category" name="subCategory"  class="form-control ">
+                    @if(!empty($post->subCategory))
+                    <option value="{{$post->subCategory ?? ''}}">{{$post->sub_category ?? ''}}</option>
+                    @endif
                 </select>
             </div>
         </div>
@@ -283,9 +290,9 @@
             },
             cache: true
         },
-        /*escapeMarkup: function(markup) {
+        escapeMarkup: function(markup) {
             return markup;
-        }, */// let our custom formatter work
+        }, // let our custom formatter work
     });
 </script>
 
