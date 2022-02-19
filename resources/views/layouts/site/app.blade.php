@@ -563,6 +563,46 @@
                     window.location.href = "{{route('posts')}}?q="+q
                 }
             });
+
+            function loadSubCategory(){
+                $("#sub_category").select2({
+                    dropdownParent: $('#commonModal'),
+                    placeholder: "Select Sub Category",
+                    dropdownPosition: 'auto',
+                    ajax: {
+                        url: "<?php echo route("get_sub_category") ?>",
+                        dataType: 'json',
+                        type: 'post',
+                        delay: 250,
+                        data: function (params) {
+                            var query = {
+                                cat_id: $('#category').val(),
+                                search: params.term,
+                                page: params.page || 1
+                            }
+
+                          // Query parameters will be ?search=[term]&type=public
+                          return query;
+                        },
+                        processResults: function(data, params) {
+                            params.page = params.page || 1;
+                            return {
+                                results: $.map(data.results, function(obj) {
+                                    let result = { id: obj.id, text: obj.title };
+                                    return result;
+                                })
+                                // pagination: {
+                                //     more: (params.page * 30) < data.total_count
+                                // }
+                            };
+                        },
+                        cache: true
+                    },
+                    escapeMarkup: function(markup) {
+                        return markup;
+                    }, // let our custom formatter work
+                });
+            }
         </script>
         
         @yield('scripts')

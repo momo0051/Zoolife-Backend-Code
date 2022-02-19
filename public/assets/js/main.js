@@ -299,6 +299,9 @@ $('.posts').owlCarousel({
                 success: function(result) {
                     $('.error').html('');
                     modalContent.html(result);
+                    setTimeout(function(){
+                        loadSubCategory();
+                    },1000);
                 },
                 error: function(e) {
                     modalContent.html('<div class="modal-header pt-45"><h5 class="modal-title">Post</h5></div><div class="modal-body"><span class="text-danger error">Something Went Wrong!... Please try again after refresh</span><div class="modal-footer pb-35"><button type="button" class="btn theme-btn-light" data-bs-dismiss="modal">Cancel</button></div>');
@@ -340,10 +343,11 @@ $('.posts').owlCarousel({
                     } else if (result.status == 402) {
                         $.each(result.errors, function(i, val) {
                             if (val != "") {
-                                console.log("#" + i + "_error");
                                 form.find("#" + i + "_error").text(val);
                             }
                         });
+                        console.log('hello');
+                        $("#commonModal").animate({ scrollTop: 100 }, "slow");
                     } else {
                         $('#post_submit_notification').html('<span class="text-danger error">' + result.message + '</span>');
                     }

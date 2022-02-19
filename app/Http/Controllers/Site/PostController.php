@@ -131,22 +131,28 @@ class PostController extends Controller
 
         // Put validation
         $validator = Validator::make($request->all(), [
-            'imgUrl'   => 'required|mimes:jpeg,jpg,png,gif,svg,wbmp,webp',
+            'imgUrl'   => 'required_without:old_imgUrl|mimes:jpeg,jpg,png,gif,svg,wbmp,webp',
             'sex'      => 'required|in:male,female',
             'passport' => 'required|in:yes,no',
             'category' => 'required',
             'age'      => 'required',
             'itemTitle'=> 'required',
             'post_type'=> 'required',
-            'videoUrl' => 'required_if:post_type,auction|mimes:mp4,3gp,avi,mpeg,flv,mov,qt',
+            // 'videoUrl' => 'required_if:old_videoUrl,""|required_if:post_type,auction|mimes:mp4,3gp,avi,mpeg,flv,mov,qt',
+            'videoUrl' => 'mimes:mp4,3gp,avi,mpeg,flv,mov,qt',
             'min_bid'  => 'required_if:post_type,auction',
             'expiry_days'  => 'required_if:post_type,auction',
             'expiry_hours'  => 'required_if:post_type,auction',
         ], [
+            "imgUrl.required_without" => "Please Select Image",
             "min_bid.required_if" => "Please Enter Bid Price",
             "expiry_days.required_if" => "Please Select Bid day",
             "expiry_hours.required_if" => "Please Select Bid hours",
         ]);
+
+        $validator->sometimes('videoUrl', 'required', function($input){
+            return (($input->old_videoUrl == '') && ($input->post_type == 'auction'));
+        });
 
         if ($validator->fails()) {
             return response()->json([
@@ -287,6 +293,13 @@ class PostController extends Controller
 
         if (!empty($request->cat_id)) {
             $categories->where('mainCategoryId', $request->cat_id);
+        }
+
+        if (!empty($request->search)) {
+            $categories->where(function($where) use($request) {
+                $where->where('title', 'LIKE', '%' . $request->search . '%');
+                $where->orWhere('english_title', 'LIKE', '%' . $request->search . '%');
+            });
         }
 
         $categories = $categories->get();
