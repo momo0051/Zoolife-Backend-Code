@@ -28,7 +28,7 @@
                             </div>
                             @endforeach
                         @endif
-                        @if(!empty($post->imgUrl))
+                        @if(!empty($post->videoUrl))
                         <div class="post-details-single">
                             <div class="post-details-img">
                                 <video src="{{\App\Helpers\CommonHelper::getWebUrl($post->videoUrl, 'ad_video')}}" alt="" controls style="width: 100%;"></video>
@@ -36,11 +36,15 @@
                         </div>
                         @endif
                     </div>
-                    <div class="place-bid-form mb-20">
-                        <input type="text" placeholder="Enter Bid">
-                        <a href="#" class="btn theme-btn">{{ __('Place Bid') }}</a>
+                    <div class="mb-20">
+                        <label>Expire Time : <span class="expire-timer" id="expire-timer" data-time="{{!empty($post->auction_expiry_time) ? date('M d, Y H:i:s', strtotime($post->auction_expiry_time)) : ''}}">{{$post->auction_expiry_time}}</span></label>
+                        <div class="place-bid-form">
+                            <input type="text" placeholder="Enter Bid" id="bid_amount">
+                            <a href="#" id="placeBid" data-id="{{$post->id}}" class="btn theme-btn">{{ __('Place Bid') }}</a>
+                        </div>
+                        <div class="error text-danger" id="bid_amount_error"></div>
                     </div>
-                    <div class="min-bid-price">{{ __('Min Bid: 500') }}</div>
+                    <div class="min-bid-price">{{ __('Min Bid: ')}} <span>{{$post->min_bid }}</span></div>
                 </div>
                 <div class="col-xl-4 col-lg-5">
                     <div class="post-author-details">
@@ -154,45 +158,27 @@
             </div>
             <div class="all-bidders">
                 <div class="bidder-list">
+                    @if($post->biddingObject->count())
+                    @foreach($post->biddingObject as $bid)
                     <div class="single-bid">
                         <div class="bidder-img">
                             <a href="#"><img src="/assets/img/posts/author.png" alt=""></a>
                         </div>
                         <div class="bid-text-box">
                             <div>
-                                <a href="#" class="bidder-name">Brooklyn Simmons</a>
-                                <span class="bid-time">Friday 2:20pm</span>
+                                <a href="#" class="bidder-name">{{$bid->user?$bid->user->username:''}}</a>
+                                <span class="bid-time">{{$bid->created_at->diffForHumans()}}</span>
                             </div>
-                            <div class="bid-price"><i class="las la-hand-holding-usd"></i> SAR 500</div>
+                            <div class="bid-price"><i class="las la-hand-holding-usd"></i> {{$bid->bid_amount}}</div>
                         </div>
                     </div>
-                    <div class="single-bid">
-                        <div class="bidder-img">
-                            <a href="#"><img src="/assets/img/posts/author.png" alt=""></a>
-                        </div>
-                        <div class="bid-text-box">
-                            <div>
-                                <a href="#" class="bidder-name">Brooklyn Simmons</a>
-                                <span class="bid-time">Friday 2:20pm</span>
-                            </div>
-                            <div class="bid-price"><i class="las la-hand-holding-usd"></i> SAR 500</div>
-                        </div>
-                    </div>
-                    <div class="single-bid">
-                        <div class="bidder-img">
-                            <a href="#"><img src="/assets/img/posts/author.png" alt=""></a>
-                        </div>
-                        <div class="bid-text-box">
-                            <div>
-                                <a href="#" class="bidder-name">Brooklyn Simmons</a>
-                                <span class="bid-time">Friday 2:20pm</span>
-                            </div>
-                            <div class="bid-price"><i class="las la-hand-holding-usd"></i> SAR 500</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bid-action-btn">
-                    <a href="#" class="btn btn-link m-auto">{{ __('View All') }}</a>
+                    @endforeach
+                    {{-- <div class="bid-action-btn">
+                        <a href="#" class="btn btn-link m-auto">{{ __('View All') }}</a>
+                    </div> --}}
+                    @else
+                    <div class="single-bid no-bids">No Biddings yet!</div>
+                    @endif
                 </div>
             </div>
         </div>

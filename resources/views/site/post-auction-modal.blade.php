@@ -161,9 +161,9 @@
         </div>
         <div class="col-xl-3 col-lg-3 col-md-6 mb-30">
             <div class="popup-form-field">
-                @php $days = [1,2,3,4,5,6,7,8] @endphp
+                @php $days = [1,2,3,4,5,6,7] @endphp
                 <label for="">{{ __('Total Days') }}</label>
-                <select id="" name="expiry_days">
+                <select id="" name="days">
                     <option value="">Select Day</option>
                     @foreach ($days as $day)
                     <option value="{{$day}}" {{(!empty($post->expiry_days) && ($post->expiry_days == $day)) ? 'selected' : ''}}>{{$day}}</option>
@@ -175,14 +175,14 @@
         <div class="col-xl-3 col-lg-3 col-md-6 mb-30">
             <div class="popup-form-field">
                 <label for="">{{ __('Hours') }}</label>
-                @php $hours = [1,2,3,4,5,6,7,8] @endphp
-                <select id="" name="expiry_hours">
+                @php $hours = [1,2,3,4,5,6,7,8,9,10,11,12] @endphp
+                <select id="" name="hours">
                     <option value="">Select Hours</option>
                     @foreach ($hours as $hour)
                     <option value="{{$hour}}" {{(!empty($post->expiry_hours) && ($post->expiry_hours == $hour)) ? 'selected' : ''}}>{{$hour}}</option>
                     @endforeach
                 </select>
-                <div class="error text-danger" id="expiry_hours_error"></div>
+                <div class="error text-danger" id="hours_error"></div>
             </div>
         </div>
         @endif

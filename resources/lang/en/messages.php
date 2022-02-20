@@ -45,4 +45,7 @@ return [
     'image_deleted' => 'Image Deleted successfully.',
     'post_deleted' => 'Post Deleted succefully',
     'no_user' => 'User Not found',
+    'bid_save_for_user' => 'Bid placed successfully.',
+    'invalid_days' => 'Select days between 1 to 7',
+    'invalid_hours' => 'Select hours between 1 to 12',
 ];

@@ -144,52 +144,38 @@
             <div class="section-title mb-30">
                 <h2>{{ __('Write a Comment') }}</h2>
             </div>
-            <div class="comment-form mb-30">
-                <input type="text" placeholder="Type here">
-                <a href="#" class="btn theme-btn">{{ __('Send') }}</a>
+            <div class="mb-30">
+                <div class="comment-form">
+                    <input type="text" placeholder="Type here" id="comment">
+                    <a href="#" class="btn theme-btn" id="saveComment" data-id="{{$post->id}}">{{ __('Send') }}</a>
+                </div>
+                <div class="error text-danger" id="comment_error"></div>
             </div>
             <div class="all-comments">
                 <h3 class="title mb-30">{{ __('Comment') }}</h3>
                 <div class="comment-list">
+                    @if($post->itemComments->count())
+                    @foreach($post->itemComments as $comment)
                     <div class="single-comment">
                         <div class="comment-img">
                             <a href="#"><img src="/assets/img/posts/author.png" alt=""></a>
                         </div>
                         <div class="comment-text-box">
                             <div class="d-flex align-items-center justify-content-between">
-                                <a href="#" class="commenter-name">Marvin McKinney</a>
-                                <span class="comment-time">Friday 2:20pm</span>
+                                <a href="#" class="commenter-name">{{$comment->user->username}}</a>
+                                {{-- <span class="comment-time">Friday 2:20pm</span> --}}
+                                <span class="comment-time">{{$comment->co->diffForHumans()}}</span>
                             </div>
-                            <div class="comment-text">Hey Bruce, can you please review the latest design when you can?</div>
+                            <div class="comment-text">{{ $comment->message }}</div>
                         </div>
                     </div>
-                    <div class="single-comment">
-                        <div class="comment-img">
-                            <a href="#"><img src="/assets/img/posts/author.png" alt=""></a>
-                        </div>
-                        <div class="comment-text-box">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <a href="#" class="commenter-name">Marvin McKinney</a>
-                                <span class="comment-time">Friday 2:20pm</span>
-                            </div>
-                            <div class="comment-text">Hey Bruce, can you please review the latest design when you can?</div>
-                        </div>
-                    </div>
-                    <div class="single-comment">
-                        <div class="comment-img">
-                            <a href="#"><img src="/assets/img/posts/author.png" alt=""></a>
-                        </div>
-                        <div class="comment-text-box">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <a href="#" class="commenter-name">Marvin McKinney</a>
-                                <span class="comment-time">Friday 2:20pm</span>
-                            </div>
-                            <div class="comment-text">Hey Bruce, can you please review the latest design when you can?</div>
-                        </div>
-                    </div>
-                    <div class="comment-action-btn">
+                    @endforeach
+                    {{-- <div class="comment-action-btn">
                         <a href="#" class="btn btn-link m-auto">View All</a>
-                    </div>
+                    </div> --}}
+                    @else
+                    <div class="single-comment no-comments">No comments yet!</div>
+                    @endif
                 </div>
             </div>
         </div>

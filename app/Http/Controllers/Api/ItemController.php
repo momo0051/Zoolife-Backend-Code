@@ -200,7 +200,7 @@ class ItemController extends Controller
             $item->videoUrl = !empty($item->videoUrl) ? url('/uploads/ad_video/' . $item->videoUrl) : '';
             $latestBid            = $item->biddingObject()->orderBy('id', 'desc')->first();
             $item->latest_bid     = 'SAR ' . number_format($latestBid ? $latestBid->bid_amount : 0, 2);
-            $item->remaining_time = $item->auction_expiry_time->diffForHumans();
+            $item->remaining_time = !empty($item->auction_expiry_time) ? $item->auction_expiry_time->diffForHumans() : 0;
         });
 
         if (count($items) > 0) {

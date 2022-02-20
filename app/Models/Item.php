@@ -232,8 +232,6 @@ class Item extends Model
      */
     public static function enableAuctionFeature($request): array
     {
-        $formatizeTime = Carbon::now();
-
         $minBid = (float)$request->min_bid;
         $maxBid = (float)$request->max_bid;
 
@@ -277,6 +275,8 @@ class Item extends Model
             $dr['message'] = trans('messages.invalid_days');
             return $dr;
         }
+
+        $formatizeTime = Carbon::now();
 
         ## add time to time to set expiration date
         if (!empty($request->hours)) {

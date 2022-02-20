@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 use App\Models\Slider;
 use App\Models\Category;
 use App\Models\Article;
+use App\Models\BiddingModel;
 use App\Models\Item;
+use App\Models\ItemComment;
 use App\Models\ItemFavourite;
 use App\Models\ItemImage;
 use App\Models\Like;
@@ -87,7 +89,10 @@ class PostController extends Controller
         $data = [];
         $post = Item::select('items.*', 'u.username as author', 'u.phone', \DB::raw("IF(if.itemId > 0, 1, 0) as is_favorite"), \DB::raw("IF(l.itemId > 0, 1, 0) as is_liked"))
                         ->with('images')
-                        ->with('itemComments')
+                        ->with(['itemComments'=> function($query){
+                            // $query->limit(10)->latest('co');
+                            $query->latest();
+                        }])
                         ->leftjoin('users as u','u.id','fromUserId')
                         ->leftJoin("item_favorites as if", function($query) use ($userId) {
                             $query->on('if.itemId','items.id');
@@ -119,7 +124,10 @@ class PostController extends Controller
         $data = [];
         $post = Item::select('items.*', 'u.username as author', 'u.phone')
                         ->with('images')
-                        ->with('biddingObject')
+                        ->with(['biddingObject'=> function($query){
+                            // $query->limit(10)->latest();
+                            $query->latest();
+                        }])
                         ->leftjoin('users as u','u.id','fromUserId')
                         ->where('post_type', 'auction')
                         ->where('items.id', $slug)
@@ -171,13 +179,13 @@ class PostController extends Controller
             // 'videoUrl' => 'required_if:old_videoUrl,""|required_if:post_type,auction|mimes:mp4,3gp,avi,mpeg,flv,mov,qt',
             'videoUrl' => 'mimes:mp4,3gp,avi,mpeg,flv,mov,qt',
             'min_bid'  => 'required_if:post_type,auction',
-            'expiry_days'  => 'required_if:post_type,auction',
-            'expiry_hours'  => 'required_if:post_type,auction',
+            'days'  => 'required_if:post_type,auction',
+            'hours'  => 'required_if:post_type,auction',
         ], [
             "imgUrl.required_without" => "Please Select Image",
             "min_bid.required_if" => "Please Enter Bid Price",
-            "expiry_days.required_if" => "Please Select Bid day",
-            "expiry_hours.required_if" => "Please Select Bid hours",
+            "days.required_if" => "Please Select Bid day",
+            "hours.required_if" => "Please Select Bid hours",
         ]);
 
         // $validator->sometimes('videoUrl', 'required', function($input){
@@ -215,8 +223,8 @@ class PostController extends Controller
         //     'country'         => !empty($request->country) ? $request->country : "",
         //     'post_type'       => $request->post_type,
         //     'min_bid'         => $request->min_bid,
-        //     'expiry_days'     => $request->expiry_days,
-        //     'expiry_hours'    => $request->expiry_hours,
+        //     'expiry_days'     => $request->days,
+        //     'expiry_hours'    => $request->hours,
         //     'updated_at'      => Carbon::now()->format('Y-m-d H:i'),
         // );
 
@@ -229,7 +237,6 @@ class PostController extends Controller
             // $blance['created_at'] = Carbon::now()->format('Y-m-d H:i');
             $item = new Item();
             $item->created_at = Carbon::now()->format('Y-m-d H:i');
-            // $item->save();
         }
 
         $item->fromUserId      = $user_id;
@@ -249,10 +256,26 @@ class PostController extends Controller
         $item->vaccine_detail  = !empty($request->vaccine_detail) ? strtolower($request->vaccine_detail) : "";
         $item->country         = !empty($request->country) ? $request->country : "";
         $item->post_type       = $request->post_type;
-        $item->min_bid         = $request->min_bid;
-        $item->expiry_days     = $request->expiry_days;
-        $item->expiry_hours    = $request->expiry_hours;
+        
         $item->updated_at      = Carbon::now()->format("Y-m-d H:i");
+
+        ## if bid is type of auction.
+        if ($request->post_type = "auction") {
+            $auctionParam = Item::enableAuctionFeature($request);
+            if (isset($auctionParam['error']) && $auctionParam['error'] == true) {
+                // return $auctionParam;
+                $result = [
+                    'status'  => 500,
+                    'message' => $auctionParam['message'],
+                ];
+                return response()->json($result);
+            } else {
+                $item->min_bid      = $auctionParam['min_bid'];
+                $item->expiry_days  = $auctionParam['expiry_days'];
+                $item->expiry_hours = $auctionParam['expiry_hours'];
+                $item->auction_expiry_time = $auctionParam['auction_expiry_time'];
+            }
+        }
 
         $item->save();
 
@@ -438,6 +461,116 @@ class PostController extends Controller
         }
 
         return response()->json(['status'=>200, 'message'=>$msg]);
+    }
+
+    public function doComment(Request $request)
+    {
+        $user   = \Auth::user();
+        $userId = !empty($user->id) ? $user->id : 0;
+
+        // validation
+        $validator = Validator::make($request->all(), [
+            'comment' => 'required',
+        ], [
+            "comment.required" => "Please enter comment before saving."
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status'  => 402,
+                'error'   => true,
+                'message' => trans('messages.validation_error'),
+                'errors'   => $validator->errors(),
+            ], 200);
+        }
+
+        $data = [
+            'itemId' => $request->id,
+            'userId' => $userId,
+            'message'=> $request->comment,
+            'co'     => Carbon::now()->format("Y-m-d H:i:s"),
+        ];
+        $comment = ItemComment::create($data);
+
+        $tr = "<div class='single-comment'>
+                    <div class='comment-img'>
+                        <a href='#'><img src='/assets/img/posts/author.png' alt=''></a>
+                    </div>
+                    <div class='comment-text-box'>
+                        <div class='d-flex align-items-center justify-content-between'>
+                            <a href='#' class='commenter-name'>{$comment->user->username}</a>
+                            <span class='comment-time'>{$comment->co->diffForHumans()}</span>
+                        </div>
+                        <div class='comment-text'>{$comment->message}</div>
+                    </div>
+                </div>";
+        return response()->json(['status'=>200, 'message'=>trans('messages.comment_posted'),'tr'=>$tr]);
+    }
+
+    public function placeBid(Request $request)
+    {
+        $user    = \Auth::user();
+        $userId  = !empty($user->id) ? $user->id : 0;
+        $auction = Item::where(['post_type' => 'auction', 'id' => $request->item_id])->first();
+
+        if (!empty($auction)) {
+            $validator = Validator::make($request->all(), [
+                'bid_amount' => 'required|numeric|gt:'.$auction->min_bid,
+            ], [
+                "bid_amount.required" => "Please enter bid amount before placing bid.",
+                "bid_amount.min"      => "Bid amount should be minimum {$auction->min_bid}"
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status'  => 402,
+                    'error'   => true,
+                    'message' => trans('messages.validation_error'),
+                    'errors'   => $validator->errors(),
+                ], 200);
+            }
+
+            $request->merge(["fromUserId" => $userId]);
+            $isBidSaved = BiddingModel::addBidding($request);
+
+            if ($isBidSaved) {
+                $auction->min_bid = ((float) $request->bid_amount);
+                $auction->save();
+
+                $bid = BiddingModel::latest()->first();
+                $usrname = $bid->user ? $bid->user->username : '';
+                $tr = "<div class='single-bid'>
+                            <div class='bidder-img'>
+                                <a href='#'><img src='/assets/img/posts/author.png' alt=''></a>
+                            </div>
+                            <div class='bid-text-box'>
+                                <div>
+                                    <a href='#' class='bidder-name'>{$usrname}</a>
+                                    <span class='bid-time'>{$bid->created_at->diffForHumans()}</span>
+                                </div>
+                                <div class='bid-price'><i class='las la-hand-holding-usd'></i> {$bid->bid_amount}</div>
+                            </div>
+                        </div>";
+                return response()->json([
+                    'status'  => 200,
+                    'error'   => false,
+                    'message' => trans('messages.bid_save_for_user'),
+                    'tr'      => $tr
+                ]);
+            } else {
+                return response()->json([
+                    'status'  => 500,
+                    'error'   => true,
+                    'message' => trans('messages.some_thing_went_wrong'),
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status'  => 500,
+                'error'   => true,
+                'message' => "No auction Found",
+            ]);
+        }
     }
 
 }

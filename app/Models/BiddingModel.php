@@ -32,7 +32,7 @@ class BiddingModel extends Model
     public static function addBidding(Request $request): bool
     {
         $B = new BiddingModel();
-        $B->bid_amount = $request->amount;
+        $B->bid_amount = $request->bid_amount;
         $B->bid_by_user_id = $request->fromUserId;
         $B->item_id = $request->item_id;
         $IsSaved = $B->save();

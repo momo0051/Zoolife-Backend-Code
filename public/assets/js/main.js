@@ -543,6 +543,114 @@ $('.posts').owlCarousel({
         }
     });
 
+    $('body').off('click', "#saveComment").on('click', "#saveComment", function(event) {
+        event.preventDefault();
+        var btn = $(this);
+        var comment = $('#comment').val();
+        var itemId  = btn.data('id');
+        if(!comment){
+            $('#comment_error').html('Please enter comment before saving');
+            return;
+        }
+        if (commentUrl) {
+            $.ajax({
+                url: commentUrl,
+                type: 'post',
+                dataType: 'json',
+                data: {comment: comment, id: itemId},
+                beforeSend: function() {
+                    $('.error,.submit_notification').html('');
+                    btn.attr("disabled", "disabled");
+                },
+                success: function(result) {
+                    $('.error').html('');
+                    btn.removeAttr("disabled");
+                    if (result.status == 200) {
+                        $('.comment-list').prepend(result.tr);
+                        $('.toast-notify').removeClass('bg-danger').addClass('bg-success');
+                        $('.toast-notify').find('.toast-body').text(result.message);
+                        $('.toast-notify').toast('show');
+                        $('#comment').val('');
+
+                    } else if (result.status == 402) {
+                        $.each(result.errors, function(i, val) {
+                            if (val != "") {
+                                $("#" + i + "_error").text(val);
+                            }
+                        });
+                    } else {
+                        $('.toast-notify').removeClass('bg-success').addClass('bg-danger');
+                        $('.toast-notify').find('.toast-body').text(result.message);
+                        $('.toast-notify').toast('show');
+                    }
+                },
+                error: function(e) {
+                    btn.removeAttr("disabled");
+                    $('.toast-notify').removeClass('bg-success').addClass('bg-danger');
+                    $('.toast-notify').find('.toast-body').text("Something Went Wrong!... Please try again after refresh");
+                    $('.toast-notify').toast('show');
+                }
+            });
+        }
+    });
+
+    $('body').off('click', "#placeBid").on('click', "#placeBid", function(event) {
+        event.preventDefault();
+        var btn = $(this);
+        var bid_amount = $('#bid_amount').val();
+        var item_id  = btn.data('id');
+        // if(!bid_amount){
+        //     $('#bid_amount_error').html('Please enter bid amount before placing bid');
+        //     return;
+        // }
+        if (bidUrl) {
+            $.ajax({
+                url: bidUrl,
+                type: 'post',
+                dataType: 'json',
+                data: {bid_amount: bid_amount, item_id: item_id},
+                beforeSend: function() {
+                    $('.error,.submit_notification').html('');
+                    btn.attr("disabled", "disabled");
+                },
+                success: function(result) {
+                    $('.error').html('');
+                    btn.removeAttr("disabled");
+                    if (result.status == 200) {
+                        $('.bidder-list').prepend(result.tr);
+                        $('.toast-notify').removeClass('bg-danger').addClass('bg-success');
+                        $('.toast-notify').find('.toast-body').text(result.message);
+                        $('.toast-notify').toast('show');
+                        $('.min-bid-price span').text(bid_amount);
+                        $('#bid_amount').val('');
+
+                    } else if (result.status == 402) {
+                        $.each(result.errors, function(i, val) {
+                            if (val != "") {
+                                $("#" + i + "_error").text(val);
+                            }
+                        });
+                    } else {
+                        $('.toast-notify').removeClass('bg-success').addClass('bg-danger');
+                        $('.toast-notify').find('.toast-body').text(result.message);
+                        $('.toast-notify').toast('show');
+                    }
+                },
+                error: function(e) {
+                    btn.removeAttr("disabled");
+                    $('.toast-notify').removeClass('bg-success').addClass('bg-danger');
+                    $('.toast-notify').find('.toast-body').text("Something Went Wrong!... Please try again after refresh");
+                    $('.toast-notify').toast('show');
+                }
+            });
+        }
+    });
+
+    // var expireTime = $(".expire-timer").data("expire-timer");
+    // if (expireTime) {
+    //     countdown(expireTime);
+    // }
+    countdown();
 });
 
 function setLocale(lang) {
@@ -553,4 +661,61 @@ function setLocale(lang) {
         $('html').removeAttr('dir')
         $('html').attr("dir", "ltr")
     }
+}
+
+function copyShareLink(textToCopy) {
+    // navigator clipboard api needs a secure context (https)
+    if (navigator.clipboard && window.isSecureContext) {
+        // navigator clipboard api method'
+        return navigator.clipboard.writeText(textToCopy);
+    } else {
+        // text area method
+        let textArea = document.createElement("textarea");
+        textArea.value = textToCopy;
+        // make the textarea out of viewport
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        return new Promise((res, rej) => {
+            // here the magic happens
+            document.execCommand('copy') ? res() : rej();
+            textArea.remove();
+        });
+    }
+}
+
+function countdown() {
+    var expireTime = $(".expire-timer").data("time");
+    console.log(expireTime);
+    // Set the date we're counting down to
+    var countDownDate = new Date(expireTime).getTime();
+
+    // Update the count down every 1 second
+    var x = setInterval(function() {
+
+      // Get today's date and time
+      var now = new Date().getTime();
+
+      // Find the distance between now and the count down date
+      var distance = countDownDate - now;
+
+      // Time calculations for days, hours, minutes and seconds
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      // Display the result in the element with id="demo"
+      document.getElementById("expire-timer").innerHTML = days + "d " + hours + "h "
+      + minutes + "m " + seconds + "s ";
+
+      // If the count down is finished, write some text
+      if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("expire-timer").innerHTML = "EXPIRED";
+      }
+    }, 1000);
 }
