@@ -494,7 +494,7 @@ class PostController extends Controller
 
         $tr = "<div class='single-comment'>
                     <div class='comment-img'>
-                        <a href='#'><img src='/assets/img/posts/author.png' alt=''></a>
+                        <a href='#'><img src='/assets/img/author.png' alt=''></a>
                     </div>
                     <div class='comment-text-box'>
                         <div class='d-flex align-items-center justify-content-between'>
@@ -531,6 +531,7 @@ class PostController extends Controller
             }
 
             $request->merge(["fromUserId" => $userId]);
+            $request->merge(["amount" => $request->bid_amount]);
             $isBidSaved = BiddingModel::addBidding($request);
 
             if ($isBidSaved) {
@@ -541,7 +542,7 @@ class PostController extends Controller
                 $usrname = $bid->user ? $bid->user->username : '';
                 $tr = "<div class='single-bid'>
                             <div class='bidder-img'>
-                                <a href='#'><img src='/assets/img/posts/author.png' alt=''></a>
+                                <a href='#'><img src='/assets/img/author.png' alt=''></a>
                             </div>
                             <div class='bid-text-box'>
                                 <div>
