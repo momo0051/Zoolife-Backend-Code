@@ -222,7 +222,7 @@
                                 </div>
                                 <div class="popup-form-field mb-20">
                                     <label for="">{{ __('Password') }}</label>
-                                    <input type="text" placeholder="Enter Your Password" name="password">
+                                    <input type="password" placeholder="Enter Your Password" name="password">
                                     <div class="error text-danger" id="password_error"></div>
                                 </div>
                             </div>
