@@ -260,7 +260,7 @@ class PostController extends Controller
         $item->updated_at      = Carbon::now()->format("Y-m-d H:i");
 
         ## if bid is type of auction.
-        if ($request->post_type = "auction") {
+        if ($request->post_type == "auction") {
             $auctionParam = Item::enableAuctionFeature($request);
             if (isset($auctionParam['error']) && $auctionParam['error'] == true) {
                 // return $auctionParam;

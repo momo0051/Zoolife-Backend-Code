@@ -273,7 +273,7 @@
                     </div>
                     <div class="modal-footer justify-content-center pb-35">
                         <div class="login-action-link text-center">
-                            <span>{{ __('You already have account?') }} <a href="#" style="color: var(--theme-color);" data-bs-toggle="modal" data-bs-target="#login">Log In</a></span>
+                            <span>{{ __('You already have account?') }} <a href="#" style="color: var(--theme-color);" data-bs-toggle="modal" data-bs-target="#login">{{ __('Log In') }}</a></span>
                         </div>
                     </div>
                 </div>
@@ -463,7 +463,7 @@
                         @if (\Auth::user())
                         <a href="{{route('logout')}}">
                             <div class="off-canvas-icon"><i class="las la-sign-in-alt"></i></div>
-                            {{ __('Log out') }}
+                            {{ __('Log Out') }}
                         </a>
                         @else
                         <a href="#" data-bs-toggle="modal" data-bs-target="#login">

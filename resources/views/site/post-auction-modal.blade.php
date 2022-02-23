@@ -13,7 +13,7 @@
                 <div class="image-preview">
                     <img src="{{asset('uploads/ad/'.($post->imgUrl ?? ''))}}" alt="">
                     <div class="img-btns">
-                        <span class="" ><i class="fa fa-plus"></i><br> Add Image</span>
+                        <span class="" ><i class="fa fa-plus"></i><br> {{ __('Add Image') }}</span>
                         <input type="file" name="imgUrl" onchange="previewImage($(this), 'image')">
                     </div>
                     @if(!empty($post->imgUrl))
@@ -30,7 +30,7 @@
                     <button type="button" class="btn btn-danger remove-img-btn d-none"><i class="las la-times"></i></button>
                     <img src="{{$post->images[0]->file_name ?? ''}}" alt="">
                     <div class="img-btns">
-                        <span class="" ><i class="fa fa-plus"></i><br> Add Image</span>
+                        <span class="" ><i class="fa fa-plus"></i><br> {{ __('Add Image') }}</span>
                         <input type="file" name="images[]" onchange="previewImage($(this), 'image')">
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                     <button type="button" class="btn btn-danger remove-img-btn d-none"><i class="las la-times"></i></button>
                     <img src="{{$post->images[1]->file_name ?? ''}}" alt="">
                     <div class="img-btns">
-                        <span class="" ><i class="fa fa-plus"></i><br> Add Image</span>
+                        <span class="" ><i class="fa fa-plus"></i><br> {{ __('Add Image') }}</span>
                         <input type="file" name="images[]" onchange="previewImage($(this), 'image')">
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                     <button type="button" class="btn btn-danger remove-img-btn d-none"><i class="las la-times"></i></button>
                     <img src="{{$post->images[2]->file_name ?? ''}}" alt="">
                     <div class="img-btns">
-                        <span class="" ><i class="fa fa-plus"></i><br> Add Image</span>
+                        <span class="" ><i class="fa fa-plus"></i><br> {{ __('Add Image') }}</span>
                         <input type="file" name="images[]" onchange="previewImage($(this), 'image')">
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                     <button type="button" class="btn btn-danger remove-img-btn d-none"><i class="las la-times"></i></button>
                     <img src="{{$post->images[3]->file_name ?? ''}}" alt="">
                     <div class="img-btns">
-                        <span class="" ><i class="fa fa-plus"></i><br> Add Image</span>
+                        <span class="" ><i class="fa fa-plus"></i><br> {{ __('Add Image') }}</span>
                         <input type="file" name="images[]" onchange="previewImage($(this), 'image')">
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                 <div class="image-preview">
                     <video src="{{asset('uploads/ad_video/'.($post->videoUrl ?? ''))}}" alt=""></video>
                     <div class="img-btns">
-                        <span class="" ><i class="fa fa-plus"></i><br> Add video</span>
+                        <span class="" ><i class="fa fa-plus"></i><br> {{ __('Add video') }}</span>
                         <input type="file" name="videoUrl" onchange="previewImage($(this), 'video')">
                     </div>
                     @if(!empty($post->videoUrl))
@@ -102,7 +102,7 @@
             <div class="popup-form-field">
                 <label for="">{{ __('Add Location') }}</label>
                 <select id="city" name="city">
-                    <option value="">Select</option>
+                    <option value="">{{ __('Select') }}</option>
                     @foreach ($cities as $city)
                     <option value="{{$city->name}}" {{(!empty($post->city) && ($post->city == $city->name)) ? 'selected' : ''}}>{{$city->name}}</option>
                     @endforeach
@@ -120,7 +120,7 @@
             <div class="popup-form-field">
                 <label for="category">{{ __('Choose Category') }}</label>
                 <select id="category" name="category">
-                    <option value="">Select</option>
+                    <option value="">{{ __('Select') }}</option>
                     @foreach ($categories as $category)
                     <option value="{{$category->id}}" {{(!empty($post->category) && ($post->category == $category->id)) ? 'selected' : ''}}>{{$category->title}}</option>
                     @endforeach

@@ -36,15 +36,17 @@
                         </div>
                         @endif
                     </div>
-                    <div class="mb-20">
-                        <label>Expire Time : <span class="expire-timer" id="expire-timer" data-time="{{!empty($post->auction_expiry_time) ? date('M d, Y H:i:s', strtotime($post->auction_expiry_time)) : ''}}">{{$post->auction_expiry_time}}</span></label>
-                        <div class="place-bid-form">
-                            <input type="text" placeholder="Enter Bid" id="bid_amount">
-                            <a href="#" id="placeBid" data-id="{{$post->id}}" class="btn theme-btn">{{ __('Place Bid') }}</a>
+                    <label>Expire Time : <span class="expire-timer text-danger" id="expire-timer" data-time="{{!empty($post->auction_expiry_time) ? date('M d, Y H:i:s', strtotime($post->auction_expiry_time)) : ''}}">{{$post->auction_expiry_time}}</span></label>
+                    <div id="bid-section">
+                        <div class="mb-20">
+                            <div class="place-bid-form">
+                                <input type="text" placeholder="Enter Bid" id="bid_amount">
+                                <a href="#" id="placeBid" data-id="{{$post->id}}" class="btn theme-btn">{{ __('Place Bid') }}</a>
+                            </div>
+                            <div class="error text-danger" id="bid_amount_error"></div>
                         </div>
-                        <div class="error text-danger" id="bid_amount_error"></div>
+                        <div class="min-bid-price">{{ __('Min Bid: ')}} <span>{{$post->min_bid }}</span></div>
                     </div>
-                    <div class="min-bid-price">{{ __('Min Bid: ')}} <span>{{$post->min_bid }}</span></div>
                 </div>
                 <div class="col-xl-4 col-lg-5">
                     <div class="post-author-details">
@@ -134,7 +136,7 @@
                     </div>
                     <div class="description-btn">
                         <a onclick="copyShareLink('{{$currentUrl}}') .then(() => alert('Link copied !'))" class="btn theme-btn w-auto"><i class="las la-share fs-25"></i>{{ __('Share') }}</a>
-                        <a target="_blank" href="https://wa.me/?text={{urlencode($currentUrl)}}" class="btn btn-green w-auto"><i class="lab la-whatsapp fs-25"></i>{{ __('Whatsapp') }}</a>
+                        <a target="_blank" href="https://wa.me/{{$post->phone}}?text={{urlencode($currentUrl)}}" class="btn btn-green w-auto"><i class="lab la-whatsapp fs-25"></i>{{ __('Whatsapp') }}</a>
                     </div>
                 </div>
             </div>
@@ -162,7 +164,7 @@
                     @foreach($post->biddingObject as $bid)
                     <div class="single-bid">
                         <div class="bidder-img">
-                            <a href="#"><img src="/assets/img/posts/author.png" alt=""></a>
+                            <a href="#"><img src="/assets/img/author.png" alt=""></a>
                         </div>
                         <div class="bid-text-box">
                             <div>
@@ -183,4 +185,11 @@
             </div>
         </div>
     </section>
+    @section('scripts')
+    <script type="text/javascript">
+        $(document).ready(function(){
+            countdown();
+        })
+    </script>
+    @endsection
 @endsection

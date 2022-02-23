@@ -645,12 +645,6 @@ $('.posts').owlCarousel({
             });
         }
     });
-
-    // var expireTime = $(".expire-timer").data("expire-timer");
-    // if (expireTime) {
-    //     countdown(expireTime);
-    // }
-    countdown();
 });
 
 function setLocale(lang) {
@@ -716,6 +710,7 @@ function countdown() {
       if (distance < 0) {
         clearInterval(x);
         document.getElementById("expire-timer").innerHTML = "EXPIRED";
+        $("#bid-section").remove();
       }
     }, 1000);
 }

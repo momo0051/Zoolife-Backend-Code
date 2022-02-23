@@ -121,8 +121,8 @@
                             <i class="{{!empty($post->is_liked) ? 'las' : 'lar'}} la-thumbs-up fs-25 like-icon"></i><span>{{ __(!empty($post->is_liked) ? 'Unlike' : 'Like') }}</span>
                         </a>
                         <a href="#" onclick="copyShareLink('{{$currentUrl}}') .then(() => alert('Link copied !'))" class="btn theme-btn w-auto"><i class="las la-share fs-25"></i>{{ __('Share') }}</a>
-                        <a target="_blank" href="https://wa.me/?text={{urlencode($currentUrl)}}" class="btn btn-green w-auto"><i class="lab la-whatsapp fs-25"></i>{{ __('Whatsapp') }}</a>
-                        <a href="#" class="btn btn-yellow w-auto {{$logged_in ? 'do-fav' : ''}}" data-itemid="{{$post->id}}" data-fav="{{ !empty($post->is_favorite) ? '0' : '1'}}"><i class="{{!empty($post->is_favorite) ? 'las' : 'lar'}} la-heart fs-25 favrt-icon"></i><span>{{ __(!empty($post->is_favorite) ? 'Remove From Favorites' : 'Add to Favorites') }}</span></a>
+                        <a target="_blank" href="https://wa.me/{{$post->phone}}?text=hi" class="btn btn-green w-auto"><i class="lab la-whatsapp fs-25"></i>{{ __('Whatsapp') }}</a>
+                        <a href="#" class="btn btn-yellow w-auto {{$logged_in ? 'do-fav' : ''}}" data-itemid="{{$post->id}}" data-fav="{{ !empty($post->is_favorite) ? '0' : '1'}}"><i class="{{!empty($post->is_favorite) ? 'las' : 'lar'}} la-heart fs-25 favrt-icon"></i><span>{{ __(!empty($post->is_favorite) ? 'Remove From Favorites' : 'Add to Favorite') }}</span></a>
                     </div>
                 </div>
             </div>
@@ -158,7 +158,7 @@
                     @foreach($post->itemComments as $comment)
                     <div class="single-comment">
                         <div class="comment-img">
-                            <a href="#"><img src="/assets/img/posts/author.png" alt=""></a>
+                            <a href="#"><img src="/assets/img/author.png" alt=""></a>
                         </div>
                         <div class="comment-text-box">
                             <div class="d-flex align-items-center justify-content-between">
