@@ -1771,3 +1771,8 @@ html[dir="rtl"] .typing-area input {
 .bootbox-close-button{
     display: none;
 }
+
+.winner-buttone {
+    padding: 10px 20px;
+    border: 5px solid #EF8D32;
+}

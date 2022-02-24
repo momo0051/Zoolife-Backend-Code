@@ -162,23 +162,34 @@
             <div class="all-bidders">
                 <div class="bidder-list">
                     @if($post->biddingObject->count())
-                    @foreach($post->biddingObject as $bid)
-                    <div class="single-bid">
-                        <div class="bidder-img">
-                            <a href="#"><img src="/assets/img/author.png" alt=""></a>
-                        </div>
-                        <div class="bid-text-box">
-                            <div>
-                                <a href="#" class="bidder-name">{{$bid->user?$bid->user->username:''}}</a>
-                                <span class="bid-time">{{$bid->created_at->diffForHumans()}}</span>
+                        @foreach($post->biddingObject as $i => $bid)
+                        @php $bidder = $bid->user; @endphp
+                        @if($i == 0)
+                            <div class="winner-section text-center d-none" id="winner-section">
+                                <div class="winner-buttone d-inline-block">
+                                    <div class="winner-title">Winner Contact</div>
+                                    <a href="tel:{{$bidder->phone}}" class="btn theme-btn"><i class="las la-phone fs-25"></i></a>
+                                    <a target="_blank" href="https://wa.me/{{$bidder->phone}}?text={{urlencode($currentUrl)}}" class="btn btn-green w-auto"><i class="lab la-whatsapp fs-25"></i></a>
+                                    <a href="#" class="btn theme-btn-outline"><i class="lab la-rocketchat fs-25"></i></a>
+                                </div>
                             </div>
-                            <div class="bid-price"><i class="las la-hand-holding-usd"></i> {{$bid->bid_amount}}</div>
+                        @endif
+                        <div class="single-bid">
+                            <div class="bidder-img">
+                                <a href="#"><img src="/assets/img/author.png" alt=""></a>
+                            </div>
+                            <div class="bid-text-box">
+                                <div>
+                                    <a href="#" class="bidder-name">{{$bidder->username ?? ''}}</a>
+                                    <span class="bid-time">{{$bid->created_at->diffForHumans()}}</span>
+                                </div>
+                                <div class="bid-price"><i class="las la-hand-holding-usd"></i> {{$bid->bid_amount}}</div>
+                            </div>
                         </div>
-                    </div>
-                    @endforeach
-                    {{-- <div class="bid-action-btn">
-                        <a href="#" class="btn btn-link m-auto">{{ __('View All') }}</a>
-                    </div> --}}
+                        @endforeach
+                        {{-- <div class="bid-action-btn">
+                            <a href="#" class="btn btn-link m-auto">{{ __('View All') }}</a>
+                        </div> --}}
                     @else
                     <div class="single-bid no-bids">No Biddings yet!</div>
                     @endif

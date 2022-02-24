@@ -125,7 +125,7 @@ class PostController extends Controller
         $post = Item::select('items.*', 'u.username as author', 'u.phone')
                         ->with('images')
                         ->with(['biddingObject'=> function($query){
-                            // $query->limit(10)->latest();
+                            $query->with('user');
                             $query->latest();
                         }])
                         ->leftjoin('users as u','u.id','fromUserId')

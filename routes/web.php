@@ -21,6 +21,9 @@ Auth::routes();
 Route::get('change-locale/{locale}', ['as' => 'site.change-locale', 'uses' => 'Site\HomeController@changeLocale']);
 
 Route::get('/', array('as' => 'home', 'uses' => 'Site\HomeController@index'));
+// Route::get('terms-and-policy', array('as' => 'terms-and-policy', 'uses' => 'Site\SiteController@termsAndPolicy'));
+// Route::get('banned-ads', array('as' => 'banned-ads', 'uses' => 'Site\SiteController@bannedAds'));
+// Route::get('call-us', array('as' => 'call-us', 'uses' => 'Site\SiteController@callUs'));
 
 Route::get('posts/{type?}', array('as' => 'posts', 'uses' => 'Site\PostController@index'));
 Route::get('post/{slug}', array('as' => 'post_detail', 'uses' => 'Site\PostController@postShow'));

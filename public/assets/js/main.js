@@ -713,6 +713,7 @@ function countdown() {
         $("#bid-timer").remove();
         $("#expire-timer").removeClass('d-none');
         $("#bid-section").remove();
+        $("#winner-section").removeClass('d-none');
       }
     }, 1000);
 }
