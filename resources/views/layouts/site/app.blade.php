@@ -217,12 +217,12 @@
                                 @csrf
                                 <div class="popup-form-field mb-20">
                                     <label for="">{{ __('Phone Number') }}</label>
-                                    <input type="text" placeholder="Enter Your Number" name="phone">
+                                    <input type="text" placeholder="{{ __('Enter Your Number')}}" name="phone">
                                     <div class="error text-danger" id="phone_error"></div>
                                 </div>
                                 <div class="popup-form-field mb-20">
                                     <label for="">{{ __('Password') }}</label>
-                                    <input type="password" placeholder="Enter Your Password" name="password">
+                                    <input type="password" placeholder="{{ __('Enter Your Password')}}" name="password">
                                     <div class="error text-danger" id="password_error"></div>
                                 </div>
                             </div>
@@ -298,12 +298,12 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="javascript:void(0)" data-bs-toggle="modal" data-type="post" data-url="{{route('load-post-auction-modal')}}" @if (\Auth::user()) data-bs-target="#commonModal" @else data-bs-target="#login" @endif>
+                                                <a href="javascript:void(0)" data-bs-toggle="modal" data-type="post" data-url="{{route('load-post-auction-modal')}}" data-bs-target="{{ (\Auth::user()) ? '#commonModal' : '#login'}}">
                                                     <img src="/assets/img/icons/Plus-dark.svg" alt="">
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="javascript:void(0)" data-bs-toggle="modal" data-type="auction" data-url="{{route('load-post-auction-modal')}}" @if (\Auth::user()) data-bs-target="#commonModal"  @else data-bs-target="#login" @endif>
+                                                <a href="{{route('posts', ['type'=>'auction'])}}">
                                                     <img src="/assets/img/icons/Auction-dark.svg" alt="">
                                                 </a>
                                             </li>
@@ -359,7 +359,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)" class="theme-bg" data-bs-toggle="modal" data-type="auction" data-url="{{route('load-post-auction-modal')}}" @if (\Auth::user()) data-bs-target="#commonModal"  @else data-bs-target="#login" @endif>
+                                            <a href="{{route('posts', ['type'=>'auction'])}}" class="theme-bg">
                                                 <img src="/assets/img/icons/Auction.svg" alt="" class="me-2">
                                                 {{ __('Auction') }}
                                             </a>
@@ -418,7 +418,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" data-bs-toggle="modal" data-type="post" data-url="{{route('load-post-auction-modal')}}" @if (\Auth::user()) data-bs-target="#commonModal" @else data-bs-target="#login" @endif>
+                        <a href="javascript:void(0)" data-bs-toggle="modal" data-type="normal" data-url="{{route('load-post-auction-modal')}}" data-bs-target="{{ (\Auth::user()) ? '#commonModal' : '#login'}}">
                             <div class="off-canvas-icon"><i class="las la-plus"></i></div>
                             {{ __('Add New Post') }}
                         </a>
@@ -430,7 +430,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" data-bs-toggle="modal" data-type="auction" data-url="{{route('load-post-auction-modal')}}" @if (\Auth::user()) data-bs-target="#commonModal"  @else data-bs-target="#login" @endif>
+                        <a href="javascript:void(0)" data-bs-toggle="modal" data-type="auction" data-url="{{route('load-post-auction-modal')}}" data-bs-target="{{ (\Auth::user()) ? '#commonModal' : '#login'}}">
                             <div class="off-canvas-icon"><i class="las la-plus"></i></div>
                             {{ __('Add New Auction') }}
                         </a>
@@ -490,7 +490,7 @@
                                 <div class="footer-logo mb-30">
                                     <a href="#"><img src="/assets/img/logo.png" alt=""></a>
                                 </div>
-                                <p class="footer-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                <p class="footer-text">{{ __('Meet your new animal-friendly place!') }}</p>
                                 <div class="social-icons">
                                     <a target="_blank" href="https://www.facebook.com/zoolife.mooh"><i class="lab la-facebook-f"></i></a>
                                     <a target="_blank" href="https://twitter.com/zoolife2030"><i class="lab la-twitter"></i></a>

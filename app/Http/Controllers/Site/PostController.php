@@ -143,7 +143,7 @@ class PostController extends Controller
     public function loadPostOrAuctionModal($type = 0, $id = 0, Request $request)
     {
         $data = $post = [];
-        $type = !empty($request->type) ? $request->type : 'normal';
+        $type = !empty($request->type) && in_array($request->type, ['auction', 'normal']) ? $request->type : 'normal';
         $cities = City::all();
         $categories = Category::where('mainCategoryId',0)->get(['id','title','english_title']);
 

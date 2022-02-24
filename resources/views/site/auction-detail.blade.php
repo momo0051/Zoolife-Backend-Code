@@ -36,16 +36,16 @@
                         </div>
                         @endif
                     </div>
-                    <label>Expire Time : <span class="expire-timer text-danger" id="expire-timer" data-time="{{!empty($post->auction_expiry_time) ? date('M d, Y H:i:s', strtotime($post->auction_expiry_time)) : ''}}">{{$post->auction_expiry_time}}</span></label>
+                    <label>{{ __('Expire Time') }} : <span class="bid-timer text-danger h4" id="bid-timer" data-time="{{!empty($post->auction_expiry_time) ? date('M d, Y H:i:s', strtotime($post->auction_expiry_time)) : ''}}">{{$post->auction_expiry_time}}</span><span class="text-danger d-none" id="expire-timer">{{ __('EXPIRED') }}</span></span></label>
                     <div id="bid-section">
                         <div class="mb-20">
                             <div class="place-bid-form">
-                                <input type="text" placeholder="Enter Bid" id="bid_amount">
+                                <input type="text" placeholder="{{ __('Enter Bid') }}" id="bid_amount">
                                 <a href="#" id="placeBid" data-id="{{$post->id}}" class="btn theme-btn">{{ __('Place Bid') }}</a>
                             </div>
                             <div class="error text-danger" id="bid_amount_error"></div>
                         </div>
-                        <div class="min-bid-price">{{ __('Min Bid: ')}} <span>{{$post->min_bid }}</span></div>
+                        <div class="min-bid-price">{{ __('Min Bid:')}} <span>{{$post->min_bid }}</span></div>
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-5">

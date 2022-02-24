@@ -146,7 +146,7 @@
             </div>
             <div class="mb-30">
                 <div class="comment-form">
-                    <input type="text" placeholder="Type here" id="comment">
+                    <input type="text" placeholder="{{ __('Type here')}}" id="comment">
                     <a href="#" class="btn theme-btn" id="saveComment" data-id="{{$post->id}}">{{ __('Send') }}</a>
                 </div>
                 <div class="error text-danger" id="comment_error"></div>

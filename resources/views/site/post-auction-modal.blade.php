@@ -112,7 +112,7 @@
         <div class="col-xl-6 col-lg-6 mb-30">
             <div class="popup-form-field">
                 <label for="age">{{ __('Age') }}</label>
-                <input type="text" name="age" value="{{$post->age??''}}" placeholder="Enter here">
+                <input type="text" name="age" value="{{$post->age??''}}" placeholder="{{ __('Enter here') }}">
             </div>
             <div class="error text-danger" id="age_error"></div>
         </div>
@@ -141,21 +141,21 @@
         <div class="col-xl-6 col-lg-6 mb-30">
             <div class="popup-form-field">
                 <label for="">{{ __('Add Post Title') }}</label>
-                <input type="text" name="itemTitle" value="{{$post->itemTitle??''}}" placeholder="Enter here">
+                <input type="text" name="itemTitle" value="{{$post->itemTitle??''}}" placeholder="{{ __('Enter here') }}">
             </div>
             <div class="error text-danger" id="itemTitle_error"></div>
         </div>
         <div class="col-xl-6 col-lg-6 mb-30">
             <div class="popup-form-field">
                 <label for="vaccine_detail">{{ __('Vaccine Details') }}</label>
-                <input type="text" name="vaccine_detail" value="{{$post->vaccine_detail??''}}" placeholder="Enter here">
+                <input type="text" name="vaccine_detail" value="{{$post->vaccine_detail??''}}" placeholder="{{ __('Enter here') }}">
             </div>
         </div>
         @if(!empty($data['type']) && $data['type'] == 'auction')
         <div class="col-xl-6 col-lg-6 mb-30">
             <div class="popup-form-field">
                 <label for="">{{ __('Add Starter Price') }}</label>
-                <input type="text" name="min_bid" placeholder="Enter here" value="{{$post->min_bid ?? ''}}">
+                <input type="text" name="min_bid" placeholder="{{ __('Enter here') }}" value="{{$post->min_bid ?? ''}}">
                 <div class="error text-danger" id="min_bid_error"></div>
             </div>
         </div>
@@ -221,7 +221,7 @@
         <div class="col-12 mb-30">
             <div class="popup-form-field">
                 <label for="itemDesc">{{ __('Post Description') }}</label>
-                <textarea cols="10" name="itemDesc" rows="5" placeholder="Enter here">{{$post->itemDesc??''}}</textarea>
+                <textarea cols="10" name="itemDesc" rows="5" placeholder="{{ __('Enter here') }}">{{$post->itemDesc??''}}</textarea>
             </div>
         </div>
         @if(!empty($data['type']) && $data['type'] == 'normal')
