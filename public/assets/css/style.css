@@ -823,8 +823,13 @@ html[dir="rtl"] .social-icons a:first-child{
 .post-author-location {
     margin-bottom: 30px;
 }
-.post-specification-content p {
+.post-specification-content {
     font-weight: 500;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 30px;
+    color: var(--text-color);
+    margin-bottom: 0px;
 }
 .post-info-box .post-info-list:nth-child(even){
     background: white;

@@ -39,7 +39,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="post-specification-content">
-                        <p>{{$post->description ?? ''}}</p>
+                        {!! ($post->description ?? '') !!}
                     </div>
                 </div>
             </div>
