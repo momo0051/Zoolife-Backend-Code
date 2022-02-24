@@ -15,11 +15,9 @@
                     @foreach($data['posts'] as $post)
                     <div class="post-item">
                         <div class="post-img">
-                            <a href="#">
+                            <a href="{{route('article_detail',[$post->id])}}">
                                 @if(!empty($post->image))
                                 <img src="{{asset('/uploads/article/'.$post->image)}}" alt="">
-                                @else
-                                <img src="/img/explore/ex-1.png" alt="">
                                 @endif
                             </a>
                             <div class="post-fav">

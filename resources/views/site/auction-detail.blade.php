@@ -36,7 +36,8 @@
                         </div>
                         @endif
                     </div>
-                    <label>{{ __('Expire Time') }} : <span class="bid-timer text-danger h4" id="bid-timer" data-time="{{!empty($post->auction_expiry_time) ? date('M d, Y H:i:s', strtotime($post->auction_expiry_time)) : ''}}">{{$post->auction_expiry_time}}</span><span class="text-danger d-none" id="expire-timer">{{ __('EXPIRED') }}</span></span></label>
+                    <label class="text-danger h4">{{ __('Expire Time') }} : <span class="bid-timer" id="bid-timer" data-time="{{!empty($post->auction_expiry_time) ? date('M d, Y H:i:s', strtotime($post->auction_expiry_time)) : ''}}">{{$post->auction_expiry_time}}</span>
+                        <span class=" d-none" id="expire-timer">{{ __('EXPIRED') }}</span></label>
                     <div id="bid-section">
                         <div class="mb-20">
                             <div class="place-bid-form">

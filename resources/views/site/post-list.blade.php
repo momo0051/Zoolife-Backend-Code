@@ -18,12 +18,14 @@
                             <div class="row g-0">
                                 <div class="col-lg-4">
                                     <div class="post-img">
-                                        <a href="#">
+                                        @if($post->post_type == 'auction')
+                                        <a href="{{route('auction_detail',[$post->id])}}">
+                                        @else
+                                        <a href="{{route('post_detail',[$post->id])}}">
+                                        @endif
                                             @if(!empty($post->imgUrl))
                                             <!-- <img src="{{asset('/uploads/ad/'.$post->imgUrl)}}" alt=""> -->
                                             <img src="{{\App\Helpers\CommonHelper::getWebUrl($post->imgUrl, 'ad')}}" alt="">
-                                            @else
-                                            <img src="img/posts/dog.jpg" alt="...">
                                             @endif
                                         </a>
                                         <div class="post-fav {{$logged_in ? 'do-fav' : 'do-fav'}}" data-itemid="{{$post->id}}" data-fav="{{ !empty($post->is_favorite) ? '0' : '1'}}" data-type="post">
