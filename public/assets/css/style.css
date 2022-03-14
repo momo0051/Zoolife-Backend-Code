@@ -722,9 +722,10 @@ html[dir="rtl"] .post-item {
 }
 .footer-text {
     font-weight: 400;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 24px;
     color: var(--gray);
+    color: #468cd0;
     margin-bottom: 25px;
 }
 .social-icons a {
@@ -825,11 +826,15 @@ html[dir="rtl"] .social-icons a:first-child{
 }
 .post-specification-content {
     font-weight: 500;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: normal;
     line-height: 30px;
     color: var(--text-color);
     margin-bottom: 0px;
+}
+.post-specification-content p{
+    color: #000;
+    font-size: 20px;
 }
 .post-info-box .post-info-list:nth-child(even){
     background: white;
@@ -1687,7 +1692,7 @@ html[dir="rtl"] .typing-area input {
     position: relative;
     /*background: #f4f4f4;*/
     margin: 5px;
-    border: 1px solid #f4f4f4;
+    border: 1px solid #000;
 }
 .upload-container .image-preview img, .upload-container .image-preview video{
     max-width: 100%;
@@ -1777,4 +1782,10 @@ html[dir="rtl"] .typing-area input {
     border: 5px solid #EF8D32;
     border-radius: 25px;
     box-shadow: 0px 1px 15px 0px;
+}
+.small_search+.search-form{
+    display: none;
+}
+.small_search::hover + .show-small-search{
+    display: block;
 }

@@ -53,7 +53,12 @@
                                                     <span class="author-name">{{$post->author ?? ''}}</span>
                                                 </a>
                                             </div>
+                                            @if($post->post_type == 'auction')
+                                                <label class="text-danger h4"><span class="bid-timer" data-time="{{!empty($post->auction_expiry_time) ? date('M d, Y H:i:s', strtotime($post->auction_expiry_time)) : ''}}" data-countdown="{{!empty($post->auction_expiry_time) ? date('Y/m/d H:i:s', strtotime($post->auction_expiry_time)) : ''}}">{{$post->auction_expiry_time}}</span>
+                                                <span class=" d-none expire-timer">{{ __('EXPIRED') }}</span></label>
+                                            @else
                                             <div class="upload-time text-muted">{{\App\Helpers\CommonHelper::getPostTime($post->created_at)}}</div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

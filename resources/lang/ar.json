@@ -64,6 +64,7 @@
     "My Ads": "اعلاناتي",
     "Notification": "الاشعارات",
     "Like": "أعجبني",
+    "Unlike": "أأعجبني",
     "ِAdd to Favorite": "اضافة الى المفضلة",
     "Remove From Favorites": "إزالة من المفضلة",
     "Write a Comment": "اضافة تعليق",
@@ -115,10 +116,12 @@
     "Add video": "اضافة فيديو",
     "Select Day": "مدة المزاد",
     "Select Hours": "ساعة",
-    "Expire Time": "مدة المزاد",    
-    "EXPIRED": "انتهى وقت المزاد ", 
+    "Expire Time": "مدة المزاد",
+    "EXPIRED": "انتهى وقت المزاد ",
     "Place Bid": "اضافة مزايدة",
     "Min Bid:": "السعر الحالي",
-    "Enter Bid": "قيمة المزايدة",   
-    "No Biddings yet!": "لا يوجد مزايدات حاليا"
+    "Enter Bid": "قيمة المزايدة",
+    "No Biddings yet!": "لا يوجد مزايدات حاليا",
+    "delete_confirmation": "هل متاكد من الحذف ",
+    "need_login": "انت تحتاج لتسجيل الدخول اولا."
 }

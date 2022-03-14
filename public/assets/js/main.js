@@ -439,13 +439,13 @@ $('.posts').owlCarousel({
                     if (result.status == 200) {
                         if(like == '1'){
                             btn.data('like','0');
-                            btn.find('.like-icon').removeClass('lar').addClass('las');
+                            btn.find('.like-icon').removeClass('lar la-thumbs-up').addClass('las la-thumbs-down');
                             if(btn.find('span').length){
                                 btn.find('span').text('Unlike');
                             }
                         }else{
                             btn.data('like','1');
-                            btn.find('.like-icon').removeClass('las').addClass('lar');
+                            btn.find('.like-icon').removeClass('las la-thumbs-down').addClass('lar la-thumbs-up');
                             if(btn.find('span').length){
                                 btn.find('span').text('Like');
                             }
@@ -548,10 +548,10 @@ $('.posts').owlCarousel({
         var btn = $(this);
         var comment = $('#comment').val();
         var itemId  = btn.data('id');
-        if(!comment){
-            $('#comment_error').html('Please enter comment before saving');
-            return;
-        }
+        // if(!comment){
+        //     $('#comment_error').html('Please enter comment before saving');
+        //     return;
+        // }
         if (commentUrl) {
             $.ajax({
                 url: commentUrl,
@@ -644,6 +644,22 @@ $('.posts').owlCarousel({
                 }
             });
         }
+    });
+
+    $('[data-countdown]').each(function() {
+        var $this = $(this), finalDate = $(this).data('countdown');
+        $this.countdown(finalDate, function(event) {
+            console.log('hello', event);
+            if (event.type == 'finish') {
+                $this.closest('label').find('.expire-timer').removeClass('d-none');
+                $this.remove();
+            } else {
+                $this.html(event.strftime('%Dd %Hh %Mm %Ss'));
+            }
+        }).on('finish.countdown', function(event) {
+            $this.closest('label').find('.expire-timer').removeClass('d-none');
+            $this.remove();
+        });
     });
 });
 

@@ -57,7 +57,7 @@ class Handler extends ExceptionHandler
             if ($request->expectsJson()) {
                 $response = [
                     'code'    => 401,
-                    'message' => "You need to login first.",
+                    'message' => __("need_login"),
                     'result'  => [],
                 ];
                 return response()->json($response);

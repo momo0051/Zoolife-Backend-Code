@@ -116,9 +116,9 @@
                     <div class="post-specification-content mb-30">
                         <p>{{$post->itemDesc ?? ''}}</p>
                     </div>
-                    <div class="description-btn">
+                    <div class="description-btn mt-5">
                         <a href="#" class="btn btn-red w-auto {{$logged_in ? 'do-like' : ''}}" data-itemId="{{$post->id}}" data-like="{{ !empty($post->is_liked) ? '0' : '1'}}">
-                            <i class="{{!empty($post->is_liked) ? 'las' : 'lar'}} la-thumbs-up fs-25 like-icon"></i><span>{{ __(!empty($post->is_liked) ? 'Unlike' : 'Like') }}</span>
+                            <i class="{{!empty($post->is_liked) ? 'las la-thumbs-down' : 'lar la-thumbs-up'}} fs-25 like-icon"></i><span>{{ __(!empty($post->is_liked) ? 'Unlike' : 'Like') }}</span>
                         </a>
                         <a href="#" onclick="copyShareLink('{{$currentUrl}}') .then(() => alert('Link copied !'))" class="btn theme-btn w-auto"><i class="las la-share fs-25"></i>{{ __('Share') }}</a>
                         <a target="_blank" href="https://wa.me/{{$post->phone}}?text=hi" class="btn btn-green w-auto"><i class="lab la-whatsapp fs-25"></i>{{ __('Whatsapp') }}</a>

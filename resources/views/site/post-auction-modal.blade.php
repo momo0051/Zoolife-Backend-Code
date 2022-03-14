@@ -8,18 +8,19 @@
 <div class="modal-body">
     <form id="savePostForm">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 mb-4">
             <div class="upload-container">
                 <div class="image-preview">
                     <img src="{{asset('uploads/ad/'.($post->imgUrl ?? ''))}}" alt="">
                     <div class="img-btns">
-                        <span class="" ><i class="fa fa-plus"></i><br> {{ __('Add Image') }}</span>
+                        <!-- <span class="" >{{ __('Add Image') }}</span> -->
                         <input type="file" name="imgUrl" onchange="previewImage($(this), 'image')">
                     </div>
                     @if(!empty($post->imgUrl))
                     <input type="hidden" name="old_imgUrl" id="image_hidden" class="img_name" value="{{$post->imgUrl}}" />
                     @endif
                 </div>
+                <span class="" >{{ __('Add Image') }}</span>
                 <div id="progress" class=""></div>
             </div>
             <div class="upload-container">
@@ -30,10 +31,11 @@
                     <button type="button" class="btn btn-danger remove-img-btn d-none"><i class="las la-times"></i></button>
                     <img src="{{$post->images[0]->file_name ?? ''}}" alt="">
                     <div class="img-btns">
-                        <span class="" ><i class="fa fa-plus"></i><br> {{ __('Add Image') }}</span>
+                        <!-- <span class="" >{{ __('Add Image') }}</span> -->
                         <input type="file" name="images[]" onchange="previewImage($(this), 'image')">
                     </div>
                 </div>
+                <span class="" >{{ __('Add Image') }}</span>
             </div>
             <div class="upload-container">
                 <div class="image-preview">
@@ -43,10 +45,11 @@
                     <button type="button" class="btn btn-danger remove-img-btn d-none"><i class="las la-times"></i></button>
                     <img src="{{$post->images[1]->file_name ?? ''}}" alt="">
                     <div class="img-btns">
-                        <span class="" ><i class="fa fa-plus"></i><br> {{ __('Add Image') }}</span>
+                        <!-- <span class="" >{{ __('Add Image') }}</span> -->
                         <input type="file" name="images[]" onchange="previewImage($(this), 'image')">
                     </div>
                 </div>
+                <span class="" >{{ __('Add Image') }}</span>
             </div>
             <div class="upload-container">
                 <div class="image-preview">
@@ -56,10 +59,11 @@
                     <button type="button" class="btn btn-danger remove-img-btn d-none"><i class="las la-times"></i></button>
                     <img src="{{$post->images[2]->file_name ?? ''}}" alt="">
                     <div class="img-btns">
-                        <span class="" ><i class="fa fa-plus"></i><br> {{ __('Add Image') }}</span>
+                        <!-- <span class="" >{{ __('Add Image') }}</span> -->
                         <input type="file" name="images[]" onchange="previewImage($(this), 'image')">
                     </div>
                 </div>
+                <span class="" >{{ __('Add Image') }}</span>
             </div>
             <div class="upload-container">
                 <div class="image-preview">
@@ -69,26 +73,28 @@
                     <button type="button" class="btn btn-danger remove-img-btn d-none"><i class="las la-times"></i></button>
                     <img src="{{$post->images[3]->file_name ?? ''}}" alt="">
                     <div class="img-btns">
-                        <span class="" ><i class="fa fa-plus"></i><br> {{ __('Add Image') }}</span>
+                        <!-- <span class="" >{{ __('Add Image') }}</span> -->
                         <input type="file" name="images[]" onchange="previewImage($(this), 'image')">
                     </div>
                 </div>
+                <span class="" >{{ __('Add Image') }}</span>
             </div>
             <div class="error text-danger" id="imgUrl_error"></div>
         </div>
         @if($data['type'] == 'auction')
-        <div class="col-md-12">
+        <div class="col-md-12 mb-4">
             <div class="upload-container">
                 <div class="image-preview">
                     <video src="{{asset('uploads/ad_video/'.($post->videoUrl ?? ''))}}" alt=""></video>
                     <div class="img-btns">
-                        <span class="" ><i class="fa fa-plus"></i><br> {{ __('Add video') }}</span>
+                        <!-- <span class="" >{{ __('Add video') }}</span> -->
                         <input type="file" name="videoUrl" onchange="previewImage($(this), 'video')">
                     </div>
                     @if(!empty($post->videoUrl))
                     <input type="hidden" name="old_videoUrl" id="video_hidden" class="img_name" value="{{$post->videoUrl}}" />
                     @endif
                 </div>
+                <span class="" >{{ __('Add video') }}</span>
                 <div id="progress" class=""></div>
             </div>
             <div class="error text-danger" id="videoUrl_error"></div>
@@ -208,11 +214,11 @@
                 <div class="d-flex align-items-center gap-5">
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="passport" id="pass-yes" value="yes" {{(!empty($post->passport) && ($post->passport == 'yes')) ? 'checked' : ''}}>
-                        <label class="form-check-label" for="pass-yes">Yes</label>
+                        <label class="form-check-label" for="pass-yes">{{__('Yes')}}</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="passport" id="pass-no" value="no" {{(!empty($post->passport) && ($post->passport == 'no')) ? 'checked' : ''}}>
-                        <label class="form-check-label" for="pass-no">No</label>
+                        <label class="form-check-label" for="pass-no">{{__('No')}}</label>
                     </div>
                 </div>
             </div>

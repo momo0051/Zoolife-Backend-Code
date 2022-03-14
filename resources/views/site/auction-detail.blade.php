@@ -135,7 +135,7 @@
                     <div class="post-specification-content mb-30">
                         <p>{{$post->itemDesc ?? ''}}</p>
                     </div>
-                    <div class="description-btn">
+                    <div class="description-btn mt-5">
                         <a onclick="copyShareLink('{{$currentUrl}}') .then(() => alert('Link copied !'))" class="btn theme-btn w-auto"><i class="las la-share fs-25"></i>{{ __('Share') }}</a>
                         <a target="_blank" href="https://wa.me/{{$post->phone}}?text={{urlencode($currentUrl)}}" class="btn btn-green w-auto"><i class="lab la-whatsapp fs-25"></i>{{ __('Whatsapp') }}</a>
                     </div>

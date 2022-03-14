@@ -47,7 +47,7 @@
             </div>
         </div>
         <!-- add ne auction -->
-        <div class="modal fade" id="commonModal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        <!-- <div class="modal fade" id="commonModal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
@@ -197,7 +197,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- login -->
         <div class="modal fade" id="login" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-hidden="true">
@@ -217,7 +217,7 @@
                                 @csrf
                                 <div class="popup-form-field mb-20">
                                     <label for="">{{ __('Phone Number') }}</label>
-                                    <input type="text" placeholder="{{ __('Enter Your Number')}}" name="phone">
+                                    <input type="text" placeholder="+96655xxxxxxxx" name="phone">
                                     <div class="error text-danger" id="phone_error"></div>
                                 </div>
                                 <div class="popup-form-field mb-20">
@@ -258,7 +258,7 @@
                         <div class="row">
                             <div class="popup-form-field mb-20">
                                 <label for="">{{ __('Phone Number') }}</label>
-                                <input type="text" placeholder="Enter Your Number">
+                                <input type="text" placeholder="+96655xxxxxxxx">
                             </div>
                             <div class="popup-form-field mb-20">
                                 <label for="">{{ __('Username') }}</label>
@@ -293,9 +293,12 @@
                                     <nav>
                                         <ul>
                                             <li>
-                                                <a href="javascript:void(0)">
+                                                <a href="javascript:void(0)" class="small_search">
                                                     <img src="/assets/img/icons/Search.svg" alt="">
                                                 </a>
+                                                <div class="search-form show-small-search">
+                                                    <input type="text" placeholder="{{ __('Search') }}" name="q" class="common-search">
+                                                </div>
                                             </li>
                                             <li>
                                                 <a href="javascript:void(0)" data-bs-toggle="modal" data-type="post" data-url="{{route('load-post-auction-modal')}}" data-bs-target="{{ (\Auth::user()) ? '#commonModal' : '#login'}}">
@@ -349,7 +352,7 @@
                                                 <div class="search-icon">
                                                     <img src="/assets/img/icons/search.svg" alt="">
                                                 </div>
-                                                <input type="text" placeholder="{{ __('Search') }}" name="q" id="common-search">
+                                                <input type="text" placeholder="{{ __('Search') }}" name="q" class="common-search">
                                             </div>
                                         </li>
                                         <li>
@@ -556,6 +559,7 @@
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js
 "></script>
+        <script src="//cdn.rawgit.com/hilios/jQuery.countdown/2.2.0/dist/jquery.countdown.min.js"></script>
         <script type="text/javascript">
             var favouritUrl = "{{route('do-favourite')}}";
             var likeUrl     = "{{route('do-like')}}";
@@ -571,7 +575,11 @@
             let lang = '{{$locale}}';
             setLocale(lang);
 
-            $("#common-search").keyup(function(event) {
+            $(".small_search").click(function(event) {
+                $(".show-small-search").toggle();
+            });
+
+            $(".common-search").keyup(function(event) {
                 if (event.keyCode === 13) {
                     let q = $(this).val();
                     window.location.href = "{{route('posts')}}?q="+q

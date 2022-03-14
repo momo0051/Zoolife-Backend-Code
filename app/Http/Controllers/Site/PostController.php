@@ -472,7 +472,7 @@ class PostController extends Controller
         $validator = Validator::make($request->all(), [
             'comment' => 'required',
         ], [
-            "comment.required" => "Please enter comment before saving."
+            // "comment.required" => "Please enter comment before saving."
         ]);
 
         if ($validator->fails()) {
