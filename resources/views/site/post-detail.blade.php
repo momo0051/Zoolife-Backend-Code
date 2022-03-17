@@ -53,7 +53,7 @@
                         </div>
                         <div class="post-action-btn">
                             <a href="tel:{{$post->phone ?? ''}}" class="btn theme-btn"><i class="las la-phone fs-25"></i>{{ __('Call') }}</a>
-                            <a href="#" class="btn theme-btn-outline"><i class="lab la-rocketchat fs-25"></i>{{ __('Chat') }}</a>
+                            <a href="#" class="btn theme-btn-outline" data-bs-toggle="modal" data-bs-target="#popupModal"><i class="lab la-rocketchat fs-25"></i>{{ __('Chat') }}</a>
                         </div>
                     </div>
                 </div>

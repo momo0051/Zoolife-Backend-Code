@@ -72,7 +72,7 @@
                         </div>
                         <div class="post-action-btn">
                             <a href="tel:{{$post->phone ?? ''}}" class="btn theme-btn"><i class="las la-phone fs-25"></i>{{ __('Call') }}</a>
-                            <a href="#" class="btn theme-btn-outline"><i class="lab la-rocketchat fs-25"></i>{{ __('Chat') }}</a>
+                            <a href="#" class="btn theme-btn-outline" data-bs-toggle="modal" data-bs-target="#popupModal"><i class="lab la-rocketchat fs-25"></i>{{ __('Chat') }}</a>
                         </div>
                     </div>
                 </div>
@@ -170,7 +170,7 @@
                                     <div class="winner-title">Winner Contact</div>
                                     <a href="tel:{{$bidder->phone}}" class="btn theme-btn"><i class="las la-phone fs-25"></i></a>
                                     <a target="_blank" href="https://wa.me/{{$bidder->phone}}?text={{urlencode($currentUrl)}}" class="btn btn-green w-auto"><i class="lab la-whatsapp fs-25"></i></a>
-                                    <a href="#" class="btn theme-btn-outline"><i class="lab la-rocketchat fs-25"></i></a>
+                                    <a href="#" class="btn theme-btn-outline" data-bs-toggle="modal" data-bs-target="#popupModal"><i class="lab la-rocketchat fs-25"></i></a>
                                 </div>
                             </div>
                         @endif

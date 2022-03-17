@@ -46,6 +46,25 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="popupModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header pt-45">
+                        <!-- <h5 class="modal-title">Feature is only available in App</h5> -->
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <h5 class="mb-4">This feature available only for app</h5>
+                        <div class="footer-widget">
+                            <div class="app-download">
+                                <a target="_blank" href="https://play.google.com/store/apps/details?id=com.zoolife.app"><img src="/assets/img/playstore.png" alt=""></a>
+                                <a target="_blank" href="https://apps.apple.com/sa/app/%D8%B2%D9%88%D9%88%D9%84%D8%A7%D9%8A%D9%81-zoolife/id1549373638"><img src="/assets/img/appstore.png" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- add ne auction -->
         <!-- <div class="modal fade" id="commonModal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-hidden="true">
@@ -227,7 +246,7 @@
                                 </div>
                             </div>
                             <div class="login-action-link text-end mb-30">
-                                <a href="#">{{ __('Forgot Password?') }}</a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#popupModal">{{ __('Forgot Password?') }}</a>
                             </div>
                             <a href="#" class="btn theme-btn btn-block w-auto" id="login-btn" data-url="{{route('user-login')}}">{{ __('Login') }}</a>
                             <div class="submit_notification"></div>
@@ -235,7 +254,7 @@
                     </div>
                     <div class="modal-footer justify-content-center pb-35">
                         <div class="login-action-link text-center">
-                            <span>{{ __('Don’t have an account?') }} <a href="#" style="color: var(--theme-color);" data-bs-toggle="modal" data-bs-target="#signup">{{ __('Register Now?') }}</a></span>
+                            <span>{{ __('Don’t have an account?') }} <a href="#" style="color: var(--theme-color);" data-bs-toggle="modal" data-bs-target="#popupModal">{{ __('Register Now?') }}</a></span>
                         </div>
                     </div>
                 </div>
@@ -324,12 +343,12 @@
                                                 </div>
                                             </li>
                                             <li>
-                                                <a href="chat.html">
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#popupModal">
                                                     <img src="/assets/img/icons/Chat.svg" alt="">
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="notification.html">
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#popupModal">
                                                     <img src="/assets/img/icons/Notification.svg" alt="">
                                                 </a>
                                             </li>
@@ -381,12 +400,12 @@
                                             </div>
                                         </li>
                                         <li>
-                                            <a href="chat.html">
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#popupModal">
                                                 <img src="/assets/img/icons/Chat.svg" alt="">
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="notification.html">
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#popupModal">
                                                 <img src="/assets/img/icons/Notification.svg" alt="">
                                             </a>
                                         </li>
@@ -439,7 +458,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#popupModal">
                             <div class="off-canvas-icon"><i class="las la-truck"></i></div>
                             {{ __('Delivery Post') }}
                         </a>
@@ -579,7 +598,7 @@
                 $(".show-small-search").toggle();
             });
 
-            $(".common-search").keyup(function(event) {
+            $(".popup-search").keyup(function(event) {
                 if (event.keyCode === 13) {
                     let q = $(this).val();
                     window.location.href = "{{route('posts')}}?q="+q
