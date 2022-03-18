@@ -123,5 +123,6 @@
     "Enter Bid": "قيمة المزايدة",
     "No Biddings yet!": "لا يوجد مزايدات حاليا",
     "delete_confirmation": "هل متاكد من الحذف ",
-    "need_login": "انت تحتاج لتسجيل الدخول اولا."
+    "need_login": "انت تحتاج لتسجيل الدخول اولا.",
+    "This feature available only for app": "هذه الخاصية متاحه فقط في التطبيق"
 }

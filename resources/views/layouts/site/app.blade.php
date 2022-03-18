@@ -54,7 +54,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body text-center">
-                        <h5 class="mb-4">This feature available only for app</h5>
+                        <h5 class="mb-4">{{ __('This feature available only for app') }}</h5>
                         <div class="footer-widget">
                             <div class="app-download">
                                 <a target="_blank" href="https://play.google.com/store/apps/details?id=com.zoolife.app"><img src="/assets/img/playstore.png" alt=""></a>
